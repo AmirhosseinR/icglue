@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1140" height="372" font-family="Helvetica" font-size="11">
+<rect width="1140" height="372" fill="#ffffff"/>
+<rect x="280" y="40" width="150" height="76" rx="2" fill="#E8F0FE" stroke="#3B5BA5"/>
+<text x="355.0" y="56" text-anchor="middle" font-weight="bold">spinnCore_dense_regfile</text>
+<text x="355.0" y="67" text-anchor="middle" font-style="italic" fill="#555">spinnCore_dense_regfile</text>
+<circle cx="430" cy="77.0" r="3" fill="#3B5BA5"/>
+<text x="424" y="80.0" font-size="9" text-anchor="end">data_type_o</text>
+<circle cx="430" cy="95.0" r="3" fill="#3B5BA5"/>
+<text x="424" y="98.0" font-size="9" text-anchor="end">rounding_mode_o</text>
+<rect x="590" y="40" width="150" height="292" rx="2" fill="#E8F0FE" stroke="#3B5BA5"/>
+<text x="665.0" y="56" text-anchor="middle" font-weight="bold">spinnCore</text>
+<text x="665.0" y="67" text-anchor="middle" font-style="italic" fill="#555">spinnCore</text>
+<circle cx="590" cy="77.0" r="3" fill="#3B5BA5"/>
+<text x="596" y="80.0" font-size="9">clk_i</text>
+<circle cx="590" cy="95.0" r="3" fill="#3B5BA5"/>
+<text x="596" y="98.0" font-size="9">reset_n_i</text>
+<circle cx="590" cy="113.0" r="3" fill="#3B5BA5"/>
+<text x="596" y="116.0" font-size="9">a_bus_i</text>
+<circle cx="590" cy="131.0" r="3" fill="#3B5BA5"/>
+<text x="596" y="134.0" font-size="9">a_skew_bank_en_i</text>
+<circle cx="590" cy="149.0" r="3" fill="#3B5BA5"/>
+<text x="596" y="152.0" font-size="9">b_bus_i</text>
+<circle cx="590" cy="167.0" r="3" fill="#3B5BA5"/>
+<text x="596" y="170.0" font-size="9">b_skew_bank_en_i</text>
+<circle cx="590" cy="185.0" r="3" fill="#3B5BA5"/>
+<text x="596" y="188.0" font-size="9">mac_en_bus_i</text>
+<circle cx="590" cy="203.0" r="3" fill="#3B5BA5"/>
+<text x="596" y="206.0" font-size="9">acc_clr_bus_i</text>
+<circle cx="590" cy="221.0" r="3" fill="#3B5BA5"/>
+<text x="596" y="224.0" font-size="9">acc_out_en_bus_i</text>
+<circle cx="590" cy="239.0" r="3" fill="#3B5BA5"/>
+<text x="596" y="242.0" font-size="9">bypass_rotator0_i</text>
+<circle cx="590" cy="257.0" r="3" fill="#3B5BA5"/>
+<text x="596" y="260.0" font-size="9">bypass_rotator1_i</text>
+<circle cx="590" cy="275.0" r="3" fill="#3B5BA5"/>
+<text x="596" y="278.0" font-size="9">r_skew_bank_en_i</text>
+<circle cx="590" cy="293.0" r="3" fill="#3B5BA5"/>
+<text x="596" y="296.0" font-size="9">data_type_i</text>
+<circle cx="590" cy="311.0" r="3" fill="#3B5BA5"/>
+<text x="596" y="314.0" font-size="9">rounding_mode_i</text>
+<circle cx="740" cy="77.0" r="3" fill="#3B5BA5"/>
+<text x="734" y="80.0" font-size="9" text-anchor="end">r_bus_o</text>
+<circle cx="740" cy="95.0" r="3" fill="#3B5BA5"/>
+<text x="734" y="98.0" font-size="9" text-anchor="end">r_valid_bus_o</text>
+<circle cx="740" cy="113.0" r="3" fill="#3B5BA5"/>
+<text x="734" y="116.0" font-size="9" text-anchor="end">busy_o</text>
+<rect x="40" y="40" width="78" height="20" rx="3" fill="#D7E3FC" stroke="#3B5BA5"/>
+<text x="79" y="54" text-anchor="middle" font-size="9">clk_i</text>
+<rect x="40" y="78" width="78" height="20" rx="3" fill="#D7E3FC" stroke="#3B5BA5"/>
+<text x="79" y="92" text-anchor="middle" font-size="9">reset_n_i</text>
+<rect x="40" y="116" width="78" height="20" rx="3" fill="#D7E3FC" stroke="#3B5BA5"/>
+<text x="79" y="130" text-anchor="middle" font-size="9">a_bus_i [N*DATA_WIDTH]</text>
+<rect x="40" y="154" width="78" height="20" rx="3" fill="#D7E3FC" stroke="#3B5BA5"/>
+<text x="79" y="168" text-anchor="middle" font-size="9">a_skew_bank_en_i</text>
+<rect x="40" y="192" width="78" height="20" rx="3" fill="#D7E3FC" stroke="#3B5BA5"/>
+<text x="79" y="206" text-anchor="middle" font-size="9">b_bus_i [N*DATA_WIDTH]</text>
+<rect x="40" y="230" width="78" height="20" rx="3" fill="#D7E3FC" stroke="#3B5BA5"/>
+<text x="79" y="244" text-anchor="middle" font-size="9">b_skew_bank_en_i</text>
+<rect x="40" y="268" width="78" height="20" rx="3" fill="#D7E3FC" stroke="#3B5BA5"/>
+<text x="79" y="282" text-anchor="middle" font-size="9">mac_en_bus_i</text>
+<rect x="40" y="306" width="78" height="20" rx="3" fill="#D7E3FC" stroke="#3B5BA5"/>
+<text x="79" y="320" text-anchor="middle" font-size="9">acc_clr_bus_i</text>
+<rect x="40" y="344" width="78" height="20" rx="3" fill="#D7E3FC" stroke="#3B5BA5"/>
+<text x="79" y="358" text-anchor="middle" font-size="9">acc_out_en_bus_i</text>
+<rect x="40" y="382" width="78" height="20" rx="3" fill="#D7E3FC" stroke="#3B5BA5"/>
+<text x="79" y="396" text-anchor="middle" font-size="9">bypass_rotator0_i</text>
+<rect x="40" y="420" width="78" height="20" rx="3" fill="#D7E3FC" stroke="#3B5BA5"/>
+<text x="79" y="434" text-anchor="middle" font-size="9">bypass_rotator1_i</text>
+<rect x="40" y="458" width="78" height="20" rx="3" fill="#D7E3FC" stroke="#3B5BA5"/>
+<text x="79" y="472" text-anchor="middle" font-size="9">r_skew_bank_en_i</text>
+<rect x="1020" y="40" width="78" height="20" rx="3" fill="#D7E3FC" stroke="#3B5BA5"/>
+<text x="1059" y="54" text-anchor="middle" font-size="9">r_bus_o [N*ACC_WIDTH]</text>
+<rect x="1020" y="78" width="78" height="20" rx="3" fill="#D7E3FC" stroke="#3B5BA5"/>
+<text x="1059" y="92" text-anchor="middle" font-size="9">r_valid_bus_o [N]</text>
+<rect x="1020" y="116" width="78" height="20" rx="3" fill="#D7E3FC" stroke="#3B5BA5"/>
+<text x="1059" y="130" text-anchor="middle" font-size="9">busy_o</text>
+<polyline points="430,77.0 510.0,77.0 510.0,293.0 590,293.0" fill="none" stroke="#444" stroke-width="1.2"/>
+<text x="510.0" y="183.0" text-anchor="middle" font-size="8" fill="#444">[3]</text>
+<polyline points="430,95.0 510.0,95.0 510.0,311.0 590,311.0" fill="none" stroke="#444" stroke-width="1.2"/>
+<text x="510.0" y="201.0" text-anchor="middle" font-size="8" fill="#444">[2]</text>
+<polyline points="118,50 354.0,50 354.0,77.0 590,77.0" fill="none" stroke="#444" stroke-width="1.2"/>
+<polyline points="118,88 354.0,88 354.0,95.0 590,95.0" fill="none" stroke="#444" stroke-width="1.2"/>
+<polyline points="118,126 354.0,126 354.0,113.0 590,113.0" fill="none" stroke="#444" stroke-width="1.2"/>
+<text x="354.0" y="117.5" text-anchor="middle" font-size="8" fill="#444">[N*DATA_WIDTH]</text>
+<polyline points="118,164 354.0,164 354.0,131.0 590,131.0" fill="none" stroke="#444" stroke-width="1.2"/>
+<polyline points="118,202 354.0,202 354.0,149.0 590,149.0" fill="none" stroke="#444" stroke-width="1.2"/>
+<text x="354.0" y="173.5" text-anchor="middle" font-size="8" fill="#444">[N*DATA_WIDTH]</text>
+<polyline points="118,240 354.0,240 354.0,167.0 590,167.0" fill="none" stroke="#444" stroke-width="1.2"/>
+<polyline points="118,278 354.0,278 354.0,185.0 590,185.0" fill="none" stroke="#444" stroke-width="1.2"/>
+<polyline points="118,316 354.0,316 354.0,203.0 590,203.0" fill="none" stroke="#444" stroke-width="1.2"/>
+<polyline points="118,354 354.0,354 354.0,221.0 590,221.0" fill="none" stroke="#444" stroke-width="1.2"/>
+<polyline points="118,392 354.0,392 354.0,239.0 590,239.0" fill="none" stroke="#444" stroke-width="1.2"/>
+<polyline points="118,430 354.0,430 354.0,257.0 590,257.0" fill="none" stroke="#444" stroke-width="1.2"/>
+<polyline points="740,77.0 880.0,77.0 880.0,50 1020,50" fill="none" stroke="#444" stroke-width="1.2"/>
+<text x="880.0" y="61.5" text-anchor="middle" font-size="8" fill="#444">[N*ACC_WIDTH]</text>
+<polyline points="740,95.0 880.0,95.0 880.0,88 1020,88" fill="none" stroke="#444" stroke-width="1.2"/>
+<text x="880.0" y="89.5" text-anchor="middle" font-size="8" fill="#444">[N]</text>
+<polyline points="118,468 354.0,468 354.0,275.0 590,275.0" fill="none" stroke="#444" stroke-width="1.2"/>
+<polyline points="740,113.0 880.0,113.0 880.0,126 1020,126" fill="none" stroke="#444" stroke-width="1.2"/>
+</svg>

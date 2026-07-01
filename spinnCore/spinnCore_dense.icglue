@@ -1,0 +1,145 @@
+#!/usr/bin/env icglue
+
+#==================================================================================
+# DESIGN HIERARCHY
+#==================================================================================
+set top spinnCore_dense
+set tb  tb_$top
+set rf  ${top}_regfile
+
+M -unit $top -tree {
+    $tb ................................................ (tb,sv)
+    |
+    +-- $top ........................................... (rtl,sv)
+        |
+        +-- $rf ........................................ (rtl,rf=$top,rfaddrw=8)
+        |
+        +-- spinnCore................................... (rtl,sv)
+            |
+            +-- spinnArray ............................. (rtl,sv)
+            |
+            +-- skew_bank<0..2> ........................ (res)
+            |
+            +-- vector_rotator<0,1> .................... (res)
+
+}
+#==================================================================================
+# PARAMETERS
+#==================================================================================
+P N               "$tb $top spinnArray skew_bank<0..2>:N vector_rotator<0,1>" = 16; # Array Size (rows = cols)
+P DATA_WIDTH      "$tb $top spinnArray skew_bank<0..1>:WIDTH vector_rotator<0,1>:WIDTH"   = 16; # Operand width
+P ACC_WIDTH       "$tb $top spinnArray skew_bank<2>:WIDTH"      = 32; # Accumulator width
+P ADDR_WIDTH      "$tb $top"                                    = 32;
+P REVERSE_IN      "$tb $top spinnArray skew_bank<0..1>:REVERSE" = 0;  # lane i delayed by i
+P REVERSE_OUT     "$tb $top spinnArray skew_bank<2>:REVERSE"    = 1;  # lane i delayed by N-1-i
+# =================================================================================
+# Signals
+# =================================================================================
+
+S "clk"                                 $tb                  --> $top \
+                                                                 spinnArray \
+                                                                 skew_bank<0..2> \
+                                                                 vector_rotator<0,1>
+
+S "reset_n"                             $tb                  --> $top\
+                                                                 skew_bank<0..2> \
+                                                                 vector_rotator<0,1>
+
+#========#
+# Inputs #
+#========#
+
+S "a_bus"           -w  N*DATA_WIDTH    $tb                  --> $top \
+                                                                 skew_bank<0>:d_bus_i
+                                                        
+S "a_bus_skew"      -w  N*DATA_WIDTH    skew_bank<0>:d_bus_o --> vector_rotator<0>:data_i
+                                                        
+S "a_bus_skew_rotate"  -w  N*DATA_WIDTH    vector_rotator<0>:data_o --> spinnArray:a_bus_i
+
+S "a_skew_bank_en"                      $tb                  --> skew_bank<0>:en_i
+
+S "b_bus"           -w  N*DATA_WIDTH    $tb                  --> $top \
+                                                                 skew_bank<1>:d_bus_i
+
+S "b_bus_skew"      -w  N*DATA_WIDTH    skew_bank<1>:d_bus_o --> vector_rotator<1>:data_i
+
+S "b_bus_skew_rotate"      -w  N*DATA_WIDTH    vector_rotator<1>:data_o --> spinnArray:b_bus_i
+
+S "b_skew_bank_en"                      $tb                  --> skew_bank<1>:en_i
+
+S "mac_en_bus"                          $tb                  --> $top \
+                                                                 spinnArray \
+                                                                 vector_rotator<0,1>:valid_i
+
+S "acc_clr_bus"                         $tb                  --> $top \
+                                                                 spinnArray
+
+S "acc_out_en_bus"                      $tb                  --> $top \
+                                                                 spinnArray
+
+S "bypass_rotator0"                     $tb                  --> $top \
+                                                                 vector_rotator<0>:bypass_i
+
+S "bypass_rotator1"                     $tb                  --> $top \
+                                                                 vector_rotator<1>:bypass_i
+
+#=========#
+# Outputs #
+#=========#
+
+S "r_bus_skew"      -w  N*ACC_WIDTH     skew_bank<2>:d_bus_i <-- spinnArray:r_bus_o
+
+S "r_bus"           -w  N*ACC_WIDTH     $tb                  <-- $top \
+                                                                 skew_bank<2>:d_bus_o
+
+S "r_valid_bus"     -w  N               $tb                  <-- $top \
+                                                                 spinnArray
+
+S "r_skew_bank_en"                      $tb                  --> skew_bank<2>:en_i
+
+S "busy"                                $tb                  <-- spinnArray
+
+
+#========#
+# Debugs #
+#========#
+
+
+# ==============================================================================
+# Testbench
+# ==============================================================================
+
+
+# ==============================================================================
+# Regfile
+# ==============================================================================
+                            #0x
+set debug_addr_offset       0x00000000
+set spinnCore_dense_offset  0x000000A0
+
+
+## debug regs
+for {set i 0} {$i < 4} {incr i} {
+    R $rf "debug_${i}" -addr [expr {${debug_addr_offset} + 4 * ${i}}] {
+        { "name"       "type"  "width"  "reset" "comment"             }
+        { "debug_${i}" RW      32       32'h0   "debug register #${i}"}
+    }
+}
+
+
+## ====================
+## spinnCore_dense regs
+## ====================
+S "data_type"       -w  3   $rf --> spinnArray
+S "rounding_mode"   -w  2   $rf --> spinnArray
+
+R $rf "spinnCoreDns_config"   -addr [expr {$spinnCore_dense_offset + 4 * 0}] {
+    "name"            | "entrybits"  | "type" | "reset" | "signal"                | "comment"
+    -------------     | -----------  | ------ | ------- | ----------------------- | ---------
+    data_type         | 4:2          | RW     |  3'b0   | data_type               | "Data Type. \
+                                                                                    <br>&ensp; 0: INT8"
+    rounding_mode     | 1:0          | RW     |  2'b0   | rounding_mode           | "Rounding Mode. \
+                                                                                    <br>&ensp; 0: Round Toward Nearest Neighbor \
+                                                                                    <br>&ensp; 1: Stochastic"
+
+}
