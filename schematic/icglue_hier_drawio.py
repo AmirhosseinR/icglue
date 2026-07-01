@@ -27,14 +27,18 @@ TITLE_H = 26
 PITCH = 30          # vertical distance between ports (room for a label above each)
 PORT_GUTTER = 140  # inner margin reserved for boundary-port stubs + labels
 STUB = 22           # length of the port stub sticking into the box
-H_GAP = 90          # horizontal gap between layers of children
-V_GAP = 34          # vertical gap between children in a layer
+H_GAP = 110         # horizontal gap between layers of children
+V_GAP = 46          # vertical gap between children in a layer
 PAD = 22            # generic inner padding
 LEAF_W = 172
 BOTTOM_H = 26       # band at the bottom for clk/reset ports
 
-FILL = {"rtl": "#EAF1FB", "tb": "#F3EEFB", "res": "#FCEDEA", "rf": "#EAF7EE"}
-STROKE = {"rtl": "#3B5BA5", "tb": "#6C4BB6", "res": "#B5413B", "rf": "#3B8A4E"}
+FILL = {"rtl": "#EDF1F6", "tb": "#EFEDF6", "res": "#F5F0E8", "rf": "#ECF2ED"}
+STROKE = {"rtl": "#41617F", "tb": "#5F5488", "res": "#9A7A45", "rf": "#557A60"}
+TOPFILL = "#F7F9FC"          # outermost container: near-neutral
+WIRE = "#556170"             # data wire colour
+WIRE_BUS = "#38455A"         # bus wire colour (slightly darker/heavier)
+LABEL_BG = "#FFFFFF"
 
 
 def is_clkrst(name):
@@ -169,11 +173,22 @@ def layer_of(m, nets):
 #           children:[node], childpos:{childname:(x,y)}}
 # ports here are the *boundary* ports of the box == the instance's pins
 # ---------------------------------------------------------------------------
+def port_sides(ports):
+    """Return (left, right) ordered port lists.
+    Left column = data inputs/bidir first, then clk/reset (kept together at the
+    bottom of the left edge). Right column = data outputs. clk/reset are still
+    left unwired by the router.
+    """
+    left = [p for p in ports
+            if not is_clkrst(p["name"]) and (is_in(p["dir"]) or is_bi(p["dir"]))]
+    right = [p for p in ports if not is_clkrst(p["name"]) and is_out(p["dir"])]
+    clkrst = [p for p in ports if is_clkrst(p["name"])]
+    return left + clkrst, right
+
+
 def count_sides(ports):
-    left = sum(1 for p in ports
-               if not is_clkrst(p["name"]) and (is_in(p["dir"]) or is_bi(p["dir"])))
-    right = sum(1 for p in ports if not is_clkrst(p["name"]) and is_out(p["dir"]))
-    return left, right
+    left, right = port_sides(ports)
+    return len(left), len(right)
 
 
 def inst_ports(inst):
@@ -182,6 +197,42 @@ def inst_ports(inst):
         out.append({"name": p["name"], "dir": pin_dir(p),
                     "connection": p["connection"].strip()})
     return out
+
+
+def order_layers(m, nets, layer):
+    """Order instances within each layer by barycenter of their neighbours in
+    the adjacent layer, reducing edge crossings. Returns {layer: [names]}."""
+    insts = [i["name"] for i in m["instances"]]
+    adj = {n: set() for n in insts}
+    for name, net in nets.items():
+        if is_clkrst(name):
+            continue
+        members = [e["inst"] for e in (net["drivers"] + net["sinks"])
+                   if e["kind"] == "pin"]
+        for a in members:
+            for b in members:
+                if a != b:
+                    adj[a].add(b)
+    by_layer = {}
+    for n in insts:
+        by_layer.setdefault(layer[n], []).append(n)
+    order = {n: i for L in by_layer for i, n in enumerate(by_layer[L])}
+    layers_sorted = sorted(by_layer)
+    for sweep in range(6):
+        seq = layers_sorted if sweep % 2 == 0 else list(reversed(layers_sorted))
+        for L in seq:
+            ref = L - 1 if sweep % 2 == 0 else L + 1
+            if ref not in by_layer:
+                continue
+            refpos = {n: i for i, n in enumerate(by_layer[ref])}
+
+            def bary(n):
+                ns = [refpos[x] for x in adj[n] if x in refpos]
+                return (sum(ns) / len(ns)) if ns else order[n]
+            by_layer[L].sort(key=bary)
+            for i, n in enumerate(by_layer[L]):
+                order[n] = i
+    return by_layer
 
 
 def layout(ctx, path, ports, module_name):
@@ -204,23 +255,31 @@ def layout(ctx, path, ports, module_name):
 
     nets = build_nets(m)
     layer = layer_of(m, nets)
-    by_layer = {}
+    node_by_name = {}
     child_nodes = []
     for inst in children_insts:
         cnode = layout(ctx, path + "/" + inst["name"], inst_ports(inst),
                        inst["of_module"])
         cnode["inst_name"] = inst["name"]
-        by_layer.setdefault(layer[inst["name"]], []).append(cnode)
+        node_by_name[inst["name"]] = cnode
         child_nodes.append(cnode)
+    # crossing-reduced order within each layer
+    ordered = order_layers(m, nets, layer)
+    by_layer = {L: [node_by_name[n] for n in names] for L, names in ordered.items()}
 
-    # place children: x by layer, stacked vertically within a layer
+    # place children: x by layer, columns vertically centred on a common midline
+    col_h = {}
+    for li in sorted(by_layer):
+        col = by_layer[li]
+        col_h[li] = sum(c["h"] for c in col) + V_GAP * (len(col) - 1)
+    max_h = max(col_h.values()) if col_h else 0
     x = PORT_GUTTER
     childpos = {}
     content_h = 0
     for li in sorted(by_layer):
         col = by_layer[li]
         colw = max(c["w"] for c in col)
-        y = TITLE_H + PAD
+        y = TITLE_H + PAD + (max_h - col_h[li]) / 2.0
         for c in col:
             childpos[c["inst_name"]] = (x + (colw - c["w"]) / 2, y)
             y += c["h"] + V_GAP
@@ -255,10 +314,7 @@ def compute_abs(root):
     def walk(node, ox, oy):
         box_abs[node["path"]] = (ox, oy, node["w"], node["h"])
         h, w = node["h"], node["w"]
-        left = [p for p in node["ports"]
-                if not is_clkrst(p["name"]) and (is_in(p["dir"]) or is_bi(p["dir"]))]
-        right = [p for p in node["ports"]
-                 if not is_clkrst(p["name"]) and is_out(p["dir"])]
+        left, right = port_sides(node["ports"])
         for side, ports in (("left", left), ("right", right)):
             n = len(ports)
             if not n:
@@ -326,6 +382,289 @@ def _net_targets(net):
     return (srcs[0] if srcs else None), targets
 
 
+def _seg_hits(x0, y0, x1, y1, obstacles):
+    """True if the axis-aligned segment crosses any obstacle interior."""
+    for (ax0, ay0, ax1, ay1) in obstacles:
+        if abs(x0 - x1) < 1e-6:                     # vertical
+            if ax0 < x0 < ax1:
+                lo, hi = sorted((y0, y1))
+                if min(hi, ay1) - max(lo, ay0) > 1e-6:
+                    return True
+        else:                                       # horizontal
+            if ay0 < y0 < ay1:
+                lo, hi = sorted((x0, x1))
+                if min(hi, ax1) - max(lo, ax0) > 1e-6:
+                    return True
+    return False
+
+
+def _astar(s, t, obstacles, region):
+    """Orthogonal shortest path from s to t on a Hanan grid built from the
+    obstacle/region edges, avoiding obstacle interiors, minimising bends."""
+    import heapq
+    rx0, ry0, rx1, ry1 = region
+    xs = {s[0], t[0], rx0, rx1}
+    ys = {s[1], t[1], ry0, ry1}
+    for (ax0, ay0, ax1, ay1) in obstacles:
+        xs.update((ax0, ax1)); ys.update((ay0, ay1))
+    xs = sorted(x for x in xs if rx0 - 1 <= x <= rx1 + 1)
+    ys = sorted(y for y in ys if ry0 - 1 <= y <= ry1 + 1)
+
+    def densify(vals):
+        # add intermediate lanes inside wide gaps so parallel wires have room
+        out = list(vals)
+        for a, b in zip(vals, vals[1:]):
+            gap = b - a
+            if gap > 70:
+                k = min(3, int(gap // 34))
+                for i in range(1, k + 1):
+                    out.append(a + gap * i / (k + 1))
+        return sorted(set(out))
+    xs = densify(xs)
+    ys = densify(ys)
+    if s[0] not in xs or t[0] not in xs:
+        xs = sorted(set(xs) | {s[0], t[0]})
+    if s[1] not in ys or t[1] not in ys:
+        ys = sorted(set(ys) | {s[1], t[1]})
+    xi = {x: i for i, x in enumerate(xs)}
+    yi = {y: i for i, y in enumerate(ys)}
+
+    def blocked(x, y):                              # point inside an obstacle?
+        for (ax0, ay0, ax1, ay1) in obstacles:
+            if ax0 < x < ax1 and ay0 < y < ay1:
+                return True
+        return False
+
+    TURN = 40
+    start = (xi[s[0]], yi[s[1]])
+    goal = (xi[t[0]], yi[t[1]])
+    # state: (ix, iy, dir) dir 0=horiz 1=vert 2=none
+    pq = [(0, start[0], start[1], 2, [])]
+    best = {}
+    while pq:
+        cost, ix, iy, d, path = heapq.heappop(pq)
+        key = (ix, iy, d)
+        if key in best and best[key] <= cost:
+            continue
+        best[key] = cost
+        x, y = xs[ix], ys[iy]
+        npath = path + [(x, y)]
+        if (ix, iy) == goal:
+            return npath
+        for dx, dy, nd in ((1, 0, 0), (-1, 0, 0), (0, 1, 1), (0, -1, 1)):
+            ni, nj = ix + dx, iy + dy
+            if not (0 <= ni < len(xs) and 0 <= nj < len(ys)):
+                continue
+            nx, ny = xs[ni], ys[nj]
+            if _seg_hits(x, y, nx, ny, obstacles):
+                continue
+            step = abs(nx - x) + abs(ny - y)
+            turn = TURN if (d != 2 and d != nd) else 0
+            heapq.heappush(pq, (cost + step + turn, ni, nj, nd, npath))
+    return None
+
+
+def route_avoiding(node, src_ep, dst_ep, box_abs, port_abs, chan):
+    sid = _endpoint_id(node, src_ep)
+    tid = _endpoint_id(node, dst_ep)
+    if sid not in port_abs or tid not in port_abs or sid == tid:
+        return None
+    x1, y1, s1 = port_abs[sid]
+    x2, y2, s2 = port_abs[tid]
+    ss = _stub_sign(src_ep, s1) * STUB
+    ts = _stub_sign(dst_ep, s2) * STUB
+    sstub = (x1 + ss, y1)
+    tstub = (x2 + ts, y2)
+
+    src_box = node["path"] + "/" + src_ep["inst"] if src_ep["kind"] == "pin" else node["path"]
+    dst_box = node["path"] + "/" + dst_ep["inst"] if dst_ep["kind"] == "pin" else node["path"]
+    MARG = 12
+    obstacles = []
+    for c in node["children"]:
+        bx, by, bw, bh = box_abs[c["path"]]
+        # sibling blocks get clearance padding; the wire's own source/target box
+        # stays an obstacle too (so the wire can't cut through it) but un-padded
+        # so the stub, which sits STUB>MARG outside the edge, can still dock.
+        m = 0 if c["path"] in (src_box, dst_box) else MARG
+        obstacles.append((bx - m, by - m, bx + bw + m, by + bh + m))
+
+    cx, cy, cw, ch = box_abs[node["path"]]
+    region = (cx + 2, cy + 2, cx + cw - 2, cy + ch - 2)
+    path = _astar(sstub, tstub, obstacles, region)
+    if not path:                                    # fallback: simple channel route
+        return route_points(node, src_ep, dst_ep, port_abs, chan)
+
+    pts = [(x1, y1)] + path + [(x2, y2)]
+    # collapse collinear / duplicate points
+    out = [pts[0]]
+    for p in pts[1:]:
+        if abs(p[0] - out[-1][0]) < 0.5 and abs(p[1] - out[-1][1]) < 0.5:
+            continue
+        if len(out) >= 2:
+            a, b = out[-2], out[-1]
+            if abs(a[0] - b[0]) < 0.5 and abs(b[0] - p[0]) < 0.5:   # vertical collinear
+                out[-1] = p; continue
+            if abs(a[1] - b[1]) < 0.5 and abs(b[1] - p[1]) < 0.5:   # horizontal collinear
+                out[-1] = p; continue
+        out.append(p)
+    return out
+
+
+def _edge_key(a, b):
+    return (a, b) if a <= b else (b, a)
+
+
+def _grid_coords(region, boxes, stubs):
+    rx0, ry0, rx1, ry1 = region
+    xs = {rx0, rx1} | {p[0] for p in stubs}
+    ys = {ry0, ry1} | {p[1] for p in stubs}
+    for (x0, y0, x1, y1) in boxes:
+        xs.update((x0, x1)); ys.update((y0, y1))
+    xs = sorted(x for x in xs if rx0 - 1 <= x <= rx1 + 1)
+    ys = sorted(y for y in ys if ry0 - 1 <= y <= ry1 + 1)
+
+    def densify(vals):
+        out = list(vals)
+        for a, b in zip(vals, vals[1:]):
+            g = b - a
+            if g > 60:
+                k = min(4, int(g // 30))
+                for i in range(1, k + 1):
+                    out.append(a + g * i / (k + 1))
+        return sorted(set(round(v, 2) for v in out))
+    return densify(xs), densify(ys)
+
+
+def _astar_grid(s, t, xs, ys, obstacles, usage, hist, cong):
+    import heapq
+    if s[0] not in xs:
+        xs = sorted(set(xs) | {s[0]})
+    if t[0] not in xs:
+        xs = sorted(set(xs) | {t[0]})
+    if s[1] not in ys:
+        ys = sorted(set(ys) | {s[1]})
+    if t[1] not in ys:
+        ys = sorted(set(ys) | {t[1]})
+    xi = {x: i for i, x in enumerate(xs)}
+    yi = {y: i for i, y in enumerate(ys)}
+    TURN = 30
+    start = (xi[s[0]], yi[s[1]])
+    goal = (xi[t[0]], yi[t[1]])
+    pq = [(0.0, start[0], start[1], 2, None)]
+    prev = {}
+    seen = {}
+    while pq:
+        cost, ix, iy, d, par = heapq.heappop(pq)
+        key = (ix, iy, d)
+        if key in seen and seen[key] <= cost:
+            continue
+        seen[key] = cost
+        prev[key] = par
+        if (ix, iy) == goal:
+            # reconstruct
+            path = []
+            k = key
+            while k is not None:
+                path.append((xs[k[0]], ys[k[1]]))
+                k = prev[k]
+            return path[::-1]
+        x, y = xs[ix], ys[iy]
+        for dx, dy, nd in ((1, 0, 0), (-1, 0, 0), (0, 1, 1), (0, -1, 1)):
+            ni, nj = ix + dx, iy + dy
+            if not (0 <= ni < len(xs) and 0 <= nj < len(ys)):
+                continue
+            nx, ny = xs[ni], ys[nj]
+            if _seg_hits(x, y, nx, ny, obstacles):
+                continue
+            ek = _edge_key((x, y), (nx, ny))
+            step = abs(nx - x) + abs(ny - y)
+            turn = TURN if (d != 2 and d != nd) else 0
+            congc = cong * usage.get(ek, 0) + 6.0 * hist.get(ek, 0.0)
+            heapq.heappush(pq, (cost + step + turn + congc, ni, nj, nd, key))
+    return None
+
+
+def route_container(node, box_abs, port_abs):
+    """Route all nets of a container on a shared grid with negotiated-congestion
+    (PathFinder-style) so parallel wires spread into separate lanes. Cached."""
+    if "routes" in node:
+        return node["routes"]
+    MARG = 12
+    boxes = []
+    for c in node["children"]:
+        bx, by, bw, bh = box_abs[c["path"]]
+        boxes.append((bx - MARG, by - MARG, bx + bw + MARG, by + bh + MARG))
+    cx, cy, cw, ch = box_abs[node["path"]]
+    region = (cx + 2, cy + 2, cx + cw - 2, cy + ch - 2)
+
+    jobs = []
+    for name, net in node["nets"].items():
+        if is_clkrst(name):
+            continue
+        src, targets = _net_targets(net)
+        if src is None:
+            continue
+        sid = _endpoint_id(node, src)
+        if sid not in port_abs:
+            continue
+        x1, y1, s1 = port_abs[sid]
+        sstub = (x1 + _stub_sign(src, s1) * STUB, y1)
+        for t in targets:
+            tid = _endpoint_id(node, t)
+            if tid not in port_abs or tid == sid:
+                continue
+            x2, y2, s2 = port_abs[tid]
+            tstub = (x2 + _stub_sign(t, s2) * STUB, y2)
+            jobs.append([sid, tid, (x1, y1), (x2, y2), sstub, tstub])
+
+    stubs = [j[4] for j in jobs] + [j[5] for j in jobs]
+    xs, ys = _grid_coords(region, boxes, stubs)
+    # short nets first: they take direct lanes, long nets negotiate around
+    order = sorted(range(len(jobs)),
+                   key=lambda i: abs(jobs[i][4][0] - jobs[i][5][0])
+                   + abs(jobs[i][4][1] - jobs[i][5][1]))
+    hist = {}
+    routes = {}
+    for it in range(4):
+        usage = {}
+        routes = {}
+        cong = 2.0 + 3.0 * it          # ramp congestion cost each iteration
+        for i in order:
+            sid, tid, s, t, sstub, tstub = jobs[i]
+            path = _astar_grid(sstub, tstub, xs, ys, boxes, usage, hist, cong)
+            if not path:
+                path = [sstub, tstub]
+            for a, b in zip(path, path[1:]):
+                ek = _edge_key(a, b)
+                usage[ek] = usage.get(ek, 0) + 1
+            routes[(sid, tid)] = _collapse([s] + path + [t])
+        for ek, u in usage.items():
+            if u > 1:
+                hist[ek] = hist.get(ek, 0.0) + (u - 1)
+    node["routes"] = routes
+    return routes
+
+
+def _collapse(pts):
+    out = [pts[0]]
+    for p in pts[1:]:
+        if abs(p[0] - out[-1][0]) < 0.5 and abs(p[1] - out[-1][1]) < 0.5:
+            continue
+        if len(out) >= 2:
+            a, b = out[-2], out[-1]
+            if abs(a[0] - b[0]) < 0.5 and abs(b[0] - p[0]) < 0.5:
+                out[-1] = p; continue
+            if abs(a[1] - b[1]) < 0.5 and abs(b[1] - p[1]) < 0.5:
+                out[-1] = p; continue
+        out.append(p)
+    return out
+
+
+def route_avoiding(node, src_ep, dst_ep, box_abs, port_abs, chan):
+    routes = route_container(node, box_abs, port_abs)
+    return routes.get((_endpoint_id(node, src_ep), _endpoint_id(node, dst_ep)))
+
+
 # ---------------------------------------------------------------------------
 # emit draw.io cells
 # ---------------------------------------------------------------------------
@@ -347,35 +686,39 @@ def kind_style(node, is_top=False):
     return FILL["rtl"], STROKE["rtl"]
 
 
-def emit_box(ctx, node, parent_id, x, y, is_top=False):
-    """Emit this box (relative to parent) and recurse into children."""
+def emit_box(ctx, node, box_abs, is_top=False):
+    """Emit this module as its OWN group (box + only its own ports) at the top
+    level, positioned with absolute coordinates. Child modules are emitted the
+    same way (parent = root layer), NOT nested inside this box — so every module
+    can be moved independently. Visual nesting is preserved purely by geometry.
+    """
     fill, stroke = kind_style(node, is_top)
+    if is_top:
+        fill = TOPFILL
     bid = box_id(node["path"])
+    x, y, w, h = box_abs[node["path"]]
     title = node["path"].split("/")[-1]
     sub = node["module"]
     label = f'<b>{escape(title)}</b>' + ("" if title == sub else f'<br><i>{escape(sub)}</i>')
-    style = (f"rounded=0;html=1;whiteSpace=wrap;fillColor={fill};strokeColor={stroke};"
-             "verticalAlign=top;fontSize=12;spacingTop=4;")
+    # container=0 -> the box keeps its ports as children (they move with it) but
+    # will not swallow other module groups dropped on top of it
+    style = (f"rounded=1;arcSize=4;html=1;whiteSpace=wrap;fillColor={fill};"
+             f"strokeColor={stroke};verticalAlign=top;fontSize=14;spacingTop=6;"
+             f"fontColor={stroke};shadow=1;container=0;")
     ctx.cells.append(
         f'<mxCell id={quoteattr(bid)} value={quoteattr(label)} '
-        f'style={quoteattr(style)} vertex="1" parent={quoteattr(parent_id)}>'
-        f'<mxGeometry x="{x:.0f}" y="{y:.0f}" width="{node["w"]:.0f}" '
-        f'height="{node["h"]:.0f}" as="geometry"/></mxCell>')
+        f'style={quoteattr(style)} vertex="1" parent="1">'
+        f'<mxGeometry x="{x:.0f}" y="{y:.0f}" width="{w:.0f}" '
+        f'height="{h:.0f}" as="geometry"/></mxCell>')
 
-    # boundary ports (labels above the stub so wires never cross the text)
-    left = [p for p in node["ports"]
-            if not is_clkrst(p["name"]) and (is_in(p["dir"]) or is_bi(p["dir"]))]
-    right = [p for p in node["ports"]
-             if not is_clkrst(p["name"]) and is_out(p["dir"])]
-    bottom = [p for p in node["ports"] if is_clkrst(p["name"])]
+    # boundary ports are children of THIS box only (the group = box + its ports)
+    left, right = port_sides(node["ports"])
     _emit_ports(ctx, node, bid, left, side="left")
     _emit_ports(ctx, node, bid, right, side="right")
-    _emit_ports(ctx, node, bid, bottom, side="bottom")
 
-    # children
+    # child modules: separate top-level groups (emitted after -> drawn on top)
     for c in node["children"]:
-        cx, cy = node["childpos"][c["inst_name"]]
-        emit_box(ctx, c, bid, cx, cy)
+        emit_box(ctx, c, box_abs)
 
 
 def _emit_ports(ctx, node, bid, ports, side):
@@ -383,23 +726,6 @@ def _emit_ports(ctx, node, bid, ports, side):
     w = node["w"]
     n = len(ports)
     if n == 0:
-        return
-    if side == "bottom":
-        # clk/reset stubs clustered at the bottom-LEFT corner; not wired
-        left_off, step = 34, 72
-        for k, p in enumerate(ports):
-            xf = min((left_off + k * step) / w, 0.95)
-            pid = port_id(node["path"], p["name"])
-            st = ("shape=ellipse;html=1;fillColor=#9AA0A6;strokeColor=#5F6368;"
-                  "verticalLabelPosition=top;verticalAlign=bottom;"
-                  "labelPosition=center;align=center;fontSize=9;fontColor=#5F6368;"
-                  "spacingBottom=2;")
-            ctx.cells.append(
-                f'<mxCell id={quoteattr(pid)} value={quoteattr(escape(p["name"]))} '
-                f'style={quoteattr(st)} vertex="1" parent={quoteattr(bid)}>'
-                f'<mxGeometry x="{xf:.4f}" y="1.0" width="8" height="8" '
-                f'relative="1" as="geometry"><mxPoint x="-4" y="-4" as="offset"/>'
-                f'</mxGeometry></mxCell>')
         return
     # spread ports evenly over the vertical face (below the title band)
     top = TITLE_H + PITCH * 0.6
@@ -409,13 +735,15 @@ def _emit_ports(ctx, node, bid, ports, side):
         yf = (top + k * step) / h
         xf = 0.0 if side == "left" else 1.0
         pid = port_id(node["path"], p["name"])
-        # a small dot exactly on the boundary; the NAME sits ABOVE the stub,
-        # nudged inward so the wire never crosses the text
         lab = escape(p["name"])
         align = "left" if side == "left" else "right"
-        st = (f"shape=ellipse;html=1;fillColor={STROKE['rtl']};strokeColor={STROKE['rtl']};"
+        clk = is_clkrst(p["name"])
+        dot = "#9AA0A6" if clk else STROKE["rtl"]
+        edge = "#5F6368" if clk else STROKE["rtl"]
+        fcol = "fontColor=#5F6368;" if clk else ""
+        st = (f"shape=ellipse;html=1;fillColor={dot};strokeColor={edge};"
               "verticalLabelPosition=top;verticalAlign=bottom;"
-              f"labelPosition=center;align={align};fontSize=9;spacing=2;"
+              f"labelPosition=center;align={align};fontSize=12;spacing=2;{fcol}"
               f"spacing{'Left' if side=='left' else 'Right'}={STUB};")
         ctx.cells.append(
             f'<mxCell id={quoteattr(pid)} value={quoteattr(lab)} '
@@ -431,28 +759,35 @@ def _endpoint_id(node, ep):
     return port_id(node["path"], ep["port"])
 
 
-def _emit_edges(ctx, node, port_abs, chan):
+def _emit_edges(ctx, node, port_abs, box_abs, chan):
     if node["kind"] == "container":
         for name, net in node["nets"].items():
             if is_clkrst(name):
                 continue
-            wlabel = "" if str(net["width"]) in ("1", "") else f'[{net["width"]}]'
+            wlabel = "" if str(net["width"]) in ("1", "") else f'{net["width"]}'
+            is_bus = bool(wlabel)
             src, targets = _net_targets(net)
             if src is None:
                 continue
             sid = _endpoint_id(node, src)
-            col = STROKE["rf"] if (net["bidir"] and not net["sinks"]) else "#5A5A5A"
-            arrow = "none" if (net["bidir"] and not net["sinks"]) else "block"
+            bidir = net["bidir"] and not net["sinks"]
+            if bidir:
+                col, sw = STROKE["rf"], 1.6
+            else:
+                col = WIRE_BUS if is_bus else WIRE
+                sw = 2.0 if is_bus else 1.2
+            arrow = "none" if bidir else "classicThin"
             for t in targets:
-                pts = route_points(node, src, t, port_abs, chan)
+                pts = route_avoiding(node, src, t, box_abs, port_abs, chan)
                 if not pts:
                     continue
                 tid = _endpoint_id(node, t)
                 inner = pts[1:-1]     # draw.io connects endpoints; give interior waypoints
                 wp = "".join(f'<mxPoint x="{x:.1f}" y="{y:.1f}"/>' for x, y in inner)
-                st = (f"edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;"
-                      f"endArrow={arrow};startArrow=none;strokeColor={col};"
-                      "fontSize=9;jettySize=auto;exitDx=0;exitDy=0;")
+                st = (f"edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;"
+                      f"endArrow={arrow};endSize=7;startArrow=none;strokeColor={col};"
+                      f"strokeWidth={sw};fontSize=10;fontColor={col};"
+                      f"labelBackgroundColor={LABEL_BG};jettySize=auto;exitDx=0;exitDy=0;")
                 eid = ctx.nid()
                 ctx.edges.append(
                     f'<mxCell id={quoteattr(eid)} value={quoteattr(wlabel)} '
@@ -461,13 +796,13 @@ def _emit_edges(ctx, node, port_abs, chan):
                     f'<mxGeometry relative="1" as="geometry">'
                     f'<Array as="points">{wp}</Array></mxGeometry></mxCell>')
     for c in node["children"]:
-        _emit_edges(ctx, c, port_abs, chan)
+        _emit_edges(ctx, c, port_abs, box_abs, chan)
 
 
 # ---------------------------------------------------------------------------
 # SVG preview (absolute coords from the same layout tree)
 # ---------------------------------------------------------------------------
-def render_svg(ctx, root, port_abs, chan):
+def render_svg(ctx, root, port_abs, box_abs, chan):
     parts = []
 
     def walk(node, ox, oy, is_top=False):
@@ -477,35 +812,24 @@ def render_svg(ctx, root, port_abs, chan):
                      f'rx="3" fill="{fill}" stroke="{stroke}" stroke-width="1.3"/>')
         title = node["path"].split("/")[-1]
         parts.append(f'<text x="{x+8:.0f}" y="{y+16:.0f}" font-weight="bold" '
-                     f'font-size="12" fill="{stroke}">{escape(title)}</text>')
+                     f'font-size="14" fill="{stroke}">{escape(title)}</text>')
         if title != node["module"]:
             parts.append(f'<text x="{x+8:.0f}" y="{y+27:.0f}" font-style="italic" '
                          f'font-size="9" fill="#666">{escape(node["module"])}</text>')
-        left = [p for p in node["ports"]
-                if not is_clkrst(p["name"]) and (is_in(p["dir"]) or is_bi(p["dir"]))]
-        right = [p for p in node["ports"]
-                 if not is_clkrst(p["name"]) and is_out(p["dir"])]
-        bottom = [p for p in node["ports"] if is_clkrst(p["name"])]
+        left, right = port_sides(node["ports"])
         for side, ports in (("left", left), ("right", right)):
             for p in ports:
                 px, py, _ = port_abs[port_id(node["path"], p["name"])]
-                parts.append(f'<circle cx="{px:.0f}" cy="{py:.0f}" r="2.5" fill="{stroke}"/>')
+                clk = is_clkrst(p["name"])
+                dot = "#5F6368" if clk else stroke
+                tcol = "#5F6368" if clk else "#333"
+                parts.append(f'<circle cx="{px:.0f}" cy="{py:.0f}" r="2.5" fill="{dot}"/>')
                 if side == "left":
-                    parts.append(f'<text x="{px+STUB:.0f}" y="{py-4:.0f}" font-size="8.5" '
-                                 f'fill="#333">{escape(p["name"])}</text>')
+                    parts.append(f'<text x="{px+STUB:.0f}" y="{py-4:.0f}" font-size="12" '
+                                 f'fill="{tcol}">{escape(p["name"])}</text>')
                 else:
-                    parts.append(f'<text x="{px-STUB:.0f}" y="{py-4:.0f}" font-size="8.5" '
-                                 f'text-anchor="end" fill="#333">{escape(p["name"])}</text>')
-        nb = len(bottom)
-        if nb:
-            left_off, step = 34, 72
-            for k, p in enumerate(bottom):
-                xf = min((left_off + k * step) / w, 0.95)
-                px = x + xf * w
-                py = y + h
-                parts.append(f'<circle cx="{px:.0f}" cy="{py:.0f}" r="2.5" fill="#5F6368"/>')
-                parts.append(f'<text x="{px:.0f}" y="{py-5:.0f}" font-size="8" '
-                             f'fill="#5F6368" text-anchor="middle">{escape(p["name"])}</text>')
+                    parts.append(f'<text x="{px-STUB:.0f}" y="{py-4:.0f}" font-size="12" '
+                                 f'text-anchor="end" fill="{tcol}">{escape(p["name"])}</text>')
         for c in node["children"]:
             cx, cy = node["childpos"][c["inst_name"]]
             walk(c, ox + cx, oy + cy)
@@ -521,31 +845,103 @@ def render_svg(ctx, root, port_abs, chan):
                 if src is None:
                     continue
                 for t in targets:
-                    pts = route_points(node, src, t, port_abs, chan)
+                    pts = route_avoiding(node, src, t, box_abs, port_abs, chan)
                     if not pts:
                         continue
-                    col = "#8a6d00" if (net["bidir"] and not net["sinks"]) else "#666"
+                    bidir = net["bidir"] and not net["sinks"]
+                    wl = "" if str(net["width"]) in ("1", "") else str(net["width"])
+                    is_bus = bool(wl)
+                    if bidir:
+                        col, sw = "#557A60", 1.6
+                    else:
+                        col = "#38455A" if is_bus else "#556170"
+                        sw = 2.0 if is_bus else 1.2
                     poly = " ".join(f"{x:.0f},{y:.0f}" for x, y in pts)
                     parts.append(f'<polyline points="{poly}" fill="none" '
-                                 f'stroke="{col}" stroke-width="1" opacity="0.85"/>')
-                    wl = net["width"]
-                    if str(wl) not in ("1", ""):
+                                 f'stroke="{col}" stroke-width="{sw}" '
+                                 f'stroke-linejoin="round" opacity="0.9"/>')
+                    if is_bus:
                         mxp = pts[len(pts) // 2]
-                        parts.append(f'<text x="{mxp[0]:.0f}" y="{mxp[1]-2:.0f}" '
-                                     f'font-size="7.5" fill="{col}" text-anchor="middle">'
-                                     f'[{escape(str(wl))}]</text>')
+                        tw = len(wl) * 6 + 6
+                        parts.append(f'<rect x="{mxp[0]-tw/2:.0f}" y="{mxp[1]-9:.0f}" '
+                                     f'width="{tw:.0f}" height="12" rx="2" fill="#FFFFFF" '
+                                     f'opacity="0.85"/>')
+                        parts.append(f'<text x="{mxp[0]:.0f}" y="{mxp[1]:.0f}" '
+                                     f'font-size="9" fill="{col}" text-anchor="middle">'
+                                     f'{escape(wl)}</text>')
         for c in node["children"]:
             draw_edges(c)
 
     draw_edges(root)
     W = root["w"] + 2 * PAD
-    H = root["h"] + 2 * PAD
+    H = root["h"] + 3 * PAD + 132
+    parts.append(legend_svg(PAD, root["h"] + 2 * PAD))
     return (f'<svg xmlns="http://www.w3.org/2000/svg" width="{W:.0f}" '
             f'height="{H:.0f}" font-family="Helvetica"><rect width="{W:.0f}" '
             f'height="{H:.0f}" fill="white"/>' + "".join(parts) + '</svg>')
 
 
 # ---------------------------------------------------------------------------
+def legend_cells(ctx, x, y):
+    """A compact legend rendered as draw.io cells."""
+    W, H = 250, 132
+    ctx.cells.append(
+        f'<mxCell id="LEGEND" value="&lt;b&gt;Legend&lt;/b&gt;" '
+        f'style="rounded=1;arcSize=6;html=1;whiteSpace=wrap;fillColor=#FFFFFF;'
+        f'strokeColor=#9AA6B4;verticalAlign=top;fontSize=12;spacingTop=6;'
+        f'align=left;spacingLeft=10;shadow=1;container=0;" vertex="1" parent="1">'
+        f'<mxGeometry x="{x:.0f}" y="{y:.0f}" width="{W}" height="{H}" as="geometry"/></mxCell>')
+    rows = [("line", WIRE_BUS, 2.0, "bus (multi-bit, width labelled)"),
+            ("line", WIRE, 1.2, "control (1-bit)"),
+            ("line", STROKE["rf"], 1.6, "bidirectional"),
+            ("dot", "#9AA0A6", 0, "clk / reset (implicit, not routed)")]
+    ry = y + 30
+    for kind, col, sw, text in rows:
+        eid = ctx.nid()
+        if kind == "line":
+            st = (f"endArrow=classicThin;endSize=6;html=1;rounded=0;"
+                  f"strokeColor={col};strokeWidth={sw};")
+            ctx.edges.append(
+                f'<mxCell id={quoteattr(eid)} style={quoteattr(st)} edge="1" parent="1">'
+                f'<mxGeometry relative="1" as="geometry">'
+                f'<mxPoint x="{x+12:.0f}" y="{ry:.0f}" as="sourcePoint"/>'
+                f'<mxPoint x="{x+44:.0f}" y="{ry:.0f}" as="targetPoint"/></mxGeometry></mxCell>')
+        else:
+            ctx.cells.append(
+                f'<mxCell id={quoteattr(eid)} style="shape=ellipse;html=1;'
+                f'fillColor={col};strokeColor=#5F6368;" vertex="1" parent="1">'
+                f'<mxGeometry x="{x+24:.0f}" y="{ry-4:.0f}" width="8" height="8" as="geometry"/></mxCell>')
+        lid = ctx.nid()
+        ctx.cells.append(
+            f'<mxCell id={quoteattr(lid)} value={quoteattr(escape(text))} '
+            f'style="text;html=1;align=left;verticalAlign=middle;fontSize=10;" '
+            f'vertex="1" parent="1"><mxGeometry x="{x+52:.0f}" y="{ry-9:.0f}" '
+            f'width="{W-60}" height="18" as="geometry"/></mxCell>')
+        ry += 22
+    return H
+
+
+def legend_svg(x, y):
+    W, H = 250, 132
+    p = [f'<rect x="{x}" y="{y}" width="{W}" height="{H}" rx="4" fill="#FFFFFF" '
+         f'stroke="#9AA6B4"/>',
+         f'<text x="{x+10}" y="{y+18}" font-weight="bold" font-size="12" fill="#333">Legend</text>']
+    rows = [("line", "#38455A", 2.0, "bus (multi-bit, width labelled)"),
+            ("line", "#556170", 1.2, "control (1-bit)"),
+            ("line", "#557A60", 1.6, "bidirectional"),
+            ("dot", "#9AA0A6", 0, "clk / reset (implicit, not routed)")]
+    ry = y + 34
+    for kind, col, sw, text in rows:
+        if kind == "line":
+            p.append(f'<line x1="{x+12}" y1="{ry}" x2="{x+44}" y2="{ry}" '
+                     f'stroke="{col}" stroke-width="{sw}"/>')
+        else:
+            p.append(f'<circle cx="{x+28}" cy="{ry}" r="4" fill="{col}" stroke="#5F6368"/>')
+        p.append(f'<text x="{x+52}" y="{ry+4}" font-size="10" fill="#333">{escape(text)}</text>')
+        ry += 22
+    return "".join(p)
+
+
 def find_top(ctx):
     # a testbench (mode 'tb') carries no useful structure, so the design top is
     # the top-most NON-tb module: ignore tb modules as instantiators, then pick
@@ -596,14 +992,15 @@ def main():
                   "connection": p["name"]} for p in ctx.M[top].get("ports", [])]
     root = layout(ctx, top, top_ports, top)
 
-    emit_box(ctx, root, "1", PAD, PAD, is_top=True)
     box_abs, port_abs = compute_abs(root)
+    emit_box(ctx, root, box_abs, is_top=True)
     chan = {}
-    _emit_edges(ctx, root, port_abs, chan)
+    _emit_edges(ctx, root, port_abs, box_abs, chan)
+    leg_h = legend_cells(ctx, PAD, root["h"] + 2 * PAD)
 
     body = "".join(ctx.cells) + "".join(ctx.edges)
     W = root["w"] + 2 * PAD
-    H = root["h"] + 2 * PAD
+    H = root["h"] + 3 * PAD + leg_h
     model = (f'<mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" '
              f'guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" '
              f'pageWidth="{W:.0f}" pageHeight="{H:.0f}" math="0" shadow="0">'
@@ -614,7 +1011,7 @@ def main():
     print(f"wrote {args.out}  ({W:.0f}x{H:.0f})")
     if args.svg:
         chan2 = {}
-        open(args.svg, "w").write(render_svg(ctx, root, port_abs, chan2))
+        open(args.svg, "w").write(render_svg(ctx, root, port_abs, box_abs, chan2))
         print(f"wrote {args.svg}")
 
 

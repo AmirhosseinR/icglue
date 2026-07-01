@@ -8,6 +8,7 @@ Created output contains modules in a hardware description language (currently on
 
 ```bash
 bash schematic/run.sh examples/module.construct.simple.tcl out
+bash schematic/run.sh spinnCore/spinnCore_dense.icglue out
 ```
 
 ## Features
