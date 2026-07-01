@@ -60,13 +60,15 @@ proc port_dir_of {module_id port_name} {
 proc module_to_json {mod} {
     set name     [attr $mod name]
     set resource [attr $mod resource false]
-    set ilm      [attr $mod ilm false]
+    set is_res [string is true -strict $resource]
     set mode     [attr $mod mode rtl]
     set lang     [attr $mod language]
 
     # ---- ports (module boundary) ----
     set ports {}
-    foreach p [ig::db::get_ports -of $mod] {
+    set port_ids {}
+    catch {set port_ids [ig::db::get_ports -of $mod]}
+    foreach p $port_ids {
         lappend ports [json::obj [list \
             name      [json::str [attr $p name]] \
             direction [json::str [attr $p direction]] \
@@ -76,7 +78,9 @@ proc module_to_json {mod} {
 
     # ---- declarations (internal wires) ----
     set decls {}
-    foreach d [ig::db::get_declarations -of $mod] {
+    set decl_ids {}
+    catch {set decl_ids [ig::db::get_declarations -of $mod]}
+    foreach d $decl_ids {
         lappend decls [json::obj [list \
             name [json::str [attr $d name]] \
             size [json::str [attr $d size 1]] \
@@ -85,7 +89,9 @@ proc module_to_json {mod} {
 
     # ---- child instances + pins ----
     set insts {}
-    foreach inst [ig::db::get_instances -of $mod] {
+    set inst_ids {}
+    if {!$is_res} { catch {set inst_ids [ig::db::get_instances -of $mod]} }
+    foreach inst $inst_ids {
         set submod   [ig::db::get_modules -of $inst]
         set sub_name [attr $submod name]
 
@@ -116,7 +122,7 @@ proc module_to_json {mod} {
         mode        [json::str $mode] \
         language    [json::str $lang] \
         is_resource [json::bool [string is true -strict $resource]] \
-        is_ilm      [json::bool [string is true -strict $ilm]] \
+        is_ilm      [json::bool [string is true -strict [attr $mod ilm false]]] \
         ports       [json::arr $ports] \
         declarations [json::arr $decls] \
         instances   [json::arr $insts] \
@@ -177,8 +183,6 @@ proc main {argv} {
     set mod_jsons {}
     foreach m $mods {
         if {[attr $m dummy false]} { continue }
-        if {[string is true -strict [attr $m resource false]]} { continue }
-        if {[llength [ig::db::get_instances -of $m]] == 0} { continue }
         lappend mod_jsons [module_to_json $m]
     }
 
