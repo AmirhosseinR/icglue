@@ -4,6 +4,12 @@ ICGlue is a C/Tcl based library and tool for scripted generation of hardware des
 The focus here is on simplifying to create module hierarchy, connectivity and configuration via register-files.
 Created output contains modules in a hardware description language (currently only systemverilog/verilog) and register-file documentation.
 
+## Schematic
+
+```bash
+bash schematic/run.sh examples/module.construct.simple.tcl out
+```
+
 ## Features
 Current features are:
 - Read in a user-defined Tcl construction script to describe hierarchy, connectivity and config registers.
