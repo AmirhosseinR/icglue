@@ -1,0 +1,8 @@
+{
+  "name": "icglue-schematic",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu-24.04",
+  "postCreateCommand": "bash .devcontainer/setup.sh",
+  "customizations": {
+    "vscode": { "extensions": ["hediet.vscode-drawio"] }
+  }
+}
