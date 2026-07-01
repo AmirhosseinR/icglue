@@ -173,16 +173,23 @@ def layer_of(m, nets):
 #           children:[node], childpos:{childname:(x,y)}}
 # ports here are the *boundary* ports of the box == the instance's pins
 # ---------------------------------------------------------------------------
+def _is_reset(name):
+    n = name.lower()
+    import re
+    return bool(re.search(r"(^|_)(rst|reset)(_|$|[0-9])", n))
+
+
 def port_sides(ports):
     """Return (left, right) ordered port lists.
-    Left column = data inputs/bidir first, then clk/reset (kept together at the
-    bottom of the left edge). Right column = data outputs. clk/reset are still
-    left unwired by the router.
+    Left column = data inputs/bidir first, then reset(s), then clock(s) at the
+    very bottom. Right column = data outputs. clk/reset are left unwired.
     """
     left = [p for p in ports
             if not is_clkrst(p["name"]) and (is_in(p["dir"]) or is_bi(p["dir"]))]
     right = [p for p in ports if not is_clkrst(p["name"]) and is_out(p["dir"])]
     clkrst = [p for p in ports if is_clkrst(p["name"])]
+    # reset above, clock at the bottom (lowest signal)
+    clkrst.sort(key=lambda p: 0 if _is_reset(p["name"]) else 1)
     return left + clkrst, right
 
 
@@ -315,6 +322,7 @@ def compute_abs(root):
         box_abs[node["path"]] = (ox, oy, node["w"], node["h"])
         h, w = node["h"], node["w"]
         left, right = port_sides(node["ports"])
+        pm = node.get("port_y")
         for side, ports in (("left", left), ("right", right)):
             n = len(ports)
             if not n:
@@ -323,7 +331,10 @@ def compute_abs(root):
             span = max(h - top - PAD - BOTTOM_H, (n - 1) * PITCH)
             step = span / max(n - 1, 1)
             for k, p in enumerate(ports):
-                py = oy + top + k * step
+                if pm and p["name"] in pm:
+                    py = oy + pm[p["name"]]
+                else:
+                    py = oy + top + k * step
                 px = ox if side == "left" else ox + w
                 port_abs[port_id(node["path"], p["name"])] = (px, py, side)
         for c in node["children"]:
@@ -731,8 +742,9 @@ def _emit_ports(ctx, node, bid, ports, side):
     top = TITLE_H + PITCH * 0.6
     span = max(h - top - PAD - BOTTOM_H, (n - 1) * PITCH)
     step = span / max(n - 1, 1)
+    pm = node.get("port_y")
     for k, p in enumerate(ports):
-        yf = (top + k * step) / h
+        yf = (pm[p["name"]] / h) if (pm and p["name"] in pm) else ((top + k * step) / h)
         xf = 0.0 if side == "left" else 1.0
         pid = port_id(node["path"], p["name"])
         lab = escape(p["name"])
@@ -782,19 +794,28 @@ def _emit_edges(ctx, node, port_abs, box_abs, chan):
                 if not pts:
                     continue
                 tid = _endpoint_id(node, t)
-                inner = pts[1:-1]     # draw.io connects endpoints; give interior waypoints
-                wp = "".join(f'<mxPoint x="{x:.1f}" y="{y:.1f}"/>' for x, y in inner)
-                st = (f"edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;"
-                      f"endArrow={arrow};endSize=7;startArrow=none;strokeColor={col};"
-                      f"strokeWidth={sw};fontSize=10;fontColor={col};"
-                      f"labelBackgroundColor={LABEL_BG};jettySize=auto;exitDx=0;exitDy=0;")
+                straight = (len(pts) == 2 and abs(pts[0][1] - pts[1][1]) < 0.5)
+                if straight:
+                    # clear horizontal run -> plain straight line (nicest to read)
+                    st = (f"edgeStyle=none;html=1;endArrow={arrow};endSize=7;"
+                          f"startArrow=none;strokeColor={col};strokeWidth={sw};"
+                          f"fontSize=10;fontColor={col};labelBackgroundColor={LABEL_BG};")
+                    geo = '<mxGeometry relative="1" as="geometry"/>'
+                else:
+                    inner = pts[1:-1]
+                    wp = "".join(f'<mxPoint x="{x:.1f}" y="{y:.1f}"/>' for x, y in inner)
+                    st = (f"edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;"
+                          f"endArrow={arrow};endSize=7;startArrow=none;strokeColor={col};"
+                          f"strokeWidth={sw};fontSize=10;fontColor={col};"
+                          f"labelBackgroundColor={LABEL_BG};jettySize=auto;exitDx=0;exitDy=0;")
+                    geo = ('<mxGeometry relative="1" as="geometry">'
+                           f'<Array as="points">{wp}</Array></mxGeometry>')
                 eid = ctx.nid()
                 ctx.edges.append(
                     f'<mxCell id={quoteattr(eid)} value={quoteattr(wlabel)} '
                     f'style={quoteattr(st)} edge="1" parent="1" '
                     f'source={quoteattr(sid)} target={quoteattr(tid)}>'
-                    f'<mxGeometry relative="1" as="geometry">'
-                    f'<Array as="points">{wp}</Array></mxGeometry></mxCell>')
+                    f'{geo}</mxCell>')
     for c in node["children"]:
         _emit_edges(ctx, c, port_abs, box_abs, chan)
 
@@ -942,6 +963,133 @@ def legend_svg(x, y):
     return "".join(p)
 
 
+def optimize_ports(root):
+    """Iteratively reorder each module's input/output ports by the vertical
+    barycentre of the ports they connect to, so connected ports line up and
+    wires need fewer turns. clk/reset stay pinned at the bottom (clock lowest).
+    """
+    nodes = []
+
+    def collect(n):
+        nodes.append(n)
+        for c in n["children"]:
+            collect(c)
+    collect(root)
+
+    # global port adjacency across every net at every level
+    adj = {}
+
+    def add_nets(n):
+        if n["kind"] == "container":
+            for name, net in n["nets"].items():
+                eps = [_endpoint_id(n, e) for e in (net["drivers"] + net["sinks"])]
+                for a in eps:
+                    for b in eps:
+                        if a != b:
+                            adj.setdefault(a, set()).add(b)
+        for c in n["children"]:
+            add_nets(c)
+    add_nets(root)
+
+    for _ in range(6):
+        _, port_abs = compute_abs(root)
+
+        def bary(node, p):
+            pid = port_id(node["path"], p["name"])
+            ys = [port_abs[q][1] for q in adj.get(pid, ()) if q in port_abs]
+            return sum(ys) / len(ys) if ys else 1e9   # unconnected sink to bottom
+
+        for node in nodes:
+            ports = node["ports"]
+            leftg = [p for p in ports
+                     if not is_clkrst(p["name"]) and (is_in(p["dir"]) or is_bi(p["dir"]))]
+            rightg = [p for p in ports if not is_clkrst(p["name"]) and is_out(p["dir"])]
+            clkg = [p for p in ports if is_clkrst(p["name"])]
+            leftg.sort(key=lambda p: bary(node, p))
+            rightg.sort(key=lambda p: bary(node, p))
+            clkg.sort(key=lambda p: 0 if _is_reset(p["name"]) else 1)
+            node["ports"] = leftg + rightg + clkg
+
+
+def _build_adj(root):
+    adj = {}
+
+    def add(n):
+        if n["kind"] == "container":
+            for name, net in n["nets"].items():
+                if is_clkrst(name):
+                    continue
+                eps = [_endpoint_id(n, e) for e in (net["drivers"] + net["sinks"])]
+                for a in eps:
+                    for b in eps:
+                        if a != b:
+                            adj.setdefault(a, set()).add(b)
+        for c in n["children"]:
+            add(c)
+    add(root)
+    return adj
+
+
+def _assign_monotone(desired, lo, hi, gap):
+    """Place ordered items near their desired positions, keeping input order and
+    a minimum gap, inside [lo, hi]. Unconnected items (desired huge) sink down."""
+    n = len(desired)
+    if n == 0:
+        return []
+    d = [min(max(v, lo), hi) for v in desired]
+    y = [0.0] * n
+    y[0] = d[0]
+    for i in range(1, n):
+        y[i] = max(d[i], y[i - 1] + gap)
+    over = y[-1] - hi
+    if over > 0:
+        for i in range(n):
+            y[i] -= over
+        if y[0] < lo:
+            y[0] = lo
+            for i in range(1, n):
+                y[i] = max(y[i], y[i - 1] + gap)
+            if y[-1] > hi + 0.5:                      # doesn't fit: uniform
+                step = (hi - lo) / max(n - 1, 1)
+                y = [lo + i * step for i in range(n)]
+    return y
+
+
+def align_ports(root):
+    """Iteratively set each port's vertical position to the barycentre of the
+    ports it connects to, so wires run straight (0 turns) wherever endpoints can
+    line up. Uniform fallback when a face can't fit the desired spread."""
+    adj = _build_adj(root)
+    nodes = []
+
+    def collect(n):
+        nodes.append(n)
+        for c in n["children"]:
+            collect(c)
+    collect(root)
+    box_abs, _ = compute_abs(root)          # box positions are fixed
+
+    for _ in range(6):
+        _, port_abs = compute_abs(root)
+        for node in nodes:
+            ox, oy, w, h = box_abs[node["path"]]
+            face_top = TITLE_H + PITCH * 0.6
+            face_bot = h - PAD - BOTTOM_H
+            left, right = port_sides(node["ports"])
+            pm = node.setdefault("port_y", {})
+            for ports in (left, right):
+                if not ports:
+                    continue
+                desired = []
+                for p in ports:
+                    pid = port_id(node["path"], p["name"])
+                    ys = [port_abs[q][1] - oy for q in adj.get(pid, ()) if q in port_abs]
+                    desired.append(sum(ys) / len(ys) if ys else 1e9)
+                ass = _assign_monotone(desired, face_top, face_bot, PITCH)
+                for p, yv in zip(ports, ass):
+                    pm[p["name"]] = yv
+
+
 def find_top(ctx):
     # a testbench (mode 'tb') carries no useful structure, so the design top is
     # the top-most NON-tb module: ignore tb modules as instantiators, then pick
@@ -991,6 +1139,8 @@ def main():
     top_ports = [{"name": p["name"], "dir": p["direction"],
                   "connection": p["name"]} for p in ctx.M[top].get("ports", [])]
     root = layout(ctx, top, top_ports, top)
+    optimize_ports(root)
+    align_ports(root)
 
     box_abs, port_abs = compute_abs(root)
     emit_box(ctx, root, box_abs, is_top=True)

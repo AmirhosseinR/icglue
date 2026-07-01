@@ -1,1 +1,719 @@
-<mxfile host="icglue-schematic"><diagram name="spinnCore_dense"><mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageWidth="1904" pageHeight="884" math="0" shadow="0"><root><mxCell id="0"/><mxCell id="1" parent="0"/><mxCell id="BOX::spinnCore_dense" value="&lt;b&gt;spinnCore_dense&lt;/b&gt;" style="rounded=1;arcSize=4;html=1;whiteSpace=wrap;fillColor=#F7F9FC;strokeColor=#5F5488;verticalAlign=top;fontSize=14;spacingTop=6;fontColor=#5F5488;shadow=1;container=0;" vertex="1" parent="1"><mxGeometry x="22" y="22" width="1860" height="686" as="geometry"/></mxCell><mxCell id="PORT::spinnCore_dense::a_bus_i" value="a_bus_i" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;spacingLeft=22;" vertex="1" parent="BOX::spinnCore_dense"><mxGeometry x="0.0" y="0.0641" width="8" height="8" relative="1" as="geometry"><mxPoint x="-4" y="-4" as="offset"/></mxGeometry></mxCell><mxCell id="PORT::spinnCore_dense::a_skew_bank_en_i" value="a_skew_bank_en_i" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;spacingLeft=22;" vertex="1" parent="BOX::spinnCore_dense"><mxGeometry x="0.0" y="0.1429" width="8" height="8" relative="1" as="geometry"><mxPoint x="-4" y="-4" as="offset"/></mxGeometry></mxCell><mxCell id="PORT::spinnCore_dense::b_bus_i" value="b_bus_i" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;spacingLeft=22;" vertex="1" parent="BOX::spinnCore_dense"><mxGeometry x="0.0" y="0.2216" width="8" height="8" relative="1" as="geometry"><mxPoint x="-4" y="-4" as="offset"/></mxGeometry></mxCell><mxCell id="PORT::spinnCore_dense::b_skew_bank_en_i" value="b_skew_bank_en_i" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;spacingLeft=22;" vertex="1" parent="BOX::spinnCore_dense"><mxGeometry x="0.0" y="0.3003" width="8" height="8" relative="1" as="geometry"><mxPoint x="-4" y="-4" as="offset"/></mxGeometry></mxCell><mxCell id="PORT::spinnCore_dense::mac_en_bus_i" value="mac_en_bus_i" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;spacingLeft=22;" vertex="1" parent="BOX::spinnCore_dense"><mxGeometry x="0.0" y="0.3790" width="8" height="8" relative="1" as="geometry"><mxPoint x="-4" y="-4" as="offset"/></mxGeometry></mxCell><mxCell id="PORT::spinnCore_dense::acc_clr_bus_i" value="acc_clr_bus_i" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;spacingLeft=22;" vertex="1" parent="BOX::spinnCore_dense"><mxGeometry x="0.0" y="0.4577" width="8" height="8" relative="1" as="geometry"><mxPoint x="-4" y="-4" as="offset"/></mxGeometry></mxCell><mxCell id="PORT::spinnCore_dense::acc_out_en_bus_i" value="acc_out_en_bus_i" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;spacingLeft=22;" vertex="1" parent="BOX::spinnCore_dense"><mxGeometry x="0.0" y="0.5364" width="8" height="8" relative="1" as="geometry"><mxPoint x="-4" y="-4" as="offset"/></mxGeometry></mxCell><mxCell id="PORT::spinnCore_dense::bypass_rotator0_i" value="bypass_rotator0_i" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;spacingLeft=22;" vertex="1" parent="BOX::spinnCore_dense"><mxGeometry x="0.0" y="0.6152" width="8" height="8" relative="1" as="geometry"><mxPoint x="-4" y="-4" as="offset"/></mxGeometry></mxCell><mxCell id="PORT::spinnCore_dense::bypass_rotator1_i" value="bypass_rotator1_i" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;spacingLeft=22;" vertex="1" parent="BOX::spinnCore_dense"><mxGeometry x="0.0" y="0.6939" width="8" height="8" relative="1" as="geometry"><mxPoint x="-4" y="-4" as="offset"/></mxGeometry></mxCell><mxCell id="PORT::spinnCore_dense::r_skew_bank_en_i" value="r_skew_bank_en_i" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;spacingLeft=22;" vertex="1" parent="BOX::spinnCore_dense"><mxGeometry x="0.0" y="0.7726" width="8" height="8" relative="1" as="geometry"><mxPoint x="-4" y="-4" as="offset"/></mxGeometry></mxCell><mxCell id="PORT::spinnCore_dense::clk_i" value="clk_i" style="shape=ellipse;html=1;fillColor=#9AA0A6;strokeColor=#5F6368;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;fontColor=#5F6368;spacingLeft=22;" vertex="1" parent="BOX::spinnCore_dense"><mxGeometry x="0.0" y="0.8513" width="8" height="8" relative="1" as="geometry"><mxPoint x="-4" y="-4" as="offset"/></mxGeometry></mxCell><mxCell id="PORT::spinnCore_dense::reset_n_i" value="reset_n_i" style="shape=ellipse;html=1;fillColor=#9AA0A6;strokeColor=#5F6368;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;fontColor=#5F6368;spacingLeft=22;" vertex="1" parent="BOX::spinnCore_dense"><mxGeometry x="0.0" y="0.9300" width="8" height="8" relative="1" as="geometry"><mxPoint x="-4" y="-4" as="offset"/></mxGeometry></mxCell><mxCell id="PORT::spinnCore_dense::r_bus_o" value="r_bus_o" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=right;fontSize=12;spacing=2;spacingRight=22;" vertex="1" parent="BOX::spinnCore_dense"><mxGeometry x="1.0" y="0.0641" width="8" height="8" relative="1" as="geometry"><mxPoint x="-4" y="-4" as="offset"/></mxGeometry></mxCell><mxCell id="PORT::spinnCore_dense::r_valid_bus_o" value="r_valid_bus_o" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=right;fontSize=12;spacing=2;spacingRight=22;" vertex="1" parent="BOX::spinnCore_dense"><mxGeometry x="1.0" y="0.4971" width="8" height="8" relative="1" as="geometry"><mxPoint x="-4" y="-4" as="offset"/></mxGeometry></mxCell><mxCell id="PORT::spinnCore_dense::busy_o" value="busy_o" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=right;fontSize=12;spacing=2;spacingRight=22;" vertex="1" parent="BOX::spinnCore_dense"><mxGeometry x="1.0" y="0.9300" width="8" height="8" relative="1" as="geometry"><mxPoint x="-4" y="-4" as="offset"/></mxGeometry></mxCell><mxCell id="BOX::spinnCore_dense/spinnCore_dense_regfile" value="&lt;b&gt;spinnCore_dense_regfile&lt;/b&gt;" style="rounded=1;arcSize=4;html=1;whiteSpace=wrap;fillColor=#ECF2ED;strokeColor=#557A60;verticalAlign=top;fontSize=14;spacingTop=6;fontColor=#557A60;shadow=1;container=0;" vertex="1" parent="1"><mxGeometry x="162" y="298" width="172" height="134" as="geometry"/></mxCell><mxCell id="PORT::spinnCore_dense/spinnCore_dense_regfile::data_type_o" value="data_type_o" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=right;fontSize=12;spacing=2;spacingRight=22;" vertex="1" parent="BOX::spinnCore_dense/spinnCore_dense_regfile"><mxGeometry x="1.0" y="0.3284" width="8" height="8" relative="1" as="geometry"><mxPoint x="-4" y="-4" as="offset"/></mxGeometry></mxCell><mxCell id="PORT::spinnCore_dense/spinnCore_dense_regfile::rounding_mode_o" value="rounding_mode_o" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=right;fontSize=12;spacing=2;spacingRight=22;" vertex="1" parent="BOX::spinnCore_dense/spinnCore_dense_regfile"><mxGeometry x="1.0" y="0.6418" width="8" height="8" relative="1" as="geometry"><mxPoint x="-4" y="-4" as="offset"/></mxGeometry></mxCell><mxCell id="BOX::spinnCore_dense/spinnCore" value="&lt;b&gt;spinnCore&lt;/b&gt;" style="rounded=1;arcSize=4;html=1;whiteSpace=wrap;fillColor=#EDF1F6;strokeColor=#41617F;verticalAlign=top;fontSize=14;spacingTop=6;fontColor=#41617F;shadow=1;container=0;" vertex="1" parent="1"><mxGeometry x="444" y="70" width="1298" height="590" as="geometry"/></mxCell><mxCell id="PORT::spinnCore_dense/spinnCore::a_bus_i" value="a_bus_i" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;spacingLeft=22;" vertex="1" parent="BOX::spinnCore_dense/spinnCore"><mxGeometry x="0.0" y="0.0746" width="8" height="8" relative="1" as="geometry"><mxPoint x="-4" y="-4" as="offset"/></mxGeometry></mxCell><mxCell id="PORT::spinnCore_dense/spinnCore::a_skew_bank_en_i" value="a_skew_bank_en_i" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;spacingLeft=22;" vertex="1" parent="BOX::spinnCore_dense/spinnCore"><mxGeometry x="0.0" y="0.1395" width="8" height="8" relative="1" as="geometry"><mxPoint x="-4" y="-4" as="offset"/></mxGeometry></mxCell><mxCell id="PORT::spinnCore_dense/spinnCore::b_bus_i" value="b_bus_i" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;spacingLeft=22;" vertex="1" parent="BOX::spinnCore_dense/spinnCore"><mxGeometry x="0.0" y="0.2044" width="8" height="8" relative="1" as="geometry"><mxPoint x="-4" y="-4" as="offset"/></mxGeometry></mxCell><mxCell id="PORT::spinnCore_dense/spinnCore::b_skew_bank_en_i" value="b_skew_bank_en_i" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;spacingLeft=22;" vertex="1" parent="BOX::spinnCore_dense/spinnCore"><mxGeometry x="0.0" y="0.2694" width="8" height="8" relative="1" as="geometry"><mxPoint x="-4" y="-4" as="offset"/></mxGeometry></mxCell><mxCell id="PORT::spinnCore_dense/spinnCore::mac_en_bus_i" value="mac_en_bus_i" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;spacingLeft=22;" vertex="1" parent="BOX::spinnCore_dense/spinnCore"><mxGeometry x="0.0" y="0.3343" width="8" height="8" relative="1" as="geometry"><mxPoint x="-4" y="-4" as="offset"/></mxGeometry></mxCell><mxCell id="PORT::spinnCore_dense/spinnCore::acc_clr_bus_i" value="acc_clr_bus_i" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;spacingLeft=22;" vertex="1" parent="BOX::spinnCore_dense/spinnCore"><mxGeometry x="0.0" y="0.3992" width="8" height="8" relative="1" as="geometry"><mxPoint x="-4" y="-4" as="offset"/></mxGeometry></mxCell><mxCell id="PORT::spinnCore_dense/spinnCore::acc_out_en_bus_i" value="acc_out_en_bus_i" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;spacingLeft=22;" vertex="1" parent="BOX::spinnCore_dense/spinnCore"><mxGeometry x="0.0" y="0.4641" width="8" height="8" relative="1" as="geometry"><mxPoint x="-4" y="-4" as="offset"/></mxGeometry></mxCell><mxCell id="PORT::spinnCore_dense/spinnCore::bypass_rotator0_i" value="bypass_rotator0_i" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;spacingLeft=22;" vertex="1" parent="BOX::spinnCore_dense/spinnCore"><mxGeometry x="0.0" y="0.5291" width="8" height="8" relative="1" as="geometry"><mxPoint x="-4" y="-4" as="offset"/></mxGeometry></mxCell><mxCell id="PORT::spinnCore_dense/spinnCore::bypass_rotator1_i" value="bypass_rotator1_i" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;spacingLeft=22;" vertex="1" parent="BOX::spinnCore_dense/spinnCore"><mxGeometry x="0.0" y="0.5940" width="8" height="8" relative="1" as="geometry"><mxPoint x="-4" y="-4" as="offset"/></mxGeometry></mxCell><mxCell id="PORT::spinnCore_dense/spinnCore::r_skew_bank_en_i" value="r_skew_bank_en_i" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;spacingLeft=22;" vertex="1" parent="BOX::spinnCore_dense/spinnCore"><mxGeometry x="0.0" y="0.6589" width="8" height="8" relative="1" as="geometry"><mxPoint x="-4" y="-4" as="offset"/></mxGeometry></mxCell><mxCell id="PORT::spinnCore_dense/spinnCore::data_type_i" value="data_type_i" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;spacingLeft=22;" vertex="1" parent="BOX::spinnCore_dense/spinnCore"><mxGeometry x="0.0" y="0.7239" width="8" height="8" relative="1" as="geometry"><mxPoint x="-4" y="-4" as="offset"/></mxGeometry></mxCell><mxCell id="PORT::spinnCore_dense/spinnCore::rounding_mode_i" value="rounding_mode_i" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;spacingLeft=22;" vertex="1" parent="BOX::spinnCore_dense/spinnCore"><mxGeometry x="0.0" y="0.7888" width="8" height="8" relative="1" as="geometry"><mxPoint x="-4" y="-4" as="offset"/></mxGeometry></mxCell><mxCell id="PORT::spinnCore_dense/spinnCore::clk_i" value="clk_i" style="shape=ellipse;html=1;fillColor=#9AA0A6;strokeColor=#5F6368;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;fontColor=#5F6368;spacingLeft=22;" vertex="1" parent="BOX::spinnCore_dense/spinnCore"><mxGeometry x="0.0" y="0.8537" width="8" height="8" relative="1" as="geometry"><mxPoint x="-4" y="-4" as="offset"/></mxGeometry></mxCell><mxCell id="PORT::spinnCore_dense/spinnCore::reset_n_i" value="reset_n_i" style="shape=ellipse;html=1;fillColor=#9AA0A6;strokeColor=#5F6368;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;fontColor=#5F6368;spacingLeft=22;" vertex="1" parent="BOX::spinnCore_dense/spinnCore"><mxGeometry x="0.0" y="0.9186" width="8" height="8" relative="1" as="geometry"><mxPoint x="-4" y="-4" as="offset"/></mxGeometry></mxCell><mxCell id="PORT::spinnCore_dense/spinnCore::r_bus_o" value="r_bus_o" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=right;fontSize=12;spacing=2;spacingRight=22;" vertex="1" parent="BOX::spinnCore_dense/spinnCore"><mxGeometry x="1.0" y="0.0746" width="8" height="8" relative="1" as="geometry"><mxPoint x="-4" y="-4" as="offset"/></mxGeometry></mxCell><mxCell id="PORT::spinnCore_dense/spinnCore::r_valid_bus_o" value="r_valid_bus_o" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=right;fontSize=12;spacing=2;spacingRight=22;" vertex="1" parent="BOX::spinnCore_dense/spinnCore"><mxGeometry x="1.0" y="0.4966" width="8" height="8" relative="1" as="geometry"><mxPoint x="-4" y="-4" as="offset"/></mxGeometry></mxCell><mxCell id="PORT::spinnCore_dense/spinnCore::busy_o" value="busy_o" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=right;fontSize=12;spacing=2;spacingRight=22;" vertex="1" parent="BOX::spinnCore_dense/spinnCore"><mxGeometry x="1.0" y="0.9186" width="8" height="8" relative="1" as="geometry"><mxPoint x="-4" y="-4" as="offset"/></mxGeometry></mxCell><mxCell id="BOX::spinnCore_dense/spinnCore/spinnArray" value="&lt;b&gt;spinnArray&lt;/b&gt;" style="rounded=1;arcSize=4;html=1;whiteSpace=wrap;fillColor=#EDF1F6;strokeColor=#41617F;verticalAlign=top;fontSize=14;spacingTop=6;fontColor=#41617F;shadow=1;container=0;" vertex="1" parent="1"><mxGeometry x="1148" y="208" width="172" height="314" as="geometry"/></mxCell><mxCell id="PORT::spinnCore_dense/spinnCore/spinnArray::a_bus_i" value="a_bus_i" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;spacingLeft=22;" vertex="1" parent="BOX::spinnCore_dense/spinnCore/spinnArray"><mxGeometry x="0.0" y="0.1401" width="8" height="8" relative="1" as="geometry"><mxPoint x="-4" y="-4" as="offset"/></mxGeometry></mxCell><mxCell id="PORT::spinnCore_dense/spinnCore/spinnArray::b_bus_i" value="b_bus_i" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;spacingLeft=22;" vertex="1" parent="BOX::spinnCore_dense/spinnCore/spinnArray"><mxGeometry x="0.0" y="0.2411" width="8" height="8" relative="1" as="geometry"><mxPoint x="-4" y="-4" as="offset"/></mxGeometry></mxCell><mxCell id="PORT::spinnCore_dense/spinnCore/spinnArray::mac_en_bus_i" value="mac_en_bus_i" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;spacingLeft=22;" vertex="1" parent="BOX::spinnCore_dense/spinnCore/spinnArray"><mxGeometry x="0.0" y="0.3421" width="8" height="8" relative="1" as="geometry"><mxPoint x="-4" y="-4" as="offset"/></mxGeometry></mxCell><mxCell id="PORT::spinnCore_dense/spinnCore/spinnArray::acc_clr_bus_i" value="acc_clr_bus_i" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;spacingLeft=22;" vertex="1" parent="BOX::spinnCore_dense/spinnCore/spinnArray"><mxGeometry x="0.0" y="0.4431" width="8" height="8" relative="1" as="geometry"><mxPoint x="-4" y="-4" as="offset"/></mxGeometry></mxCell><mxCell id="PORT::spinnCore_dense/spinnCore/spinnArray::acc_out_en_bus_i" value="acc_out_en_bus_i" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;spacingLeft=22;" vertex="1" parent="BOX::spinnCore_dense/spinnCore/spinnArray"><mxGeometry x="0.0" y="0.5441" width="8" height="8" relative="1" as="geometry"><mxPoint x="-4" y="-4" as="offset"/></mxGeometry></mxCell><mxCell id="PORT::spinnCore_dense/spinnCore/spinnArray::data_type_i" value="data_type_i" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;spacingLeft=22;" vertex="1" parent="BOX::spinnCore_dense/spinnCore/spinnArray"><mxGeometry x="0.0" y="0.6451" width="8" height="8" relative="1" as="geometry"><mxPoint x="-4" y="-4" as="offset"/></mxGeometry></mxCell><mxCell id="PORT::spinnCore_dense/spinnCore/spinnArray::rounding_mode_i" value="rounding_mode_i" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;spacingLeft=22;" vertex="1" parent="BOX::spinnCore_dense/spinnCore/spinnArray"><mxGeometry x="0.0" y="0.7461" width="8" height="8" relative="1" as="geometry"><mxPoint x="-4" y="-4" as="offset"/></mxGeometry></mxCell><mxCell id="PORT::spinnCore_dense/spinnCore/spinnArray::clk_i" value="clk_i" style="shape=ellipse;html=1;fillColor=#9AA0A6;strokeColor=#5F6368;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;fontColor=#5F6368;spacingLeft=22;" vertex="1" parent="BOX::spinnCore_dense/spinnCore/spinnArray"><mxGeometry x="0.0" y="0.8471" width="8" height="8" relative="1" as="geometry"><mxPoint x="-4" y="-4" as="offset"/></mxGeometry></mxCell><mxCell id="PORT::spinnCore_dense/spinnCore/spinnArray::r_bus_o" value="r_bus_o" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=right;fontSize=12;spacing=2;spacingRight=22;" vertex="1" parent="BOX::spinnCore_dense/spinnCore/spinnArray"><mxGeometry x="1.0" y="0.1401" width="8" height="8" relative="1" as="geometry"><mxPoint x="-4" y="-4" as="offset"/></mxGeometry></mxCell><mxCell id="PORT::spinnCore_dense/spinnCore/spinnArray::r_valid_bus_o" value="r_valid_bus_o" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=right;fontSize=12;spacing=2;spacingRight=22;" vertex="1" parent="BOX::spinnCore_dense/spinnCore/spinnArray"><mxGeometry x="1.0" y="0.4936" width="8" height="8" relative="1" as="geometry"><mxPoint x="-4" y="-4" as="offset"/></mxGeometry></mxCell><mxCell id="PORT::spinnCore_dense/spinnCore/spinnArray::busy_o" value="busy_o" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=right;fontSize=12;spacing=2;spacingRight=22;" vertex="1" parent="BOX::spinnCore_dense/spinnCore/spinnArray"><mxGeometry x="1.0" y="0.8471" width="8" height="8" relative="1" as="geometry"><mxPoint x="-4" y="-4" as="offset"/></mxGeometry></mxCell><mxCell id="BOX::spinnCore_dense/spinnCore/skew_bank_0" value="&lt;b&gt;skew_bank_0&lt;/b&gt;&lt;br&gt;&lt;i&gt;skew_bank&lt;/i&gt;" style="rounded=1;arcSize=4;html=1;whiteSpace=wrap;fillColor=#F5F0E8;strokeColor=#9A7A45;verticalAlign=top;fontSize=14;spacingTop=6;fontColor=#9A7A45;shadow=1;container=0;" vertex="1" parent="1"><mxGeometry x="584" y="148" width="172" height="194" as="geometry"/></mxCell><mxCell id="PORT::spinnCore_dense/spinnCore/skew_bank_0::d_bus_i" value="d_bus_i" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;spacingLeft=22;" vertex="1" parent="BOX::spinnCore_dense/spinnCore/skew_bank_0"><mxGeometry x="0.0" y="0.2268" width="8" height="8" relative="1" as="geometry"><mxPoint x="-4" y="-4" as="offset"/></mxGeometry></mxCell><mxCell id="PORT::spinnCore_dense/spinnCore/skew_bank_0::en_i" value="en_i" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;spacingLeft=22;" vertex="1" parent="BOX::spinnCore_dense/spinnCore/skew_bank_0"><mxGeometry x="0.0" y="0.4021" width="8" height="8" relative="1" as="geometry"><mxPoint x="-4" y="-4" as="offset"/></mxGeometry></mxCell><mxCell id="PORT::spinnCore_dense/spinnCore/skew_bank_0::clk_i" value="clk_i" style="shape=ellipse;html=1;fillColor=#9AA0A6;strokeColor=#5F6368;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;fontColor=#5F6368;spacingLeft=22;" vertex="1" parent="BOX::spinnCore_dense/spinnCore/skew_bank_0"><mxGeometry x="0.0" y="0.5773" width="8" height="8" relative="1" as="geometry"><mxPoint x="-4" y="-4" as="offset"/></mxGeometry></mxCell><mxCell id="PORT::spinnCore_dense/spinnCore/skew_bank_0::reset_n_i" value="reset_n_i" style="shape=ellipse;html=1;fillColor=#9AA0A6;strokeColor=#5F6368;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;fontColor=#5F6368;spacingLeft=22;" vertex="1" parent="BOX::spinnCore_dense/spinnCore/skew_bank_0"><mxGeometry x="0.0" y="0.7526" width="8" height="8" relative="1" as="geometry"><mxPoint x="-4" y="-4" as="offset"/></mxGeometry></mxCell><mxCell id="PORT::spinnCore_dense/spinnCore/skew_bank_0::d_bus_o" value="d_bus_o" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=right;fontSize=12;spacing=2;spacingRight=22;" vertex="1" parent="BOX::spinnCore_dense/spinnCore/skew_bank_0"><mxGeometry x="1.0" y="0.2268" width="8" height="8" relative="1" as="geometry"><mxPoint x="-4" y="-4" as="offset"/></mxGeometry></mxCell><mxCell id="BOX::spinnCore_dense/spinnCore/skew_bank_1" value="&lt;b&gt;skew_bank_1&lt;/b&gt;&lt;br&gt;&lt;i&gt;skew_bank&lt;/i&gt;" style="rounded=1;arcSize=4;html=1;whiteSpace=wrap;fillColor=#F5F0E8;strokeColor=#9A7A45;verticalAlign=top;fontSize=14;spacingTop=6;fontColor=#9A7A45;shadow=1;container=0;" vertex="1" parent="1"><mxGeometry x="584" y="388" width="172" height="194" as="geometry"/></mxCell><mxCell id="PORT::spinnCore_dense/spinnCore/skew_bank_1::d_bus_i" value="d_bus_i" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;spacingLeft=22;" vertex="1" parent="BOX::spinnCore_dense/spinnCore/skew_bank_1"><mxGeometry x="0.0" y="0.2268" width="8" height="8" relative="1" as="geometry"><mxPoint x="-4" y="-4" as="offset"/></mxGeometry></mxCell><mxCell id="PORT::spinnCore_dense/spinnCore/skew_bank_1::en_i" value="en_i" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;spacingLeft=22;" vertex="1" parent="BOX::spinnCore_dense/spinnCore/skew_bank_1"><mxGeometry x="0.0" y="0.4021" width="8" height="8" relative="1" as="geometry"><mxPoint x="-4" y="-4" as="offset"/></mxGeometry></mxCell><mxCell id="PORT::spinnCore_dense/spinnCore/skew_bank_1::clk_i" value="clk_i" style="shape=ellipse;html=1;fillColor=#9AA0A6;strokeColor=#5F6368;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;fontColor=#5F6368;spacingLeft=22;" vertex="1" parent="BOX::spinnCore_dense/spinnCore/skew_bank_1"><mxGeometry x="0.0" y="0.5773" width="8" height="8" relative="1" as="geometry"><mxPoint x="-4" y="-4" as="offset"/></mxGeometry></mxCell><mxCell id="PORT::spinnCore_dense/spinnCore/skew_bank_1::reset_n_i" value="reset_n_i" style="shape=ellipse;html=1;fillColor=#9AA0A6;strokeColor=#5F6368;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;fontColor=#5F6368;spacingLeft=22;" vertex="1" parent="BOX::spinnCore_dense/spinnCore/skew_bank_1"><mxGeometry x="0.0" y="0.7526" width="8" height="8" relative="1" as="geometry"><mxPoint x="-4" y="-4" as="offset"/></mxGeometry></mxCell><mxCell id="PORT::spinnCore_dense/spinnCore/skew_bank_1::d_bus_o" value="d_bus_o" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=right;fontSize=12;spacing=2;spacingRight=22;" vertex="1" parent="BOX::spinnCore_dense/spinnCore/skew_bank_1"><mxGeometry x="1.0" y="0.2268" width="8" height="8" relative="1" as="geometry"><mxPoint x="-4" y="-4" as="offset"/></mxGeometry></mxCell><mxCell id="BOX::spinnCore_dense/spinnCore/skew_bank_2" value="&lt;b&gt;skew_bank_2&lt;/b&gt;&lt;br&gt;&lt;i&gt;skew_bank&lt;/i&gt;" style="rounded=1;arcSize=4;html=1;whiteSpace=wrap;fillColor=#F5F0E8;strokeColor=#9A7A45;verticalAlign=top;fontSize=14;spacingTop=6;fontColor=#9A7A45;shadow=1;container=0;" vertex="1" parent="1"><mxGeometry x="1430" y="268" width="172" height="194" as="geometry"/></mxCell><mxCell id="PORT::spinnCore_dense/spinnCore/skew_bank_2::d_bus_i" value="d_bus_i" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;spacingLeft=22;" vertex="1" parent="BOX::spinnCore_dense/spinnCore/skew_bank_2"><mxGeometry x="0.0" y="0.2268" width="8" height="8" relative="1" as="geometry"><mxPoint x="-4" y="-4" as="offset"/></mxGeometry></mxCell><mxCell id="PORT::spinnCore_dense/spinnCore/skew_bank_2::en_i" value="en_i" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;spacingLeft=22;" vertex="1" parent="BOX::spinnCore_dense/spinnCore/skew_bank_2"><mxGeometry x="0.0" y="0.4021" width="8" height="8" relative="1" as="geometry"><mxPoint x="-4" y="-4" as="offset"/></mxGeometry></mxCell><mxCell id="PORT::spinnCore_dense/spinnCore/skew_bank_2::clk_i" value="clk_i" style="shape=ellipse;html=1;fillColor=#9AA0A6;strokeColor=#5F6368;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;fontColor=#5F6368;spacingLeft=22;" vertex="1" parent="BOX::spinnCore_dense/spinnCore/skew_bank_2"><mxGeometry x="0.0" y="0.5773" width="8" height="8" relative="1" as="geometry"><mxPoint x="-4" y="-4" as="offset"/></mxGeometry></mxCell><mxCell id="PORT::spinnCore_dense/spinnCore/skew_bank_2::reset_n_i" value="reset_n_i" style="shape=ellipse;html=1;fillColor=#9AA0A6;strokeColor=#5F6368;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;fontColor=#5F6368;spacingLeft=22;" vertex="1" parent="BOX::spinnCore_dense/spinnCore/skew_bank_2"><mxGeometry x="0.0" y="0.7526" width="8" height="8" relative="1" as="geometry"><mxPoint x="-4" y="-4" as="offset"/></mxGeometry></mxCell><mxCell id="PORT::spinnCore_dense/spinnCore/skew_bank_2::d_bus_o" value="d_bus_o" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=right;fontSize=12;spacing=2;spacingRight=22;" vertex="1" parent="BOX::spinnCore_dense/spinnCore/skew_bank_2"><mxGeometry x="1.0" y="0.2268" width="8" height="8" relative="1" as="geometry"><mxPoint x="-4" y="-4" as="offset"/></mxGeometry></mxCell><mxCell id="BOX::spinnCore_dense/spinnCore/vector_rotator_0" value="&lt;b&gt;vector_rotator_0&lt;/b&gt;&lt;br&gt;&lt;i&gt;vector_rotator&lt;/i&gt;" style="rounded=1;arcSize=4;html=1;whiteSpace=wrap;fillColor=#F5F0E8;strokeColor=#9A7A45;verticalAlign=top;fontSize=14;spacingTop=6;fontColor=#9A7A45;shadow=1;container=0;" vertex="1" parent="1"><mxGeometry x="866" y="118" width="172" height="224" as="geometry"/></mxCell><mxCell id="PORT::spinnCore_dense/spinnCore/vector_rotator_0::data_i" value="data_i" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;spacingLeft=22;" vertex="1" parent="BOX::spinnCore_dense/spinnCore/vector_rotator_0"><mxGeometry x="0.0" y="0.1964" width="8" height="8" relative="1" as="geometry"><mxPoint x="-4" y="-4" as="offset"/></mxGeometry></mxCell><mxCell id="PORT::spinnCore_dense/spinnCore/vector_rotator_0::valid_i" value="valid_i" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;spacingLeft=22;" vertex="1" parent="BOX::spinnCore_dense/spinnCore/vector_rotator_0"><mxGeometry x="0.0" y="0.3438" width="8" height="8" relative="1" as="geometry"><mxPoint x="-4" y="-4" as="offset"/></mxGeometry></mxCell><mxCell id="PORT::spinnCore_dense/spinnCore/vector_rotator_0::bypass_i" value="bypass_i" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;spacingLeft=22;" vertex="1" parent="BOX::spinnCore_dense/spinnCore/vector_rotator_0"><mxGeometry x="0.0" y="0.4911" width="8" height="8" relative="1" as="geometry"><mxPoint x="-4" y="-4" as="offset"/></mxGeometry></mxCell><mxCell id="PORT::spinnCore_dense/spinnCore/vector_rotator_0::clk_i" value="clk_i" style="shape=ellipse;html=1;fillColor=#9AA0A6;strokeColor=#5F6368;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;fontColor=#5F6368;spacingLeft=22;" vertex="1" parent="BOX::spinnCore_dense/spinnCore/vector_rotator_0"><mxGeometry x="0.0" y="0.6384" width="8" height="8" relative="1" as="geometry"><mxPoint x="-4" y="-4" as="offset"/></mxGeometry></mxCell><mxCell id="PORT::spinnCore_dense/spinnCore/vector_rotator_0::reset_n_i" value="reset_n_i" style="shape=ellipse;html=1;fillColor=#9AA0A6;strokeColor=#5F6368;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;fontColor=#5F6368;spacingLeft=22;" vertex="1" parent="BOX::spinnCore_dense/spinnCore/vector_rotator_0"><mxGeometry x="0.0" y="0.7857" width="8" height="8" relative="1" as="geometry"><mxPoint x="-4" y="-4" as="offset"/></mxGeometry></mxCell><mxCell id="PORT::spinnCore_dense/spinnCore/vector_rotator_0::data_o" value="data_o" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=right;fontSize=12;spacing=2;spacingRight=22;" vertex="1" parent="BOX::spinnCore_dense/spinnCore/vector_rotator_0"><mxGeometry x="1.0" y="0.1964" width="8" height="8" relative="1" as="geometry"><mxPoint x="-4" y="-4" as="offset"/></mxGeometry></mxCell><mxCell id="BOX::spinnCore_dense/spinnCore/vector_rotator_1" value="&lt;b&gt;vector_rotator_1&lt;/b&gt;&lt;br&gt;&lt;i&gt;vector_rotator&lt;/i&gt;" style="rounded=1;arcSize=4;html=1;whiteSpace=wrap;fillColor=#F5F0E8;strokeColor=#9A7A45;verticalAlign=top;fontSize=14;spacingTop=6;fontColor=#9A7A45;shadow=1;container=0;" vertex="1" parent="1"><mxGeometry x="866" y="388" width="172" height="224" as="geometry"/></mxCell><mxCell id="PORT::spinnCore_dense/spinnCore/vector_rotator_1::data_i" value="data_i" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;spacingLeft=22;" vertex="1" parent="BOX::spinnCore_dense/spinnCore/vector_rotator_1"><mxGeometry x="0.0" y="0.1964" width="8" height="8" relative="1" as="geometry"><mxPoint x="-4" y="-4" as="offset"/></mxGeometry></mxCell><mxCell id="PORT::spinnCore_dense/spinnCore/vector_rotator_1::valid_i" value="valid_i" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;spacingLeft=22;" vertex="1" parent="BOX::spinnCore_dense/spinnCore/vector_rotator_1"><mxGeometry x="0.0" y="0.3438" width="8" height="8" relative="1" as="geometry"><mxPoint x="-4" y="-4" as="offset"/></mxGeometry></mxCell><mxCell id="PORT::spinnCore_dense/spinnCore/vector_rotator_1::bypass_i" value="bypass_i" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;spacingLeft=22;" vertex="1" parent="BOX::spinnCore_dense/spinnCore/vector_rotator_1"><mxGeometry x="0.0" y="0.4911" width="8" height="8" relative="1" as="geometry"><mxPoint x="-4" y="-4" as="offset"/></mxGeometry></mxCell><mxCell id="PORT::spinnCore_dense/spinnCore/vector_rotator_1::clk_i" value="clk_i" style="shape=ellipse;html=1;fillColor=#9AA0A6;strokeColor=#5F6368;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;fontColor=#5F6368;spacingLeft=22;" vertex="1" parent="BOX::spinnCore_dense/spinnCore/vector_rotator_1"><mxGeometry x="0.0" y="0.6384" width="8" height="8" relative="1" as="geometry"><mxPoint x="-4" y="-4" as="offset"/></mxGeometry></mxCell><mxCell id="PORT::spinnCore_dense/spinnCore/vector_rotator_1::reset_n_i" value="reset_n_i" style="shape=ellipse;html=1;fillColor=#9AA0A6;strokeColor=#5F6368;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;fontColor=#5F6368;spacingLeft=22;" vertex="1" parent="BOX::spinnCore_dense/spinnCore/vector_rotator_1"><mxGeometry x="0.0" y="0.7857" width="8" height="8" relative="1" as="geometry"><mxPoint x="-4" y="-4" as="offset"/></mxGeometry></mxCell><mxCell id="PORT::spinnCore_dense/spinnCore/vector_rotator_1::data_o" value="data_o" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=right;fontSize=12;spacing=2;spacingRight=22;" vertex="1" parent="BOX::spinnCore_dense/spinnCore/vector_rotator_1"><mxGeometry x="1.0" y="0.1964" width="8" height="8" relative="1" as="geometry"><mxPoint x="-4" y="-4" as="offset"/></mxGeometry></mxCell><mxCell id="LEGEND" value="&lt;b&gt;Legend&lt;/b&gt;" style="rounded=1;arcSize=6;html=1;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#9AA6B4;verticalAlign=top;fontSize=12;spacingTop=6;align=left;spacingLeft=10;shadow=1;container=0;" vertex="1" parent="1"><mxGeometry x="22" y="730" width="250" height="132" as="geometry"/></mxCell><mxCell id="n39" value="bus (multi-bit, width labelled)" style="text;html=1;align=left;verticalAlign=middle;fontSize=10;" vertex="1" parent="1"><mxGeometry x="74" y="751" width="190" height="18" as="geometry"/></mxCell><mxCell id="n41" value="control (1-bit)" style="text;html=1;align=left;verticalAlign=middle;fontSize=10;" vertex="1" parent="1"><mxGeometry x="74" y="773" width="190" height="18" as="geometry"/></mxCell><mxCell id="n43" value="bidirectional" style="text;html=1;align=left;verticalAlign=middle;fontSize=10;" vertex="1" parent="1"><mxGeometry x="74" y="795" width="190" height="18" as="geometry"/></mxCell><mxCell id="n44" style="shape=ellipse;html=1;fillColor=#9AA0A6;strokeColor=#5F6368;" vertex="1" parent="1"><mxGeometry x="46" y="822" width="8" height="8" as="geometry"/></mxCell><mxCell id="n45" value="clk / reset (implicit, not routed)" style="text;html=1;align=left;verticalAlign=middle;fontSize=10;" vertex="1" parent="1"><mxGeometry x="74" y="817" width="190" height="18" as="geometry"/></mxCell><mxCell id="n1" value="3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classicThin;endSize=7;startArrow=none;strokeColor=#38455A;strokeWidth=2.0;fontSize=10;fontColor=#38455A;labelBackgroundColor=#FFFFFF;jettySize=auto;exitDx=0;exitDy=0;" edge="1" parent="1" source="PORT::spinnCore_dense/spinnCore_dense_regfile::data_type_o" target="PORT::spinnCore_dense/spinnCore::data_type_i"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="378.0" y="342.0"/><mxPoint x="378.0" y="497.1"/></Array></mxGeometry></mxCell><mxCell id="n2" value="2" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classicThin;endSize=7;startArrow=none;strokeColor=#38455A;strokeWidth=2.0;fontSize=10;fontColor=#38455A;labelBackgroundColor=#FFFFFF;jettySize=auto;exitDx=0;exitDy=0;" edge="1" parent="1" source="PORT::spinnCore_dense/spinnCore_dense_regfile::rounding_mode_o" target="PORT::spinnCore_dense/spinnCore::rounding_mode_i"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="356.0" y="384.0"/><mxPoint x="356.0" y="535.4"/></Array></mxGeometry></mxCell><mxCell id="n3" value="N*DATA_WIDTH" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classicThin;endSize=7;startArrow=none;strokeColor=#38455A;strokeWidth=2.0;fontSize=10;fontColor=#38455A;labelBackgroundColor=#FFFFFF;jettySize=auto;exitDx=0;exitDy=0;" edge="1" parent="1" source="PORT::spinnCore_dense::a_bus_i" target="PORT::spinnCore_dense/spinnCore::a_bus_i"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="44.0" y="66.0"/><mxPoint x="44.0" y="114.0"/></Array></mxGeometry></mxCell><mxCell id="n4" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classicThin;endSize=7;startArrow=none;strokeColor=#556170;strokeWidth=1.2;fontSize=10;fontColor=#556170;labelBackgroundColor=#FFFFFF;jettySize=auto;exitDx=0;exitDy=0;" edge="1" parent="1" source="PORT::spinnCore_dense::a_skew_bank_en_i" target="PORT::spinnCore_dense/spinnCore::a_skew_bank_en_i"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="44.0" y="120.0"/><mxPoint x="44.0" y="152.3"/></Array></mxGeometry></mxCell><mxCell id="n5" value="N*DATA_WIDTH" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classicThin;endSize=7;startArrow=none;strokeColor=#38455A;strokeWidth=2.0;fontSize=10;fontColor=#38455A;labelBackgroundColor=#FFFFFF;jettySize=auto;exitDx=0;exitDy=0;" edge="1" parent="1" source="PORT::spinnCore_dense::b_bus_i" target="PORT::spinnCore_dense/spinnCore::b_bus_i"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="44.0" y="174.0"/><mxPoint x="44.0" y="190.6"/></Array></mxGeometry></mxCell><mxCell id="n6" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classicThin;endSize=7;startArrow=none;strokeColor=#556170;strokeWidth=1.2;fontSize=10;fontColor=#556170;labelBackgroundColor=#FFFFFF;jettySize=auto;exitDx=0;exitDy=0;" edge="1" parent="1" source="PORT::spinnCore_dense::b_skew_bank_en_i" target="PORT::spinnCore_dense/spinnCore::b_skew_bank_en_i"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="44.0" y="228.0"/><mxPoint x="44.0" y="228.9"/></Array></mxGeometry></mxCell><mxCell id="n7" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classicThin;endSize=7;startArrow=none;strokeColor=#556170;strokeWidth=1.2;fontSize=10;fontColor=#556170;labelBackgroundColor=#FFFFFF;jettySize=auto;exitDx=0;exitDy=0;" edge="1" parent="1" source="PORT::spinnCore_dense::mac_en_bus_i" target="PORT::spinnCore_dense/spinnCore::mac_en_bus_i"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="44.0" y="282.0"/><mxPoint x="44.0" y="267.2"/></Array></mxGeometry></mxCell><mxCell id="n8" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classicThin;endSize=7;startArrow=none;strokeColor=#556170;strokeWidth=1.2;fontSize=10;fontColor=#556170;labelBackgroundColor=#FFFFFF;jettySize=auto;exitDx=0;exitDy=0;" edge="1" parent="1" source="PORT::spinnCore_dense::acc_clr_bus_i" target="PORT::spinnCore_dense/spinnCore::acc_clr_bus_i"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="44.0" y="336.0"/><mxPoint x="44.0" y="286.0"/><mxPoint x="422.0" y="286.0"/><mxPoint x="422.0" y="305.5"/></Array></mxGeometry></mxCell><mxCell id="n9" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classicThin;endSize=7;startArrow=none;strokeColor=#556170;strokeWidth=1.2;fontSize=10;fontColor=#556170;labelBackgroundColor=#FFFFFF;jettySize=auto;exitDx=0;exitDy=0;" edge="1" parent="1" source="PORT::spinnCore_dense::acc_out_en_bus_i" target="PORT::spinnCore_dense/spinnCore::acc_out_en_bus_i"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="44.0" y="390.0"/><mxPoint x="44.0" y="282.0"/><mxPoint x="422.0" y="282.0"/><mxPoint x="422.0" y="343.8"/></Array></mxGeometry></mxCell><mxCell id="n10" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classicThin;endSize=7;startArrow=none;strokeColor=#556170;strokeWidth=1.2;fontSize=10;fontColor=#556170;labelBackgroundColor=#FFFFFF;jettySize=auto;exitDx=0;exitDy=0;" edge="1" parent="1" source="PORT::spinnCore_dense::bypass_rotator0_i" target="PORT::spinnCore_dense/spinnCore::bypass_rotator0_i"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="346.0" y="444.0"/><mxPoint x="346.0" y="382.2"/></Array></mxGeometry></mxCell><mxCell id="n11" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classicThin;endSize=7;startArrow=none;strokeColor=#556170;strokeWidth=1.2;fontSize=10;fontColor=#556170;labelBackgroundColor=#FFFFFF;jettySize=auto;exitDx=0;exitDy=0;" edge="1" parent="1" source="PORT::spinnCore_dense::bypass_rotator1_i" target="PORT::spinnCore_dense/spinnCore::bypass_rotator1_i"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="422.0" y="498.0"/><mxPoint x="422.0" y="420.5"/></Array></mxGeometry></mxCell><mxCell id="n12" value="N*ACC_WIDTH" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classicThin;endSize=7;startArrow=none;strokeColor=#38455A;strokeWidth=2.0;fontSize=10;fontColor=#38455A;labelBackgroundColor=#FFFFFF;jettySize=auto;exitDx=0;exitDy=0;" edge="1" parent="1" source="PORT::spinnCore_dense/spinnCore::r_bus_o" target="PORT::spinnCore_dense::r_bus_o"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="1764.0" y="114.0"/><mxPoint x="1764.0" y="66.0"/></Array></mxGeometry></mxCell><mxCell id="n13" value="N" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classicThin;endSize=7;startArrow=none;strokeColor=#38455A;strokeWidth=2.0;fontSize=10;fontColor=#38455A;labelBackgroundColor=#FFFFFF;jettySize=auto;exitDx=0;exitDy=0;" edge="1" parent="1" source="PORT::spinnCore_dense/spinnCore::r_valid_bus_o" target="PORT::spinnCore_dense::r_valid_bus_o"><mxGeometry relative="1" as="geometry"><Array as="points"></Array></mxGeometry></mxCell><mxCell id="n14" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classicThin;endSize=7;startArrow=none;strokeColor=#556170;strokeWidth=1.2;fontSize=10;fontColor=#556170;labelBackgroundColor=#FFFFFF;jettySize=auto;exitDx=0;exitDy=0;" edge="1" parent="1" source="PORT::spinnCore_dense::r_skew_bank_en_i" target="PORT::spinnCore_dense/spinnCore::r_skew_bank_en_i"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="44.0" y="552.0"/><mxPoint x="44.0" y="458.8"/></Array></mxGeometry></mxCell><mxCell id="n15" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classicThin;endSize=7;startArrow=none;strokeColor=#556170;strokeWidth=1.2;fontSize=10;fontColor=#556170;labelBackgroundColor=#FFFFFF;jettySize=auto;exitDx=0;exitDy=0;" edge="1" parent="1" source="PORT::spinnCore_dense/spinnCore::busy_o" target="PORT::spinnCore_dense::busy_o"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="1764.0" y="612.0"/><mxPoint x="1764.0" y="660.0"/></Array></mxGeometry></mxCell><mxCell id="n16" value="N*DATA_WIDTH" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classicThin;endSize=7;startArrow=none;strokeColor=#38455A;strokeWidth=2.0;fontSize=10;fontColor=#38455A;labelBackgroundColor=#FFFFFF;jettySize=auto;exitDx=0;exitDy=0;" edge="1" parent="1" source="PORT::spinnCore_dense/spinnCore/vector_rotator_0::data_o" target="PORT::spinnCore_dense/spinnCore/spinnArray::a_bus_i"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="1060.0" y="162.0"/><mxPoint x="1060.0" y="252.0"/></Array></mxGeometry></mxCell><mxCell id="n17" value="N*DATA_WIDTH" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classicThin;endSize=7;startArrow=none;strokeColor=#38455A;strokeWidth=2.0;fontSize=10;fontColor=#38455A;labelBackgroundColor=#FFFFFF;jettySize=auto;exitDx=0;exitDy=0;" edge="1" parent="1" source="PORT::spinnCore_dense/spinnCore/vector_rotator_1::data_o" target="PORT::spinnCore_dense/spinnCore/spinnArray::b_bus_i"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="1060.0" y="432.0"/><mxPoint x="1060.0" y="283.7"/></Array></mxGeometry></mxCell><mxCell id="n18" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classicThin;endSize=7;startArrow=none;strokeColor=#556170;strokeWidth=1.2;fontSize=10;fontColor=#556170;labelBackgroundColor=#FFFFFF;jettySize=auto;exitDx=0;exitDy=0;" edge="1" parent="1" source="PORT::spinnCore_dense/spinnCore::mac_en_bus_i" target="PORT::spinnCore_dense/spinnCore/spinnArray::mac_en_bus_i"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="538.0" y="267.2"/><mxPoint x="538.0" y="106.0"/><mxPoint x="1126.0" y="106.0"/><mxPoint x="1126.0" y="315.4"/></Array></mxGeometry></mxCell><mxCell id="n19" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classicThin;endSize=7;startArrow=none;strokeColor=#556170;strokeWidth=1.2;fontSize=10;fontColor=#556170;labelBackgroundColor=#FFFFFF;jettySize=auto;exitDx=0;exitDy=0;" edge="1" parent="1" source="PORT::spinnCore_dense/spinnCore::mac_en_bus_i" target="PORT::spinnCore_dense/spinnCore/vector_rotator_0::valid_i"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="490.0" y="267.2"/><mxPoint x="490.0" y="136.0"/><mxPoint x="844.0" y="136.0"/><mxPoint x="844.0" y="195.0"/></Array></mxGeometry></mxCell><mxCell id="n20" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classicThin;endSize=7;startArrow=none;strokeColor=#556170;strokeWidth=1.2;fontSize=10;fontColor=#556170;labelBackgroundColor=#FFFFFF;jettySize=auto;exitDx=0;exitDy=0;" edge="1" parent="1" source="PORT::spinnCore_dense/spinnCore::mac_en_bus_i" target="PORT::spinnCore_dense/spinnCore/vector_rotator_1::valid_i"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="466.0" y="267.2"/><mxPoint x="466.0" y="283.7"/><mxPoint x="572.0" y="283.7"/><mxPoint x="572.0" y="354.0"/><mxPoint x="768.0" y="354.0"/><mxPoint x="768.0" y="465.0"/></Array></mxGeometry></mxCell><mxCell id="n21" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classicThin;endSize=7;startArrow=none;strokeColor=#556170;strokeWidth=1.2;fontSize=10;fontColor=#556170;labelBackgroundColor=#FFFFFF;jettySize=auto;exitDx=0;exitDy=0;" edge="1" parent="1" source="PORT::spinnCore_dense/spinnCore::acc_clr_bus_i" target="PORT::spinnCore_dense/spinnCore/spinnArray::acc_clr_bus_i"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="538.0" y="305.5"/><mxPoint x="538.0" y="354.0"/><mxPoint x="1126.0" y="354.0"/><mxPoint x="1126.0" y="347.1"/></Array></mxGeometry></mxCell><mxCell id="n22" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classicThin;endSize=7;startArrow=none;strokeColor=#556170;strokeWidth=1.2;fontSize=10;fontColor=#556170;labelBackgroundColor=#FFFFFF;jettySize=auto;exitDx=0;exitDy=0;" edge="1" parent="1" source="PORT::spinnCore_dense/spinnCore::acc_out_en_bus_i" target="PORT::spinnCore_dense/spinnCore/spinnArray::acc_out_en_bus_i"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="490.0" y="343.8"/><mxPoint x="490.0" y="363.0"/><mxPoint x="1126.0" y="363.0"/><mxPoint x="1126.0" y="378.9"/></Array></mxGeometry></mxCell><mxCell id="n23" value="N*ACC_WIDTH" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classicThin;endSize=7;startArrow=none;strokeColor=#38455A;strokeWidth=2.0;fontSize=10;fontColor=#38455A;labelBackgroundColor=#FFFFFF;jettySize=auto;exitDx=0;exitDy=0;" edge="1" parent="1" source="PORT::spinnCore_dense/spinnCore/spinnArray::r_bus_o" target="PORT::spinnCore_dense/spinnCore/skew_bank_2::d_bus_i"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="1342.0" y="252.0"/><mxPoint x="1342.0" y="312.0"/></Array></mxGeometry></mxCell><mxCell id="n24" value="N" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classicThin;endSize=7;startArrow=none;strokeColor=#38455A;strokeWidth=2.0;fontSize=10;fontColor=#38455A;labelBackgroundColor=#FFFFFF;jettySize=auto;exitDx=0;exitDy=0;" edge="1" parent="1" source="PORT::spinnCore_dense/spinnCore/spinnArray::r_valid_bus_o" target="PORT::spinnCore_dense/spinnCore::r_valid_bus_o"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="1342.0" y="363.0"/><mxPoint x="1342.0" y="474.0"/><mxPoint x="1720.0" y="474.0"/><mxPoint x="1720.0" y="363.0"/></Array></mxGeometry></mxCell><mxCell id="n25" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classicThin;endSize=7;startArrow=none;strokeColor=#556170;strokeWidth=1.2;fontSize=10;fontColor=#556170;labelBackgroundColor=#FFFFFF;jettySize=auto;exitDx=0;exitDy=0;" edge="1" parent="1" source="PORT::spinnCore_dense/spinnCore/spinnArray::busy_o" target="PORT::spinnCore_dense/spinnCore::busy_o"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="1342.0" y="474.0"/><mxPoint x="1342.0" y="612.0"/></Array></mxGeometry></mxCell><mxCell id="n26" value="3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classicThin;endSize=7;startArrow=none;strokeColor=#38455A;strokeWidth=2.0;fontSize=10;fontColor=#38455A;labelBackgroundColor=#FFFFFF;jettySize=auto;exitDx=0;exitDy=0;" edge="1" parent="1" source="PORT::spinnCore_dense/spinnCore::data_type_i" target="PORT::spinnCore_dense/spinnCore/spinnArray::data_type_i"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="538.0" y="497.1"/><mxPoint x="538.0" y="376.0"/><mxPoint x="1126.0" y="376.0"/><mxPoint x="1126.0" y="410.6"/></Array></mxGeometry></mxCell><mxCell id="n27" value="2" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classicThin;endSize=7;startArrow=none;strokeColor=#38455A;strokeWidth=2.0;fontSize=10;fontColor=#38455A;labelBackgroundColor=#FFFFFF;jettySize=auto;exitDx=0;exitDy=0;" edge="1" parent="1" source="PORT::spinnCore_dense/spinnCore::rounding_mode_i" target="PORT::spinnCore_dense/spinnCore/spinnArray::rounding_mode_i"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="466.0" y="535.4"/><mxPoint x="466.0" y="658.0"/><mxPoint x="1126.0" y="658.0"/><mxPoint x="1126.0" y="442.3"/></Array></mxGeometry></mxCell><mxCell id="n28" value="N*DATA_WIDTH" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classicThin;endSize=7;startArrow=none;strokeColor=#38455A;strokeWidth=2.0;fontSize=10;fontColor=#38455A;labelBackgroundColor=#FFFFFF;jettySize=auto;exitDx=0;exitDy=0;" edge="1" parent="1" source="PORT::spinnCore_dense/spinnCore::a_bus_i" target="PORT::spinnCore_dense/spinnCore/skew_bank_0::d_bus_i"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="466.0" y="114.0"/><mxPoint x="466.0" y="192.0"/></Array></mxGeometry></mxCell><mxCell id="n29" value="N*DATA_WIDTH" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classicThin;endSize=7;startArrow=none;strokeColor=#38455A;strokeWidth=2.0;fontSize=10;fontColor=#38455A;labelBackgroundColor=#FFFFFF;jettySize=auto;exitDx=0;exitDy=0;" edge="1" parent="1" source="PORT::spinnCore_dense/spinnCore/skew_bank_0::d_bus_o" target="PORT::spinnCore_dense/spinnCore/vector_rotator_0::data_i"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="778.0" y="192.0"/><mxPoint x="778.0" y="162.0"/></Array></mxGeometry></mxCell><mxCell id="n30" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classicThin;endSize=7;startArrow=none;strokeColor=#556170;strokeWidth=1.2;fontSize=10;fontColor=#556170;labelBackgroundColor=#FFFFFF;jettySize=auto;exitDx=0;exitDy=0;" edge="1" parent="1" source="PORT::spinnCore_dense/spinnCore::a_skew_bank_en_i" target="PORT::spinnCore_dense/spinnCore/skew_bank_0::en_i"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="562.0" y="152.3"/><mxPoint x="562.0" y="226.0"/></Array></mxGeometry></mxCell><mxCell id="n31" value="N*DATA_WIDTH" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classicThin;endSize=7;startArrow=none;strokeColor=#38455A;strokeWidth=2.0;fontSize=10;fontColor=#38455A;labelBackgroundColor=#FFFFFF;jettySize=auto;exitDx=0;exitDy=0;" edge="1" parent="1" source="PORT::spinnCore_dense/spinnCore::b_bus_i" target="PORT::spinnCore_dense/spinnCore/skew_bank_1::d_bus_i"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="514.0" y="190.6"/><mxPoint x="514.0" y="432.0"/></Array></mxGeometry></mxCell><mxCell id="n32" value="N*DATA_WIDTH" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classicThin;endSize=7;startArrow=none;strokeColor=#38455A;strokeWidth=2.0;fontSize=10;fontColor=#38455A;labelBackgroundColor=#FFFFFF;jettySize=auto;exitDx=0;exitDy=0;" edge="1" parent="1" source="PORT::spinnCore_dense/spinnCore/skew_bank_1::d_bus_o" target="PORT::spinnCore_dense/spinnCore/vector_rotator_1::data_i"><mxGeometry relative="1" as="geometry"><Array as="points"></Array></mxGeometry></mxCell><mxCell id="n33" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classicThin;endSize=7;startArrow=none;strokeColor=#556170;strokeWidth=1.2;fontSize=10;fontColor=#556170;labelBackgroundColor=#FFFFFF;jettySize=auto;exitDx=0;exitDy=0;" edge="1" parent="1" source="PORT::spinnCore_dense/spinnCore::b_skew_bank_en_i" target="PORT::spinnCore_dense/spinnCore/skew_bank_1::en_i"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="562.0" y="228.9"/><mxPoint x="562.0" y="466.0"/></Array></mxGeometry></mxCell><mxCell id="n34" value="N*ACC_WIDTH" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classicThin;endSize=7;startArrow=none;strokeColor=#38455A;strokeWidth=2.0;fontSize=10;fontColor=#38455A;labelBackgroundColor=#FFFFFF;jettySize=auto;exitDx=0;exitDy=0;" edge="1" parent="1" source="PORT::spinnCore_dense/spinnCore/skew_bank_2::d_bus_o" target="PORT::spinnCore_dense/spinnCore::r_bus_o"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="1624.0" y="312.0"/><mxPoint x="1624.0" y="114.0"/></Array></mxGeometry></mxCell><mxCell id="n35" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classicThin;endSize=7;startArrow=none;strokeColor=#556170;strokeWidth=1.2;fontSize=10;fontColor=#556170;labelBackgroundColor=#FFFFFF;jettySize=auto;exitDx=0;exitDy=0;" edge="1" parent="1" source="PORT::spinnCore_dense/spinnCore::r_skew_bank_en_i" target="PORT::spinnCore_dense/spinnCore/skew_bank_2::en_i"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="572.0" y="458.8"/><mxPoint x="572.0" y="624.0"/><mxPoint x="1408.0" y="624.0"/><mxPoint x="1408.0" y="346.0"/></Array></mxGeometry></mxCell><mxCell id="n36" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classicThin;endSize=7;startArrow=none;strokeColor=#556170;strokeWidth=1.2;fontSize=10;fontColor=#556170;labelBackgroundColor=#FFFFFF;jettySize=auto;exitDx=0;exitDy=0;" edge="1" parent="1" source="PORT::spinnCore_dense/spinnCore::bypass_rotator0_i" target="PORT::spinnCore_dense/spinnCore/vector_rotator_0::bypass_i"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="572.0" y="382.2"/><mxPoint x="572.0" y="363.0"/><mxPoint x="768.0" y="363.0"/><mxPoint x="768.0" y="228.0"/></Array></mxGeometry></mxCell><mxCell id="n37" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classicThin;endSize=7;startArrow=none;strokeColor=#556170;strokeWidth=1.2;fontSize=10;fontColor=#556170;labelBackgroundColor=#FFFFFF;jettySize=auto;exitDx=0;exitDy=0;" edge="1" parent="1" source="PORT::spinnCore_dense/spinnCore::bypass_rotator1_i" target="PORT::spinnCore_dense/spinnCore/vector_rotator_1::bypass_i"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="466.0" y="420.5"/><mxPoint x="466.0" y="594.0"/><mxPoint x="844.0" y="594.0"/><mxPoint x="844.0" y="498.0"/></Array></mxGeometry></mxCell><mxCell id="n38" style="endArrow=classicThin;endSize=6;html=1;rounded=0;strokeColor=#38455A;strokeWidth=2.0;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="34" y="760" as="sourcePoint"/><mxPoint x="66" y="760" as="targetPoint"/></mxGeometry></mxCell><mxCell id="n40" style="endArrow=classicThin;endSize=6;html=1;rounded=0;strokeColor=#556170;strokeWidth=1.2;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="34" y="782" as="sourcePoint"/><mxPoint x="66" y="782" as="targetPoint"/></mxGeometry></mxCell><mxCell id="n42" style="endArrow=classicThin;endSize=6;html=1;rounded=0;strokeColor=#557A60;strokeWidth=1.6;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="34" y="804" as="sourcePoint"/><mxPoint x="66" y="804" as="targetPoint"/></mxGeometry></mxCell></root></mxGraphModel></diagram></mxfile>
+<mxfile host="65bd71144e">
+    <diagram name="spinnCore_dense" id="0">
+        <mxGraphModel dx="2809" dy="402" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1904" pageHeight="884" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="BOX::spinnCore_dense" value="&lt;b&gt;spinnCore_dense&lt;/b&gt;" style="rounded=1;arcSize=4;html=1;whiteSpace=wrap;fillColor=#F7F9FC;strokeColor=#5F5488;verticalAlign=top;fontSize=14;spacingTop=6;fontColor=#5F5488;shadow=1;container=0;" parent="1" vertex="1">
+                    <mxGeometry x="22" y="22" width="1860" height="686" as="geometry"/>
+                </mxCell>
+                <mxCell id="PORT::spinnCore_dense::a_bus_i" value="a_bus_i" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;spacingLeft=22;" parent="BOX::spinnCore_dense" vertex="1">
+                    <mxGeometry y="0.0904" width="8" height="8" relative="1" as="geometry">
+                        <mxPoint x="-4" y="-4" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="PORT::spinnCore_dense::bypass_rotator0_i" value="bypass_rotator0_i" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;spacingLeft=22;" parent="BOX::spinnCore_dense" vertex="1">
+                    <mxGeometry y="0.1341" width="8" height="8" relative="1" as="geometry">
+                        <mxPoint x="-4" y="-4" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="PORT::spinnCore_dense::a_skew_bank_en_i" value="a_skew_bank_en_i" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;spacingLeft=22;" parent="BOX::spinnCore_dense" vertex="1">
+                    <mxGeometry y="0.1778" width="8" height="8" relative="1" as="geometry">
+                        <mxPoint x="-132" y="-4" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="PORT::spinnCore_dense::mac_en_bus_i" value="mac_en_bus_i" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;spacingLeft=22;" parent="BOX::spinnCore_dense" vertex="1">
+                    <mxGeometry y="0.3356" width="8" height="8" relative="1" as="geometry">
+                        <mxPoint x="-4" y="-4" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="PORT::spinnCore_dense::acc_clr_bus_i" value="acc_clr_bus_i" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;spacingLeft=22;" parent="BOX::spinnCore_dense" vertex="1">
+                    <mxGeometry y="0.3793" width="8" height="8" relative="1" as="geometry">
+                        <mxPoint x="-4" y="-4" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="PORT::spinnCore_dense::b_bus_i" value="b_bus_i" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;spacingLeft=22;" parent="BOX::spinnCore_dense" vertex="1">
+                    <mxGeometry y="0.4271" width="8" height="8" relative="1" as="geometry">
+                        <mxPoint x="-4" y="-4" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="PORT::spinnCore_dense::acc_out_en_bus_i" value="acc_out_en_bus_i" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;spacingLeft=22;" parent="BOX::spinnCore_dense" vertex="1">
+                    <mxGeometry y="0.4708" width="8" height="8" relative="1" as="geometry">
+                        <mxPoint x="-4" y="-4" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="PORT::spinnCore_dense::r_skew_bank_en_i" value="r_skew_bank_en_i" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;spacingLeft=22;" parent="BOX::spinnCore_dense" vertex="1">
+                    <mxGeometry y="0.5146" width="8" height="8" relative="1" as="geometry">
+                        <mxPoint x="-4" y="-4" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="PORT::spinnCore_dense::b_skew_bank_en_i" value="b_skew_bank_en_i" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;spacingLeft=22;" parent="BOX::spinnCore_dense" vertex="1">
+                    <mxGeometry y="0.602" width="8" height="8" relative="1" as="geometry">
+                        <mxPoint x="-4" y="-4" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="PORT::spinnCore_dense::bypass_rotator1_i" value="bypass_rotator1_i" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;spacingLeft=22;" parent="BOX::spinnCore_dense" vertex="1">
+                    <mxGeometry y="0.6458" width="8" height="8" relative="1" as="geometry">
+                        <mxPoint x="-4" y="-4" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="PORT::spinnCore_dense::reset_n_i" value="reset_n_i" style="shape=ellipse;html=1;fillColor=#9AA0A6;strokeColor=#5F6368;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;fontColor=#5F6368;spacingLeft=22;" parent="BOX::spinnCore_dense" vertex="1">
+                    <mxGeometry y="0.8863" width="8" height="8" relative="1" as="geometry">
+                        <mxPoint x="-4" y="-4" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="PORT::spinnCore_dense::clk_i" value="clk_i" style="shape=ellipse;html=1;fillColor=#9AA0A6;strokeColor=#5F6368;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;fontColor=#5F6368;spacingLeft=22;" parent="BOX::spinnCore_dense" vertex="1">
+                    <mxGeometry y="0.93" width="8" height="8" relative="1" as="geometry">
+                        <mxPoint x="-4" y="-4" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="PORT::spinnCore_dense::r_bus_o" value="r_bus_o" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=right;fontSize=12;spacing=2;spacingRight=14;" parent="BOX::spinnCore_dense" vertex="1">
+                    <mxGeometry x="1" y="0.3779" width="8" height="8" relative="1" as="geometry">
+                        <mxPoint x="-4" y="-4" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="PORT::spinnCore_dense::r_valid_bus_o" value="r_valid_bus_o" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=right;fontSize=12;spacing=2;spacingRight=22;" parent="BOX::spinnCore_dense" vertex="1">
+                    <mxGeometry x="1" y="0.4971" width="8" height="8" relative="1" as="geometry">
+                        <mxPoint x="-4" y="-4" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="PORT::spinnCore_dense::busy_o" value="busy_o" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=right;fontSize=12;spacing=2;spacingRight=22;" parent="BOX::spinnCore_dense" vertex="1">
+                    <mxGeometry x="1" y="0.6928" width="8" height="8" relative="1" as="geometry">
+                        <mxPoint x="-4" y="-4" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="BOX::spinnCore_dense/spinnCore_dense_regfile" value="&lt;b&gt;spinnCore_dense_regfile&lt;/b&gt;" style="rounded=1;arcSize=4;html=1;whiteSpace=wrap;fillColor=#ECF2ED;strokeColor=#557A60;verticalAlign=top;fontSize=14;spacingTop=6;fontColor=#557A60;shadow=1;container=0;" parent="BOX::spinnCore_dense" vertex="1">
+                    <mxGeometry x="118" y="488" width="172" height="134" as="geometry"/>
+                </mxCell>
+                <mxCell id="PORT::spinnCore_dense/spinnCore_dense_regfile::data_type_o" value="data_type_o" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=right;fontSize=12;spacing=2;spacingRight=22;" parent="BOX::spinnCore_dense/spinnCore_dense_regfile" vertex="1">
+                    <mxGeometry x="1" y="0.3284" width="8" height="8" relative="1" as="geometry">
+                        <mxPoint x="-4" y="-4" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="PORT::spinnCore_dense/spinnCore_dense_regfile::rounding_mode_o" value="rounding_mode_o" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=right;fontSize=12;spacing=2;spacingRight=22;" parent="BOX::spinnCore_dense/spinnCore_dense_regfile" vertex="1">
+                    <mxGeometry x="1" y="0.6418" width="8" height="8" relative="1" as="geometry">
+                        <mxPoint x="-4" y="-4" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="BOX::spinnCore_dense/spinnCore" value="&lt;b&gt;spinnCore&lt;/b&gt;" style="rounded=1;arcSize=4;html=1;whiteSpace=wrap;fillColor=#EDF1F6;strokeColor=#41617F;verticalAlign=top;fontSize=14;spacingTop=6;fontColor=#41617F;shadow=1;container=0;" parent="1" vertex="1">
+                    <mxGeometry x="444" y="70" width="1298" height="590" as="geometry"/>
+                </mxCell>
+                <mxCell id="PORT::spinnCore_dense/spinnCore::a_bus_i" value="a_bus_i" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;spacingLeft=22;" parent="BOX::spinnCore_dense/spinnCore" vertex="1">
+                    <mxGeometry y="0.0746" width="8" height="8" relative="1" as="geometry">
+                        <mxPoint x="-4" y="-4" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="PORT::spinnCore_dense/spinnCore::bypass_rotator0_i" value="bypass_rotator0_i" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;spacingLeft=22;" parent="BOX::spinnCore_dense/spinnCore" vertex="1">
+                    <mxGeometry y="0.1254" width="8" height="8" relative="1" as="geometry">
+                        <mxPoint x="-4" y="-4" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="PORT::spinnCore_dense/spinnCore::a_skew_bank_en_i" value="a_skew_bank_en_i" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;spacingLeft=22;" parent="BOX::spinnCore_dense/spinnCore" vertex="1">
+                    <mxGeometry y="0.1763" width="8" height="8" relative="1" as="geometry">
+                        <mxPoint x="-4" y="-4" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="PORT::spinnCore_dense/spinnCore::acc_clr_bus_i" value="acc_clr_bus_i" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;spacingLeft=22;" parent="BOX::spinnCore_dense/spinnCore" vertex="1">
+                    <mxGeometry y="0.3053" width="8" height="8" relative="1" as="geometry">
+                        <mxPoint x="-4" y="-4" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="PORT::spinnCore_dense/spinnCore::mac_en_bus_i" value="mac_en_bus_i" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;spacingLeft=22;" parent="BOX::spinnCore_dense/spinnCore" vertex="1">
+                    <mxGeometry y="0.3562" width="8" height="8" relative="1" as="geometry">
+                        <mxPoint x="-4" y="-4" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="PORT::spinnCore_dense/spinnCore::data_type_i" value="data_type_i" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;spacingLeft=22;" parent="BOX::spinnCore_dense/spinnCore" vertex="1">
+                    <mxGeometry y="0.4102" width="8" height="8" relative="1" as="geometry">
+                        <mxPoint x="-4" y="-4" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="PORT::spinnCore_dense/spinnCore::b_bus_i" value="b_bus_i" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;spacingLeft=22;" parent="BOX::spinnCore_dense/spinnCore" vertex="1">
+                    <mxGeometry y="0.4614" width="8" height="8" relative="1" as="geometry">
+                        <mxPoint x="-4" y="-4" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="PORT::spinnCore_dense/spinnCore::acc_out_en_bus_i" value="acc_out_en_bus_i" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;spacingLeft=22;" parent="BOX::spinnCore_dense/spinnCore" vertex="1">
+                    <mxGeometry y="0.5123" width="8" height="8" relative="1" as="geometry">
+                        <mxPoint x="-4" y="-4" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="PORT::spinnCore_dense/spinnCore::r_skew_bank_en_i" value="r_skew_bank_en_i" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;spacingLeft=22;" parent="BOX::spinnCore_dense/spinnCore" vertex="1">
+                    <mxGeometry y="0.5631" width="8" height="8" relative="1" as="geometry">
+                        <mxPoint x="-4" y="-4" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="PORT::spinnCore_dense/spinnCore::rounding_mode_i" value="rounding_mode_i" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;spacingLeft=22;" parent="BOX::spinnCore_dense/spinnCore" vertex="1">
+                    <mxGeometry y="0.614" width="8" height="8" relative="1" as="geometry">
+                        <mxPoint x="-4" y="-4" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="PORT::spinnCore_dense/spinnCore::b_skew_bank_en_i" value="b_skew_bank_en_i" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;spacingLeft=22;" parent="BOX::spinnCore_dense/spinnCore" vertex="1">
+                    <mxGeometry y="0.6648" width="8" height="8" relative="1" as="geometry">
+                        <mxPoint x="-4" y="-4" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="PORT::spinnCore_dense/spinnCore::bypass_rotator1_i" value="bypass_rotator1_i" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;spacingLeft=22;" parent="BOX::spinnCore_dense/spinnCore" vertex="1">
+                    <mxGeometry y="0.7156" width="8" height="8" relative="1" as="geometry">
+                        <mxPoint x="-4" y="-4" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="PORT::spinnCore_dense/spinnCore::reset_n_i" value="reset_n_i" style="shape=ellipse;html=1;fillColor=#9AA0A6;strokeColor=#5F6368;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;fontColor=#5F6368;spacingLeft=22;" parent="BOX::spinnCore_dense/spinnCore" vertex="1">
+                    <mxGeometry y="0.8678" width="8" height="8" relative="1" as="geometry">
+                        <mxPoint x="-4" y="-4" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="PORT::spinnCore_dense/spinnCore::clk_i" value="clk_i" style="shape=ellipse;html=1;fillColor=#9AA0A6;strokeColor=#5F6368;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;fontColor=#5F6368;spacingLeft=22;" parent="BOX::spinnCore_dense/spinnCore" vertex="1">
+                    <mxGeometry y="0.9186" width="8" height="8" relative="1" as="geometry">
+                        <mxPoint x="-4" y="-4" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="PORT::spinnCore_dense/spinnCore::r_bus_o" value="r_bus_o" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=right;fontSize=12;spacing=2;spacingRight=22;" parent="BOX::spinnCore_dense/spinnCore" vertex="1">
+                    <mxGeometry x="1" y="0.3682" width="8" height="8" relative="1" as="geometry">
+                        <mxPoint x="-4" y="-4" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="PORT::spinnCore_dense/spinnCore::r_valid_bus_o" value="r_valid_bus_o" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=right;fontSize=12;spacing=2;spacingRight=22;" parent="BOX::spinnCore_dense/spinnCore" vertex="1">
+                    <mxGeometry x="1" y="0.4966" width="8" height="8" relative="1" as="geometry">
+                        <mxPoint x="-4" y="-4" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="PORT::spinnCore_dense/spinnCore::busy_o" value="busy_o" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=right;fontSize=12;spacing=2;spacingRight=22;" parent="BOX::spinnCore_dense/spinnCore" vertex="1">
+                    <mxGeometry x="1" y="0.714" width="8" height="8" relative="1" as="geometry">
+                        <mxPoint x="-4" y="-4" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="BOX::spinnCore_dense/spinnCore/spinnArray" value="&lt;b&gt;spinnArray&lt;/b&gt;" style="rounded=1;arcSize=4;html=1;whiteSpace=wrap;fillColor=#EDF1F6;strokeColor=#41617F;verticalAlign=top;fontSize=14;spacingTop=6;fontColor=#41617F;shadow=1;container=0;" parent="1" vertex="1">
+                    <mxGeometry x="1148" y="208" width="172" height="314" as="geometry"/>
+                </mxCell>
+                <mxCell id="PORT::spinnCore_dense/spinnCore/spinnArray::a_bus_i" value="a_bus_i" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;spacingLeft=22;" parent="BOX::spinnCore_dense/spinnCore/spinnArray" vertex="1">
+                    <mxGeometry y="0.1401" width="8" height="8" relative="1" as="geometry">
+                        <mxPoint x="-4" y="-4" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="PORT::spinnCore_dense/spinnCore/spinnArray::acc_clr_bus_i" value="acc_clr_bus_i" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;spacingLeft=22;" parent="BOX::spinnCore_dense/spinnCore/spinnArray" vertex="1">
+                    <mxGeometry y="0.2357" width="8" height="8" relative="1" as="geometry">
+                        <mxPoint x="-4" y="-4" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="PORT::spinnCore_dense/spinnCore/spinnArray::mac_en_bus_i" value="mac_en_bus_i" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;spacingLeft=22;" parent="BOX::spinnCore_dense/spinnCore/spinnArray" vertex="1">
+                    <mxGeometry y="0.3312" width="8" height="8" relative="1" as="geometry">
+                        <mxPoint x="-4" y="-4" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="PORT::spinnCore_dense/spinnCore/spinnArray::data_type_i" value="data_type_i" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;spacingLeft=22;" parent="BOX::spinnCore_dense/spinnCore/spinnArray" vertex="1">
+                    <mxGeometry y="0.4268" width="8" height="8" relative="1" as="geometry">
+                        <mxPoint x="-4" y="-4" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="PORT::spinnCore_dense/spinnCore/spinnArray::acc_out_en_bus_i" value="acc_out_en_bus_i" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;spacingLeft=22;" parent="BOX::spinnCore_dense/spinnCore/spinnArray" vertex="1">
+                    <mxGeometry y="0.5223" width="8" height="8" relative="1" as="geometry">
+                        <mxPoint x="-4" y="-4" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="PORT::spinnCore_dense/spinnCore/spinnArray::b_bus_i" value="b_bus_i" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;spacingLeft=22;" parent="BOX::spinnCore_dense/spinnCore/spinnArray" vertex="1">
+                    <mxGeometry y="0.6561" width="8" height="8" relative="1" as="geometry">
+                        <mxPoint x="-4" y="-4" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="PORT::spinnCore_dense/spinnCore/spinnArray::rounding_mode_i" value="rounding_mode_i" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;spacingLeft=22;" parent="BOX::spinnCore_dense/spinnCore/spinnArray" vertex="1">
+                    <mxGeometry y="0.7516" width="8" height="8" relative="1" as="geometry">
+                        <mxPoint x="-4" y="-4" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="PORT::spinnCore_dense/spinnCore/spinnArray::clk_i" value="clk_i" style="shape=ellipse;html=1;fillColor=#9AA0A6;strokeColor=#5F6368;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;fontColor=#5F6368;spacingLeft=22;" parent="BOX::spinnCore_dense/spinnCore/spinnArray" vertex="1">
+                    <mxGeometry y="0.8471" width="8" height="8" relative="1" as="geometry">
+                        <mxPoint x="-4" y="-4" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="PORT::spinnCore_dense/spinnCore/spinnArray::r_bus_o" value="r_bus_o" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=right;fontSize=12;spacing=2;spacingRight=22;" parent="BOX::spinnCore_dense/spinnCore/spinnArray" vertex="1">
+                    <mxGeometry x="1" y="0.3312" width="8" height="8" relative="1" as="geometry">
+                        <mxPoint x="-4" y="-4" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="PORT::spinnCore_dense/spinnCore/spinnArray::r_valid_bus_o" value="r_valid_bus_o" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=right;fontSize=12;spacing=2;spacingRight=22;" parent="BOX::spinnCore_dense/spinnCore/spinnArray" vertex="1">
+                    <mxGeometry x="1" y="0.4936" width="8" height="8" relative="1" as="geometry">
+                        <mxPoint x="-4" y="-4" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="PORT::spinnCore_dense/spinnCore/spinnArray::busy_o" value="busy_o" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=right;fontSize=12;spacing=2;spacingRight=22;" parent="BOX::spinnCore_dense/spinnCore/spinnArray" vertex="1">
+                    <mxGeometry x="1" y="0.8471" width="8" height="8" relative="1" as="geometry">
+                        <mxPoint x="-4" y="-4" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="BOX::spinnCore_dense/spinnCore/skew_bank_0" value="&lt;b&gt;skew_bank_0&lt;/b&gt;&lt;br&gt;&lt;i&gt;skew_bank&lt;/i&gt;" style="rounded=1;arcSize=4;html=1;whiteSpace=wrap;fillColor=#F5F0E8;strokeColor=#9A7A45;verticalAlign=top;fontSize=14;spacingTop=6;fontColor=#9A7A45;shadow=1;container=0;" parent="1" vertex="1">
+                    <mxGeometry x="584" y="148" width="172" height="194" as="geometry"/>
+                </mxCell>
+                <mxCell id="PORT::spinnCore_dense/spinnCore/skew_bank_0::d_bus_i" value="d_bus_i" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;spacingLeft=22;" parent="BOX::spinnCore_dense/spinnCore/skew_bank_0" vertex="1">
+                    <mxGeometry y="0.2268" width="8" height="8" relative="1" as="geometry">
+                        <mxPoint x="-4" y="-4" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="PORT::spinnCore_dense/spinnCore/skew_bank_0::en_i" value="en_i" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;spacingLeft=22;" parent="BOX::spinnCore_dense/spinnCore/skew_bank_0" vertex="1">
+                    <mxGeometry y="0.3814" width="8" height="8" relative="1" as="geometry">
+                        <mxPoint x="-4" y="-4" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="PORT::spinnCore_dense/spinnCore/skew_bank_0::reset_n_i" value="reset_n_i" style="shape=ellipse;html=1;fillColor=#9AA0A6;strokeColor=#5F6368;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;fontColor=#5F6368;spacingLeft=22;" parent="BOX::spinnCore_dense/spinnCore/skew_bank_0" vertex="1">
+                    <mxGeometry y="0.5979" width="8" height="8" relative="1" as="geometry">
+                        <mxPoint x="-4" y="-4" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="PORT::spinnCore_dense/spinnCore/skew_bank_0::clk_i" value="clk_i" style="shape=ellipse;html=1;fillColor=#9AA0A6;strokeColor=#5F6368;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;fontColor=#5F6368;spacingLeft=22;" parent="BOX::spinnCore_dense/spinnCore/skew_bank_0" vertex="1">
+                    <mxGeometry y="0.7526" width="8" height="8" relative="1" as="geometry">
+                        <mxPoint x="-4" y="-4" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="PORT::spinnCore_dense/spinnCore/skew_bank_0::d_bus_o" value="d_bus_o" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=right;fontSize=12;spacing=2;spacingRight=22;" parent="BOX::spinnCore_dense/spinnCore/skew_bank_0" vertex="1">
+                    <mxGeometry x="1" y="0.2268" width="8" height="8" relative="1" as="geometry">
+                        <mxPoint x="-4" y="-4" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="BOX::spinnCore_dense/spinnCore/skew_bank_1" value="&lt;b&gt;skew_bank_1&lt;/b&gt;&lt;br&gt;&lt;i&gt;skew_bank&lt;/i&gt;" style="rounded=1;arcSize=4;html=1;whiteSpace=wrap;fillColor=#F5F0E8;strokeColor=#9A7A45;verticalAlign=top;fontSize=14;spacingTop=6;fontColor=#9A7A45;shadow=1;container=0;" parent="1" vertex="1">
+                    <mxGeometry x="584" y="388" width="172" height="194" as="geometry"/>
+                </mxCell>
+                <mxCell id="PORT::spinnCore_dense/spinnCore/skew_bank_1::d_bus_i" value="d_bus_i" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;spacingLeft=22;" parent="BOX::spinnCore_dense/spinnCore/skew_bank_1" vertex="1">
+                    <mxGeometry y="0.2268" width="8" height="8" relative="1" as="geometry">
+                        <mxPoint x="-4" y="-4" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="PORT::spinnCore_dense/spinnCore/skew_bank_1::en_i" value="en_i" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;spacingLeft=22;" parent="BOX::spinnCore_dense/spinnCore/skew_bank_1" vertex="1">
+                    <mxGeometry y="0.3814" width="8" height="8" relative="1" as="geometry">
+                        <mxPoint x="-4" y="-4" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="PORT::spinnCore_dense/spinnCore/skew_bank_1::reset_n_i" value="reset_n_i" style="shape=ellipse;html=1;fillColor=#9AA0A6;strokeColor=#5F6368;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;fontColor=#5F6368;spacingLeft=22;" parent="BOX::spinnCore_dense/spinnCore/skew_bank_1" vertex="1">
+                    <mxGeometry y="0.5979" width="8" height="8" relative="1" as="geometry">
+                        <mxPoint x="-4" y="-4" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="PORT::spinnCore_dense/spinnCore/skew_bank_1::clk_i" value="clk_i" style="shape=ellipse;html=1;fillColor=#9AA0A6;strokeColor=#5F6368;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;fontColor=#5F6368;spacingLeft=22;" parent="BOX::spinnCore_dense/spinnCore/skew_bank_1" vertex="1">
+                    <mxGeometry y="0.7526" width="8" height="8" relative="1" as="geometry">
+                        <mxPoint x="-4" y="-4" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="PORT::spinnCore_dense/spinnCore/skew_bank_1::d_bus_o" value="d_bus_o" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=right;fontSize=12;spacing=2;spacingRight=22;" parent="BOX::spinnCore_dense/spinnCore/skew_bank_1" vertex="1">
+                    <mxGeometry x="1" y="0.3814" width="8" height="8" relative="1" as="geometry">
+                        <mxPoint x="-4" y="-4" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="BOX::spinnCore_dense/spinnCore/skew_bank_2" value="&lt;b&gt;skew_bank_2&lt;/b&gt;&lt;br&gt;&lt;i&gt;skew_bank&lt;/i&gt;" style="rounded=1;arcSize=4;html=1;whiteSpace=wrap;fillColor=#F5F0E8;strokeColor=#9A7A45;verticalAlign=top;fontSize=14;spacingTop=6;fontColor=#9A7A45;shadow=1;container=0;" parent="1" vertex="1">
+                    <mxGeometry x="1430" y="268" width="172" height="194" as="geometry"/>
+                </mxCell>
+                <mxCell id="PORT::spinnCore_dense/spinnCore/skew_bank_2::d_bus_i" value="d_bus_i" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;spacingLeft=22;" parent="BOX::spinnCore_dense/spinnCore/skew_bank_2" vertex="1">
+                    <mxGeometry y="0.2268" width="8" height="8" relative="1" as="geometry">
+                        <mxPoint x="-4" y="-4" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="PORT::spinnCore_dense/spinnCore/skew_bank_2::en_i" value="en_i" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;spacingLeft=22;" parent="BOX::spinnCore_dense/spinnCore/skew_bank_2" vertex="1">
+                    <mxGeometry y="0.4433" width="8" height="8" relative="1" as="geometry">
+                        <mxPoint x="-4" y="-4" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="PORT::spinnCore_dense/spinnCore/skew_bank_2::reset_n_i" value="reset_n_i" style="shape=ellipse;html=1;fillColor=#9AA0A6;strokeColor=#5F6368;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;fontColor=#5F6368;spacingLeft=22;" parent="BOX::spinnCore_dense/spinnCore/skew_bank_2" vertex="1">
+                    <mxGeometry y="0.5979" width="8" height="8" relative="1" as="geometry">
+                        <mxPoint x="-4" y="-4" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="PORT::spinnCore_dense/spinnCore/skew_bank_2::clk_i" value="clk_i" style="shape=ellipse;html=1;fillColor=#9AA0A6;strokeColor=#5F6368;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;fontColor=#5F6368;spacingLeft=22;" parent="BOX::spinnCore_dense/spinnCore/skew_bank_2" vertex="1">
+                    <mxGeometry y="0.7526" width="8" height="8" relative="1" as="geometry">
+                        <mxPoint x="-4" y="-4" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="PORT::spinnCore_dense/spinnCore/skew_bank_2::d_bus_o" value="d_bus_o" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=right;fontSize=12;spacing=2;spacingRight=22;" parent="BOX::spinnCore_dense/spinnCore/skew_bank_2" vertex="1">
+                    <mxGeometry x="1" y="0.2268" width="8" height="8" relative="1" as="geometry">
+                        <mxPoint x="-4" y="-4" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="BOX::spinnCore_dense/spinnCore/vector_rotator_0" value="&lt;b&gt;vector_rotator_0&lt;/b&gt;&lt;br&gt;&lt;i&gt;vector_rotator&lt;/i&gt;" style="rounded=1;arcSize=4;html=1;whiteSpace=wrap;fillColor=#F5F0E8;strokeColor=#9A7A45;verticalAlign=top;fontSize=14;spacingTop=6;fontColor=#9A7A45;shadow=1;container=0;" parent="1" vertex="1">
+                    <mxGeometry x="866" y="118" width="172" height="224" as="geometry"/>
+                </mxCell>
+                <mxCell id="PORT::spinnCore_dense/spinnCore/vector_rotator_0::bypass_i" value="bypass_i" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;spacingLeft=22;" parent="BOX::spinnCore_dense/spinnCore/vector_rotator_0" vertex="1">
+                    <mxGeometry y="0.1964" width="8" height="8" relative="1" as="geometry">
+                        <mxPoint x="-4" y="-4" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="PORT::spinnCore_dense/spinnCore/vector_rotator_0::data_i" value="data_i" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;spacingLeft=22;" parent="BOX::spinnCore_dense/spinnCore/vector_rotator_0" vertex="1">
+                    <mxGeometry y="0.3304" width="8" height="8" relative="1" as="geometry">
+                        <mxPoint x="-4" y="-4" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="PORT::spinnCore_dense/spinnCore/vector_rotator_0::valid_i" value="valid_i" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;spacingLeft=22;" parent="BOX::spinnCore_dense/spinnCore/vector_rotator_0" vertex="1">
+                    <mxGeometry y="0.5179" width="8" height="8" relative="1" as="geometry">
+                        <mxPoint x="-4" y="-4" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="PORT::spinnCore_dense/spinnCore/vector_rotator_0::reset_n_i" value="reset_n_i" style="shape=ellipse;html=1;fillColor=#9AA0A6;strokeColor=#5F6368;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;fontColor=#5F6368;spacingLeft=22;" parent="BOX::spinnCore_dense/spinnCore/vector_rotator_0" vertex="1">
+                    <mxGeometry y="0.6518" width="8" height="8" relative="1" as="geometry">
+                        <mxPoint x="-4" y="-4" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="PORT::spinnCore_dense/spinnCore/vector_rotator_0::clk_i" value="clk_i" style="shape=ellipse;html=1;fillColor=#9AA0A6;strokeColor=#5F6368;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;fontColor=#5F6368;spacingLeft=22;" parent="BOX::spinnCore_dense/spinnCore/vector_rotator_0" vertex="1">
+                    <mxGeometry y="0.7857" width="8" height="8" relative="1" as="geometry">
+                        <mxPoint x="-4" y="-4" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="PORT::spinnCore_dense/spinnCore/vector_rotator_0::data_o" value="data_o" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=right;fontSize=12;spacing=2;spacingRight=22;" parent="BOX::spinnCore_dense/spinnCore/vector_rotator_0" vertex="1">
+                    <mxGeometry x="1" y="0.5982" width="8" height="8" relative="1" as="geometry">
+                        <mxPoint x="-4" y="-4" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="BOX::spinnCore_dense/spinnCore/vector_rotator_1" value="&lt;b&gt;vector_rotator_1&lt;/b&gt;&lt;br&gt;&lt;i&gt;vector_rotator&lt;/i&gt;" style="rounded=1;arcSize=4;html=1;whiteSpace=wrap;fillColor=#F5F0E8;strokeColor=#9A7A45;verticalAlign=top;fontSize=14;spacingTop=6;fontColor=#9A7A45;shadow=1;container=0;" parent="1" vertex="1">
+                    <mxGeometry x="866" y="388" width="172" height="224" as="geometry"/>
+                </mxCell>
+                <mxCell id="PORT::spinnCore_dense/spinnCore/vector_rotator_1::valid_i" value="valid_i" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;spacingLeft=22;" parent="BOX::spinnCore_dense/spinnCore/vector_rotator_1" vertex="1">
+                    <mxGeometry y="0.1964" width="8" height="8" relative="1" as="geometry">
+                        <mxPoint x="-4" y="-4" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="PORT::spinnCore_dense/spinnCore/vector_rotator_1::data_i" value="data_i" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;spacingLeft=22;" parent="BOX::spinnCore_dense/spinnCore/vector_rotator_1" vertex="1">
+                    <mxGeometry y="0.3304" width="8" height="8" relative="1" as="geometry">
+                        <mxPoint x="-4" y="-4" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="PORT::spinnCore_dense/spinnCore/vector_rotator_1::bypass_i" value="bypass_i" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;spacingLeft=22;" parent="BOX::spinnCore_dense/spinnCore/vector_rotator_1" vertex="1">
+                    <mxGeometry y="0.4643" width="8" height="8" relative="1" as="geometry">
+                        <mxPoint x="-4" y="-4" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="PORT::spinnCore_dense/spinnCore/vector_rotator_1::reset_n_i" value="reset_n_i" style="shape=ellipse;html=1;fillColor=#9AA0A6;strokeColor=#5F6368;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;fontColor=#5F6368;spacingLeft=22;" parent="BOX::spinnCore_dense/spinnCore/vector_rotator_1" vertex="1">
+                    <mxGeometry y="0.6518" width="8" height="8" relative="1" as="geometry">
+                        <mxPoint x="-4" y="-4" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="PORT::spinnCore_dense/spinnCore/vector_rotator_1::clk_i" value="clk_i" style="shape=ellipse;html=1;fillColor=#9AA0A6;strokeColor=#5F6368;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=left;fontSize=12;spacing=2;fontColor=#5F6368;spacingLeft=22;" parent="BOX::spinnCore_dense/spinnCore/vector_rotator_1" vertex="1">
+                    <mxGeometry y="0.7857" width="8" height="8" relative="1" as="geometry">
+                        <mxPoint x="-4" y="-4" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="PORT::spinnCore_dense/spinnCore/vector_rotator_1::data_o" value="data_o" style="shape=ellipse;html=1;fillColor=#41617F;strokeColor=#41617F;verticalLabelPosition=top;verticalAlign=bottom;labelPosition=center;align=right;fontSize=12;spacing=2;spacingRight=22;" parent="BOX::spinnCore_dense/spinnCore/vector_rotator_1" vertex="1">
+                    <mxGeometry x="1" y="0.1964" width="8" height="8" relative="1" as="geometry">
+                        <mxPoint x="-4" y="-4" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="LEGEND" value="&lt;b&gt;Legend&lt;/b&gt;" style="rounded=1;arcSize=6;html=1;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#9AA6B4;verticalAlign=top;fontSize=12;spacingTop=6;align=left;spacingLeft=10;shadow=1;container=0;" parent="1" vertex="1">
+                    <mxGeometry x="22" y="730" width="250" height="132" as="geometry"/>
+                </mxCell>
+                <mxCell id="n39" value="bus (multi-bit, width labelled)" style="text;html=1;align=left;verticalAlign=middle;fontSize=10;" parent="1" vertex="1">
+                    <mxGeometry x="74" y="751" width="190" height="18" as="geometry"/>
+                </mxCell>
+                <mxCell id="n41" value="control (1-bit)" style="text;html=1;align=left;verticalAlign=middle;fontSize=10;" parent="1" vertex="1">
+                    <mxGeometry x="74" y="773" width="190" height="18" as="geometry"/>
+                </mxCell>
+                <mxCell id="n43" value="bidirectional" style="text;html=1;align=left;verticalAlign=middle;fontSize=10;" parent="1" vertex="1">
+                    <mxGeometry x="74" y="795" width="190" height="18" as="geometry"/>
+                </mxCell>
+                <mxCell id="n44" style="shape=ellipse;html=1;fillColor=#9AA0A6;strokeColor=#5F6368;" parent="1" vertex="1">
+                    <mxGeometry x="46" y="822" width="8" height="8" as="geometry"/>
+                </mxCell>
+                <mxCell id="n45" value="clk / reset (implicit, not routed)" style="text;html=1;align=left;verticalAlign=middle;fontSize=10;" parent="1" vertex="1">
+                    <mxGeometry x="74" y="817" width="190" height="18" as="geometry"/>
+                </mxCell>
+                <mxCell id="n1" value="3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classicThin;endSize=7;startArrow=none;strokeColor=#38455A;strokeWidth=2.0;fontSize=10;fontColor=#38455A;labelBackgroundColor=#FFFFFF;jettySize=auto;exitDx=0;exitDy=0;" parent="1" source="PORT::spinnCore_dense/spinnCore_dense_regfile::data_type_o" target="PORT::spinnCore_dense/spinnCore::data_type_i" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="312" y="312"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="n2" value="2" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classicThin;endSize=7;startArrow=none;strokeColor=#38455A;strokeWidth=2.0;fontSize=10;fontColor=#38455A;labelBackgroundColor=#FFFFFF;jettySize=auto;exitDx=0;exitDy=0;" parent="1" source="PORT::spinnCore_dense/spinnCore_dense_regfile::rounding_mode_o" target="PORT::spinnCore_dense/spinnCore::rounding_mode_i" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="356" y="596"/>
+                            <mxPoint x="356" y="432"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="n3" value="N*DATA_WIDTH" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classicThin;endSize=7;startArrow=none;strokeColor=#38455A;strokeWidth=2.0;fontSize=10;fontColor=#38455A;labelBackgroundColor=#FFFFFF;jettySize=auto;exitDx=0;exitDy=0;" parent="1" source="PORT::spinnCore_dense::a_bus_i" target="PORT::spinnCore_dense/spinnCore::a_bus_i" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="44" y="84"/>
+                            <mxPoint x="44" y="114"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="n4" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classicThin;endSize=7;startArrow=none;strokeColor=#556170;strokeWidth=1.2;fontSize=10;fontColor=#556170;labelBackgroundColor=#FFFFFF;jettySize=auto;exitDx=0;exitDy=0;" parent="1" source="PORT::spinnCore_dense::a_skew_bank_en_i" target="PORT::spinnCore_dense/spinnCore::a_skew_bank_en_i" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="44" y="144"/>
+                            <mxPoint x="44" y="174"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="n5" value="N*DATA_WIDTH" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classicThin;endSize=7;startArrow=none;strokeColor=#38455A;strokeWidth=2.0;fontSize=10;fontColor=#38455A;labelBackgroundColor=#FFFFFF;jettySize=auto;exitDx=0;exitDy=0;" parent="1" source="PORT::spinnCore_dense::b_bus_i" target="PORT::spinnCore_dense/spinnCore::b_bus_i" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="44" y="315"/>
+                            <mxPoint x="44" y="286"/>
+                            <mxPoint x="346" y="286"/>
+                            <mxPoint x="346" y="342"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="n6" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classicThin;endSize=7;startArrow=none;strokeColor=#556170;strokeWidth=1.2;fontSize=10;fontColor=#556170;labelBackgroundColor=#FFFFFF;jettySize=auto;exitDx=0;exitDy=0;" parent="1" source="PORT::spinnCore_dense::b_skew_bank_en_i" target="PORT::spinnCore_dense/spinnCore::b_skew_bank_en_i" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="44" y="435"/>
+                            <mxPoint x="44" y="462.2"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="n7" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classicThin;endSize=7;startArrow=none;strokeColor=#556170;strokeWidth=1.2;fontSize=10;fontColor=#556170;labelBackgroundColor=#FFFFFF;jettySize=auto;exitDx=0;exitDy=0;" parent="1" source="PORT::spinnCore_dense::mac_en_bus_i" target="PORT::spinnCore_dense/spinnCore::mac_en_bus_i" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="44" y="252.2"/>
+                            <mxPoint x="44" y="280.1"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="n8" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classicThin;endSize=7;startArrow=none;strokeColor=#556170;strokeWidth=1.2;fontSize=10;fontColor=#556170;labelBackgroundColor=#FFFFFF;jettySize=auto;exitDx=0;exitDy=0;" parent="1" source="PORT::spinnCore_dense::acc_clr_bus_i" target="PORT::spinnCore_dense/spinnCore::acc_clr_bus_i" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="44" y="282.2"/>
+                            <mxPoint x="44" y="250.2"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="n9" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classicThin;endSize=7;startArrow=none;strokeColor=#556170;strokeWidth=1.2;fontSize=10;fontColor=#556170;labelBackgroundColor=#FFFFFF;jettySize=auto;exitDx=0;exitDy=0;" parent="1" source="PORT::spinnCore_dense::acc_out_en_bus_i" target="PORT::spinnCore_dense/spinnCore::acc_out_en_bus_i" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="70.5" y="345"/>
+                            <mxPoint x="70.5" y="282.2"/>
+                            <mxPoint x="378" y="282.2"/>
+                            <mxPoint x="378" y="372.2"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="n10" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classicThin;endSize=7;startArrow=none;strokeColor=#556170;strokeWidth=1.2;fontSize=10;fontColor=#556170;labelBackgroundColor=#FFFFFF;jettySize=auto;exitDx=0;exitDy=0;" parent="1" source="PORT::spinnCore_dense::bypass_rotator0_i" target="PORT::spinnCore_dense/spinnCore::bypass_rotator0_i" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="44" y="114"/>
+                            <mxPoint x="44" y="144"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="n11" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classicThin;endSize=7;startArrow=none;strokeColor=#556170;strokeWidth=1.2;fontSize=10;fontColor=#556170;labelBackgroundColor=#FFFFFF;jettySize=auto;exitDx=0;exitDy=0;" parent="1" source="PORT::spinnCore_dense::bypass_rotator1_i" target="PORT::spinnCore_dense/spinnCore::bypass_rotator1_i" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="44" y="465"/>
+                            <mxPoint x="44" y="492.2"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="n12" value="N*ACC_WIDTH" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classicThin;endSize=7;startArrow=none;strokeColor=#38455A;strokeWidth=2.0;fontSize=10;fontColor=#38455A;labelBackgroundColor=#FFFFFF;jettySize=auto;exitDx=0;exitDy=0;" parent="1" source="PORT::spinnCore_dense/spinnCore::r_bus_o" target="PORT::spinnCore_dense::r_bus_o" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="1764" y="287.2"/>
+                            <mxPoint x="1764" y="281.2"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="n13" value="N" style="edgeStyle=none;html=1;endArrow=classicThin;endSize=7;startArrow=none;strokeColor=#38455A;strokeWidth=2.0;fontSize=10;fontColor=#38455A;labelBackgroundColor=#FFFFFF;" parent="1" source="PORT::spinnCore_dense/spinnCore::r_valid_bus_o" target="PORT::spinnCore_dense::r_valid_bus_o" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="n14" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classicThin;endSize=7;startArrow=none;strokeColor=#556170;strokeWidth=1.2;fontSize=10;fontColor=#556170;labelBackgroundColor=#FFFFFF;jettySize=auto;exitDx=0;exitDy=0;" parent="1" source="PORT::spinnCore_dense::r_skew_bank_en_i" target="PORT::spinnCore_dense/spinnCore::r_skew_bank_en_i" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="44" y="375"/>
+                            <mxPoint x="44" y="444"/>
+                            <mxPoint x="422" y="444"/>
+                            <mxPoint x="422" y="402.2"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="n15" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classicThin;endSize=7;startArrow=none;strokeColor=#556170;strokeWidth=1.2;fontSize=10;fontColor=#556170;labelBackgroundColor=#FFFFFF;jettySize=auto;exitDx=0;exitDy=0;" parent="1" source="PORT::spinnCore_dense/spinnCore::busy_o" target="PORT::spinnCore_dense::busy_o" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="1764" y="491.2"/>
+                            <mxPoint x="1764" y="497.2"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="n16" value="N*DATA_WIDTH" style="edgeStyle=none;html=1;endArrow=classicThin;endSize=7;startArrow=none;strokeColor=#38455A;strokeWidth=2.0;fontSize=10;fontColor=#38455A;labelBackgroundColor=#FFFFFF;" parent="1" source="PORT::spinnCore_dense/spinnCore/vector_rotator_0::data_o" target="PORT::spinnCore_dense/spinnCore/spinnArray::a_bus_i" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="n17" value="N*DATA_WIDTH" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classicThin;endSize=7;startArrow=none;strokeColor=#38455A;strokeWidth=2.0;fontSize=10;fontColor=#38455A;labelBackgroundColor=#FFFFFF;jettySize=auto;exitDx=0;exitDy=0;" parent="1" source="PORT::spinnCore_dense/spinnCore/vector_rotator_1::data_o" target="PORT::spinnCore_dense/spinnCore/spinnArray::b_bus_i" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="1060" y="432"/>
+                            <mxPoint x="1060" y="414"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="n18" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classicThin;endSize=7;startArrow=none;strokeColor=#556170;strokeWidth=1.2;fontSize=10;fontColor=#556170;labelBackgroundColor=#FFFFFF;jettySize=auto;exitDx=0;exitDy=0;" parent="1" source="PORT::spinnCore_dense/spinnCore::mac_en_bus_i" target="PORT::spinnCore_dense/spinnCore/spinnArray::mac_en_bus_i" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="466" y="280.2"/>
+                            <mxPoint x="466" y="363"/>
+                            <mxPoint x="1050" y="363"/>
+                            <mxPoint x="1050" y="312"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="n19" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classicThin;endSize=7;startArrow=none;strokeColor=#556170;strokeWidth=1.2;fontSize=10;fontColor=#556170;labelBackgroundColor=#FFFFFF;jettySize=auto;exitDx=0;exitDy=0;" parent="1" source="PORT::spinnCore_dense/spinnCore::mac_en_bus_i" target="PORT::spinnCore_dense/spinnCore/vector_rotator_0::valid_i" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="490" y="280.2"/>
+                            <mxPoint x="490" y="372"/>
+                            <mxPoint x="844" y="372.2"/>
+                            <mxPoint x="844" y="234"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="n20" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classicThin;endSize=7;startArrow=none;strokeColor=#556170;strokeWidth=1.2;fontSize=10;fontColor=#556170;labelBackgroundColor=#FFFFFF;jettySize=auto;exitDx=0;exitDy=0;" parent="1" source="PORT::spinnCore_dense/spinnCore::mac_en_bus_i" target="PORT::spinnCore_dense/spinnCore/vector_rotator_1::valid_i" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="514" y="280.1"/>
+                            <mxPoint x="514" y="376"/>
+                            <mxPoint x="844" y="376"/>
+                            <mxPoint x="844" y="432"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="n21" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classicThin;endSize=7;startArrow=none;strokeColor=#556170;strokeWidth=1.2;fontSize=10;fontColor=#556170;labelBackgroundColor=#FFFFFF;jettySize=auto;exitDx=0;exitDy=0;" parent="1" source="PORT::spinnCore_dense/spinnCore::acc_clr_bus_i" target="PORT::spinnCore_dense/spinnCore/spinnArray::acc_clr_bus_i" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="490" y="250.2"/>
+                            <mxPoint x="490" y="106"/>
+                            <mxPoint x="1126" y="106"/>
+                            <mxPoint x="1126" y="282"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="n22" value="" style="edgeStyle=none;html=1;endArrow=classicThin;endSize=7;startArrow=none;strokeColor=#556170;strokeWidth=1.2;fontSize=10;fontColor=#556170;labelBackgroundColor=#FFFFFF;" parent="1" source="PORT::spinnCore_dense/spinnCore::acc_out_en_bus_i" target="PORT::spinnCore_dense/spinnCore/spinnArray::acc_out_en_bus_i" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="n23" value="N*ACC_WIDTH" style="edgeStyle=none;html=1;endArrow=classicThin;endSize=7;startArrow=none;strokeColor=#38455A;strokeWidth=2.0;fontSize=10;fontColor=#38455A;labelBackgroundColor=#FFFFFF;" parent="1" source="PORT::spinnCore_dense/spinnCore/spinnArray::r_bus_o" target="PORT::spinnCore_dense/spinnCore/skew_bank_2::d_bus_i" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="n24" value="N" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classicThin;endSize=7;startArrow=none;strokeColor=#38455A;strokeWidth=2.0;fontSize=10;fontColor=#38455A;labelBackgroundColor=#FFFFFF;jettySize=auto;exitDx=0;exitDy=0;" parent="1" source="PORT::spinnCore_dense/spinnCore/spinnArray::r_valid_bus_o" target="PORT::spinnCore_dense/spinnCore::r_valid_bus_o" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="1342" y="363"/>
+                            <mxPoint x="1342" y="256"/>
+                            <mxPoint x="1720" y="256"/>
+                            <mxPoint x="1720" y="363"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="n25" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classicThin;endSize=7;startArrow=none;strokeColor=#556170;strokeWidth=1.2;fontSize=10;fontColor=#556170;labelBackgroundColor=#FFFFFF;jettySize=auto;exitDx=0;exitDy=0;" parent="1" source="PORT::spinnCore_dense/spinnCore/spinnArray::busy_o" target="PORT::spinnCore_dense/spinnCore::busy_o" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="1342" y="474"/>
+                            <mxPoint x="1342" y="491.2"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="n26" value="3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classicThin;endSize=7;startArrow=none;strokeColor=#38455A;strokeWidth=2.0;fontSize=10;fontColor=#38455A;labelBackgroundColor=#FFFFFF;jettySize=auto;exitDx=0;exitDy=0;" parent="1" source="PORT::spinnCore_dense/spinnCore::data_type_i" target="PORT::spinnCore_dense/spinnCore/spinnArray::data_type_i" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="572" y="312"/>
+                            <mxPoint x="572" y="354"/>
+                            <mxPoint x="1126" y="354"/>
+                            <mxPoint x="1126" y="342.2"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="n27" value="2" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classicThin;endSize=7;startArrow=none;strokeColor=#38455A;strokeWidth=2.0;fontSize=10;fontColor=#38455A;labelBackgroundColor=#FFFFFF;jettySize=auto;exitDx=0;exitDy=0;" parent="1" source="PORT::spinnCore_dense/spinnCore::rounding_mode_i" target="PORT::spinnCore_dense/spinnCore/spinnArray::rounding_mode_i" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="572" y="432.2"/>
+                            <mxPoint x="572" y="372.2"/>
+                            <mxPoint x="1126" y="372"/>
+                            <mxPoint x="1126" y="444"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="n28" value="N*DATA_WIDTH" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classicThin;endSize=7;startArrow=none;strokeColor=#38455A;strokeWidth=2.0;fontSize=10;fontColor=#38455A;labelBackgroundColor=#FFFFFF;jettySize=auto;exitDx=0;exitDy=0;" parent="1" source="PORT::spinnCore_dense/spinnCore::a_bus_i" target="PORT::spinnCore_dense/spinnCore/skew_bank_0::d_bus_i" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="562" y="114"/>
+                            <mxPoint x="562" y="192"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="n29" value="N*DATA_WIDTH" style="edgeStyle=none;html=1;endArrow=classicThin;endSize=7;startArrow=none;strokeColor=#38455A;strokeWidth=2.0;fontSize=10;fontColor=#38455A;labelBackgroundColor=#FFFFFF;" parent="1" source="PORT::spinnCore_dense/spinnCore/skew_bank_0::d_bus_o" target="PORT::spinnCore_dense/spinnCore/vector_rotator_0::data_i" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="n30" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classicThin;endSize=7;startArrow=none;strokeColor=#556170;strokeWidth=1.2;fontSize=10;fontColor=#556170;labelBackgroundColor=#FFFFFF;jettySize=auto;exitDx=0;exitDy=0;" parent="1" source="PORT::spinnCore_dense/spinnCore::a_skew_bank_en_i" target="PORT::spinnCore_dense/spinnCore/skew_bank_0::en_i" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="466" y="174"/>
+                            <mxPoint x="466" y="222"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="n31" value="N*DATA_WIDTH" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classicThin;endSize=7;startArrow=none;strokeColor=#38455A;strokeWidth=2.0;fontSize=10;fontColor=#38455A;labelBackgroundColor=#FFFFFF;jettySize=auto;exitDx=0;exitDy=0;" parent="1" source="PORT::spinnCore_dense/spinnCore::b_bus_i" target="PORT::spinnCore_dense/spinnCore/skew_bank_1::d_bus_i" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="562" y="342.2"/>
+                            <mxPoint x="562" y="432"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="n32" value="N*DATA_WIDTH" style="edgeStyle=none;html=1;endArrow=classicThin;endSize=7;startArrow=none;strokeColor=#38455A;strokeWidth=2.0;fontSize=10;fontColor=#38455A;labelBackgroundColor=#FFFFFF;" parent="1" source="PORT::spinnCore_dense/spinnCore/skew_bank_1::d_bus_o" target="PORT::spinnCore_dense/spinnCore/vector_rotator_1::data_i" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="n33" value="" style="edgeStyle=none;html=1;endArrow=classicThin;endSize=7;startArrow=none;strokeColor=#556170;strokeWidth=1.2;fontSize=10;fontColor=#556170;labelBackgroundColor=#FFFFFF;" parent="1" source="PORT::spinnCore_dense/spinnCore::b_skew_bank_en_i" target="PORT::spinnCore_dense/spinnCore/skew_bank_1::en_i" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="n34" value="N*ACC_WIDTH" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classicThin;endSize=7;startArrow=none;strokeColor=#38455A;strokeWidth=2.0;fontSize=10;fontColor=#38455A;labelBackgroundColor=#FFFFFF;jettySize=auto;exitDx=0;exitDy=0;" parent="1" source="PORT::spinnCore_dense/spinnCore/skew_bank_2::d_bus_o" target="PORT::spinnCore_dense/spinnCore::r_bus_o" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="1624" y="312"/>
+                            <mxPoint x="1624" y="287.2"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="n35" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classicThin;endSize=7;startArrow=none;strokeColor=#556170;strokeWidth=1.2;fontSize=10;fontColor=#556170;labelBackgroundColor=#FFFFFF;jettySize=auto;exitDx=0;exitDy=0;" parent="1" source="PORT::spinnCore_dense/spinnCore::r_skew_bank_en_i" target="PORT::spinnCore_dense/spinnCore/skew_bank_2::en_i" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="466" y="402.2"/>
+                            <mxPoint x="466" y="624"/>
+                            <mxPoint x="1408" y="624"/>
+                            <mxPoint x="1408" y="354"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="n36" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classicThin;endSize=7;startArrow=none;strokeColor=#556170;strokeWidth=1.2;fontSize=10;fontColor=#556170;labelBackgroundColor=#FFFFFF;jettySize=auto;exitDx=0;exitDy=0;" parent="1" source="PORT::spinnCore_dense/spinnCore::bypass_rotator0_i" target="PORT::spinnCore_dense/spinnCore/vector_rotator_0::bypass_i" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="466" y="144"/>
+                            <mxPoint x="466" y="136"/>
+                            <mxPoint x="844" y="136"/>
+                            <mxPoint x="844" y="162"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="n37" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classicThin;endSize=7;startArrow=none;strokeColor=#556170;strokeWidth=1.2;fontSize=10;fontColor=#556170;labelBackgroundColor=#FFFFFF;jettySize=auto;exitDx=0;exitDy=0;" parent="1" source="PORT::spinnCore_dense/spinnCore::bypass_rotator1_i" target="PORT::spinnCore_dense/spinnCore/vector_rotator_1::bypass_i" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="466" y="492.2"/>
+                            <mxPoint x="466" y="594"/>
+                            <mxPoint x="844" y="594"/>
+                            <mxPoint x="844" y="492.2"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="n38" style="endArrow=classicThin;endSize=6;html=1;rounded=0;strokeColor=#38455A;strokeWidth=2.0;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="34" y="760" as="sourcePoint"/>
+                        <mxPoint x="66" y="760" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="n40" style="endArrow=classicThin;endSize=6;html=1;rounded=0;strokeColor=#556170;strokeWidth=1.2;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="34" y="782" as="sourcePoint"/>
+                        <mxPoint x="66" y="782" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="n42" style="endArrow=classicThin;endSize=6;html=1;rounded=0;strokeColor=#557A60;strokeWidth=1.6;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="34" y="804" as="sourcePoint"/>
+                        <mxPoint x="66" y="804" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
