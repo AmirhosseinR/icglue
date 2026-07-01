@@ -992,7 +992,7 @@ def optimize_ports(root):
             add_nets(c)
     add_nets(root)
 
-    for _ in range(6):
+    for _ in range(8):
         _, port_abs = compute_abs(root)
 
         def bary(node, p):
@@ -1070,7 +1070,7 @@ def align_ports(root):
     collect(root)
     box_abs, _ = compute_abs(root)          # box positions are fixed
 
-    for _ in range(6):
+    for _ in range(8):
         _, port_abs = compute_abs(root)
         for node in nodes:
             ox, oy, w, h = box_abs[node["path"]]
@@ -1082,17 +1082,27 @@ def align_ports(root):
                 if not ports:
                     continue
                 prefix = "PORT::" + node["path"] + "/"
+                aligns = [p for p in ports if not is_clkrst(p["name"])]
+                clks = [p for p in ports if is_clkrst(p["name"])]
+                # reserve the bottom band for clk/reset so their (unconnected)
+                # placement never pushes the aligned data ports off their targets
+                n_clk = len(clks)
+                a_bot = face_bot - (n_clk * PITCH if n_clk else 0)
+
                 desired = []
-                for p in ports:
+                for p in aligns:
                     pid = port_id(node["path"], p["name"])
                     neigh = [q for q in adj.get(pid, ()) if q in port_abs]
                     inner = [q for q in neigh if q.startswith(prefix)]
-                    use = inner if inner else neigh   # anchor to children if any
+                    use = inner if inner else neigh
                     ys = [port_abs[q][1] - oy for q in use]
                     desired.append(sum(ys) / len(ys) if ys else 1e9)
-                ass = _assign_monotone(desired, face_top, face_bot, PITCH)
-                for p, yv in zip(ports, ass):
+                ass = _assign_monotone(desired, face_top, a_bot, PITCH)
+                for p, yv in zip(aligns, ass):
                     pm[p["name"]] = yv
+                # clk/reset pinned at the very bottom (reset above, clock lowest)
+                for k, p in enumerate(clks):
+                    pm[p["name"]] = face_bot - (n_clk - 1 - k) * PITCH
 
 
 def find_top(ctx):
