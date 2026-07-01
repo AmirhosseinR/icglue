@@ -26,7 +26,8 @@ from xml.sax.saxutils import escape, quoteattr
 TITLE_H = 26
 PITCH = 30          # vertical distance between ports (room for a label above each)
 PORT_GUTTER = 140  # inner margin reserved for boundary-port stubs + labels
-STUB = 22           # length of the port stub sticking into the box
+STUB = 22           # length of the port stub sticking into the box (routing)
+LABEL_SPACING = 14  # horizontal gap between the port dot and its name label
 H_GAP = 110         # horizontal gap between layers of children
 V_GAP = 46          # vertical gap between children in a layer
 PAD = 22            # generic inner padding
@@ -756,7 +757,7 @@ def _emit_ports(ctx, node, bid, ports, side):
         st = (f"shape=ellipse;html=1;fillColor={dot};strokeColor={edge};"
               "verticalLabelPosition=top;verticalAlign=bottom;"
               f"labelPosition=center;align={align};fontSize=12;spacing=2;{fcol}"
-              f"spacing{'Left' if side=='left' else 'Right'}={STUB};")
+              f"spacing{'Left' if side=='left' else 'Right'}={LABEL_SPACING};")
         ctx.cells.append(
             f'<mxCell id={quoteattr(pid)} value={quoteattr(lab)} '
             f'style={quoteattr(st)} vertex="1" parent={quoteattr(bid)}>'
@@ -846,10 +847,10 @@ def render_svg(ctx, root, port_abs, box_abs, chan):
                 tcol = "#5F6368" if clk else "#333"
                 parts.append(f'<circle cx="{px:.0f}" cy="{py:.0f}" r="2.5" fill="{dot}"/>')
                 if side == "left":
-                    parts.append(f'<text x="{px+STUB:.0f}" y="{py-4:.0f}" font-size="12" '
+                    parts.append(f'<text x="{px+LABEL_SPACING:.0f}" y="{py-4:.0f}" font-size="12" '
                                  f'fill="{tcol}">{escape(p["name"])}</text>')
                 else:
-                    parts.append(f'<text x="{px-STUB:.0f}" y="{py-4:.0f}" font-size="12" '
+                    parts.append(f'<text x="{px-LABEL_SPACING:.0f}" y="{py-4:.0f}" font-size="12" '
                                  f'text-anchor="end" fill="{tcol}">{escape(p["name"])}</text>')
         for c in node["children"]:
             cx, cy = node["childpos"][c["inst_name"]]
@@ -1080,10 +1081,14 @@ def align_ports(root):
             for ports in (left, right):
                 if not ports:
                     continue
+                prefix = "PORT::" + node["path"] + "/"
                 desired = []
                 for p in ports:
                     pid = port_id(node["path"], p["name"])
-                    ys = [port_abs[q][1] - oy for q in adj.get(pid, ()) if q in port_abs]
+                    neigh = [q for q in adj.get(pid, ()) if q in port_abs]
+                    inner = [q for q in neigh if q.startswith(prefix)]
+                    use = inner if inner else neigh   # anchor to children if any
+                    ys = [port_abs[q][1] - oy for q in use]
                     desired.append(sum(ys) / len(ys) if ys else 1e9)
                 ass = _assign_monotone(desired, face_top, face_bot, PITCH)
                 for p, yv in zip(ports, ass):
