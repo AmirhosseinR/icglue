@@ -199,6 +199,20 @@ def count_sides(ports):
     return len(left), len(right)
 
 
+# approximate rendered width (px) of a port's name label at fontSize 12
+def _label_px(name):
+    return len(name) * 6.6 + LABEL_SPACING + 8
+
+
+def leaf_width(ports):
+    """Width that guarantees left-side and right-side labels never collide in
+    the middle of the box (the fixed LEAF_W could not hold long port names)."""
+    left, right = port_sides(ports)
+    lw = max((_label_px(p["name"]) for p in left), default=0)
+    rw = max((_label_px(p["name"]) for p in right), default=0)
+    return max(LEAF_W, int(lw + rw + PAD))
+
+
 def inst_ports(inst):
     out = []
     for p in inst["pins"]:
@@ -243,6 +257,188 @@ def order_layers(m, nets, layer):
     return by_layer
 
 
+def _pack_column(order, desired, height, gap, top):
+    """Place items (in the given vertical order) as close as possible to their
+    desired y while keeping order and a minimum gap; never start above `top`."""
+    n = len(order)
+    y = [0.0] * n
+    for i in range(n):
+        d = desired[i]
+        if i == 0:
+            y[i] = max(d, top)
+        else:
+            y[i] = max(d, y[i - 1] + height[order[i - 1]] + gap)
+    return y
+
+
+def _refit(node):
+    """Recompute a container's width/height from its (possibly moved) children
+    so nothing spills outside the box after placement refinement. Bottom-up."""
+    for c in node["children"]:
+        _refit(c)
+    if node["kind"] == "container" and node["children"]:
+        maxbot = maxright = 0
+        for c in node["children"]:
+            cx, cy = node["childpos"][c["inst_name"]]
+            maxbot = max(maxbot, cy + c["h"])
+            maxright = max(maxright, cx + c["w"])
+        left, right = count_sides(node["ports"])
+        port_h = TITLE_H + max(left, right, 1) * PITCH + PAD + BOTTOM_H
+        node["h"] = max(maxbot + PAD + BOTTOM_H, port_h)
+        node["w"] = max(maxright + PORT_GUTTER, PORT_GUTTER * 2 + LEAF_W)
+
+
+def _wmedian(pairs):
+    """Weighted median of (value, weight) pairs."""
+    if not pairs:
+        return None
+    pairs = sorted(pairs)
+    tot = sum(w for _, w in pairs)
+    acc = 0
+    for v, w in pairs:
+        acc += w
+        if acc * 2 >= tot:
+            return v
+    return pairs[-1][0]
+
+
+def refine_placement(root, iters=12):
+    """Coupled vertical placement + port alignment, weighted by bus width.
+
+    Each pass: (1) shift every module by the width-weighted median vertical
+    offset needed to line its ports up with the ports they drive/receive,
+    packing each layer column to avoid overlap; (2) grow containers to fit;
+    (3) run the per-port aligner. Weighting by net width means a 256-bit
+    datapath is made dead-straight while incidental 1-bit controls give way —
+    exactly how an engineer would draw it: straight fat buses, minor jogs on
+    control lines."""
+    # width-weighted port adjacency: pid -> [(neighbour_pid, width), ...]
+    wadj = {}
+
+    def add(n):
+        if n["kind"] == "container":
+            for nm, net in n["nets"].items():
+                if is_clkrst(nm):
+                    continue
+                ws = str(net["width"])
+                w = int(ws) if ws.isdigit() else 1
+                w = max(w, 1)
+                eps = [_endpoint_id(n, e) for e in (net["drivers"] + net["sinks"])]
+                for a in eps:
+                    for b in eps:
+                        if a != b:
+                            wadj.setdefault(a, []).append((b, w))
+        for c in n["children"]:
+            add(c)
+    add(root)
+
+    nodes = []
+
+    def collect(n):
+        nodes.append(n)
+        for c in n["children"]:
+            collect(c)
+    collect(root)
+
+    for _ in range(iters):
+        _, port_abs = compute_abs(root)
+        for node in nodes:
+            if node["kind"] != "container" or not node["children"]:
+                continue
+            cols = {}
+            for c in node["children"]:
+                cx, _cy = node["childpos"][c["inst_name"]]
+                cols.setdefault(round(cx, 2), []).append(c)
+            for _x, col in cols.items():
+                col.sort(key=lambda c: node["childpos"][c["inst_name"]][1])
+                heights = {c["inst_name"]: c["h"] for c in col}
+                order = [c["inst_name"] for c in col]
+                desired = []
+                for c in col:
+                    port_deltas = []
+                    for p in c["ports"]:
+                        if is_clkrst(p["name"]):
+                            continue
+                        pid = port_id(c["path"], p["name"])
+                        if pid not in port_abs:
+                            continue
+                        py = port_abs[pid][1]
+                        nb = [(port_abs[q][1] - py, w)
+                              for q, w in wadj.get(pid, ()) if q in port_abs]
+                        med = _wmedian(nb)
+                        if med is not None:
+                            pw = sum(w for _, w in nb)
+                            port_deltas.append((med, pw))
+                    oy = node["childpos"][c["inst_name"]][1]
+                    d = _wmedian(port_deltas)
+                    if d is not None:
+                        oy += d
+                    desired.append(oy)
+                placed = _pack_column(order, desired, heights, V_GAP,
+                                      TITLE_H + PAD)
+                for nm, yv in zip(order, placed):
+                    ox = node["childpos"][nm][0]
+                    node["childpos"][nm] = (ox, yv)
+        _refit(root)
+        align_ports(root)
+
+
+def harmonize_orders(root, iters=4):
+    """Make a container's BOUNDARY ports follow the vertical order of the
+    interior child ports they connect to, so a pass-through signal keeps ONE
+    consistent order at every level of the hierarchy. Without this, the outer
+    face may list ports in a different order than the inner face, and the
+    monotone port packer then physically cannot put both endpoints on the same
+    row — the wire is forced to jog even though there is empty space (exactly
+    the `a_skew_bank_en_i` case). Only boundary faces are reordered (interior
+    orders, set by their own children, are left intact), so it converges instead
+    of oscillating the way a global re-sort does."""
+    nodes = []
+
+    def collect(n):        # children first (bottom-up)
+        for c in n["children"]:
+            collect(c)
+        nodes.append(n)
+    collect(root)
+
+    for _ in range(iters):
+        _, port_abs = compute_abs(root)
+        for node in nodes:
+            if node["kind"] != "container":
+                continue
+            key = {}
+            for name, net in node["nets"].items():
+                if is_clkrst(name):
+                    continue
+                bports = [e["port"] for e in (net["drivers"] + net["sinks"])
+                          if e["kind"] == "port"]
+                if not bports:
+                    continue
+                ys = []
+                for e in (net["drivers"] + net["sinks"]):
+                    if e["kind"] == "pin":
+                        pid = port_id(node["path"] + "/" + e["inst"], e["pin"])
+                        if pid in port_abs:
+                            ys.append(port_abs[pid][1])
+                if ys:
+                    ys.sort()
+                    med = ys[len(ys) // 2]
+                    for bp in bports:
+                        key[bp] = med
+            left = [p for p in node["ports"] if not is_clkrst(p["name"])
+                    and (is_in(p["dir"]) or is_bi(p["dir"]))]
+            right = [p for p in node["ports"]
+                     if not is_clkrst(p["name"]) and is_out(p["dir"])]
+            clk = [p for p in node["ports"] if is_clkrst(p["name"])]
+            # stable sort: ports with a known target row move to match it,
+            # unconnected ones keep their relative position
+            left.sort(key=lambda p: key.get(p["name"], 1e9))
+            right.sort(key=lambda p: key.get(p["name"], 1e9))
+            clk.sort(key=lambda p: 0 if _is_reset(p["name"]) else 1)
+            node["ports"] = left + right + clk
+        align_ports(root)
+
+
 def layout(ctx, path, ports, module_name):
     m = ctx.M.get(module_name, {"instances": [], "is_resource": True,
                                 "ports": [], "declarations": []})
@@ -256,7 +452,7 @@ def layout(ctx, path, ports, module_name):
     if not children_insts:
         left, right = count_sides(ports)
         h = TITLE_H + max(left, right, 1) * PITCH + PAD + BOTTOM_H
-        w = LEAF_W
+        w = leaf_width(ports)
         return {"path": path, "module": module_name, "kind": "leaf",
                 "ports": ports, "w": w, "h": h, "children": [], "childpos": {},
                 "nets": {}, "res": m.get("is_resource", False)}
@@ -447,7 +643,7 @@ def _astar(s, t, obstacles, region):
                 return True
         return False
 
-    TURN = 40
+    TURN = 60
     start = (xi[s[0]], yi[s[1]])
     goal = (xi[t[0]], yi[t[1]])
     # state: (ix, iy, dir) dir 0=horiz 1=vert 2=none
@@ -559,7 +755,7 @@ def _astar_grid(s, t, xs, ys, obstacles, usage, hist, cong):
         ys = sorted(set(ys) | {t[1]})
     xi = {x: i for i, x in enumerate(xs)}
     yi = {y: i for i, y in enumerate(ys)}
-    TURN = 30
+    TURN = 60
     start = (xi[s[0]], yi[s[1]])
     goal = (xi[t[0]], yi[t[1]])
     pq = [(0.0, start[0], start[1], 2, None)]
@@ -613,6 +809,8 @@ def route_container(node, box_abs, port_abs):
     for name, net in node["nets"].items():
         if is_clkrst(name):
             continue
+        ws = str(net["width"])
+        nw = int(ws) if ws.isdigit() else (1 if ws in ("", "1") else 64)
         src, targets = _net_targets(net)
         if src is None:
             continue
@@ -627,7 +825,7 @@ def route_container(node, box_abs, port_abs):
                 continue
             x2, y2, s2 = port_abs[tid]
             tstub = (x2 + _stub_sign(t, s2) * STUB, y2)
-            jobs.append([sid, tid, (x1, y1), (x2, y2), sstub, tstub])
+            jobs.append([sid, tid, (x1, y1), (x2, y2), sstub, tstub, nw])
 
     stubs = [j[4] for j in jobs] + [j[5] for j in jobs]
     xs, ys = _grid_coords(region, boxes, stubs)
@@ -642,7 +840,7 @@ def route_container(node, box_abs, port_abs):
         routes = {}
         cong = 2.0 + 3.0 * it          # ramp congestion cost each iteration
         for i in order:
-            sid, tid, s, t, sstub, tstub = jobs[i]
+            sid, tid, s, t, sstub, tstub, _nw = jobs[i]
             path = _astar_grid(sstub, tstub, xs, ys, boxes, usage, hist, cong)
             if not path:
                 path = [sstub, tstub]
@@ -1156,6 +1354,11 @@ def main():
     root = layout(ctx, top, top_ports, top)
     optimize_ports(root)
     align_ports(root)
+    refine_placement(root, iters=8)
+    for _ in range(3):               # let order + placement co-adapt
+        harmonize_orders(root, iters=2)
+        refine_placement(root, iters=4)
+    harmonize_orders(root, iters=3)
 
     box_abs, port_abs = compute_abs(root)
     emit_box(ctx, root, box_abs, is_top=True)
