@@ -315,6 +315,12 @@ def _column_corridor(node, col, box_abs, port_abs):
     vector_rotator columns). Placement, not routing, has to fix that: the
     column needs a real gap at the right height.
 
+    The band is packed as a virtual column member rather than enforced as a
+    hard keep-out. That matters: a hard band has to shove blocks clear of it,
+    and since the band is derived from port rows, moving the blocks moves the
+    very ports it was measured from -- self-defeating (measured 13/37 straight
+    and 76 bends, against 23/37 and 46 for this soft version).
+
     Returns (top_y, height) in the parent's coordinate space, or None.
     """
     if not col:
@@ -357,13 +363,10 @@ def _column_corridor(node, col, box_abs, port_abs):
     if not wants:
         return None
     lo, hi = min(wants), max(wants)
-    # Only as tall as the wires crossing here actually need. Reserving the full
-    # y-spread whenever it is large flings siblings apart: bends keep dropping
-    # but total wire length and vertical travel get worse, which reads as a
-    # sprawling diagram rather than a clean one. Budgeting by the number of
-    # crossing wires keeps a busy column's corridor generous and a quiet
-    # column's corridor small.
-    lanes = len({round(v / LANE_SEP) for v in wants})   # distinct rows needed
+    # Only as tall as the wires crossing here actually need. Budgeting by the
+    # number of distinct rows keeps a busy column's corridor generous and a
+    # quiet column's corridor small.
+    lanes = len({round(v / LANE_SEP) for v in wants})
     span = min(hi - lo, CORRIDOR_MAX, lanes * PITCH)
     return (lo - oy, span)
 
