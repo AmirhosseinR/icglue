@@ -6,10 +6,7 @@ Created output contains modules in a hardware description language (currently on
 
 ## Schematic
 
-```bash
-bash schematic/run.sh examples/module.construct.simple.tcl out
-bash schematic/run.sh spinnCore/spinnCore_dense.icglue out
-```
+Check the [schematic](schematic/README.md) subdirectory.
 
 ## Features
 Current features are:

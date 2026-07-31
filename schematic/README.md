@@ -12,6 +12,10 @@ construct.icglue ──► [Stage 1: Tcl]  ──►  netlist.json  ──►  [
 ## Quick start
 
 ```bash
+# Verilog/SystemVerilog to draw.io schematic
+python3 schematic/verilog_block_drawio.py schematic/sample.v
+
+# icglue design to draw.io schematic
 bash schematic/run.sh path/to/design.icglue OUTDIR
 # -> OUTDIR/<top>.drawio  and  OUTDIR/<top>.svg
 ```
@@ -51,18 +55,12 @@ pin directions are inferred from the `_i`/`_o` naming convention).
 crossings), absolute-positioned per-module groups, the A* wire router, styling,
 and a legend. It also writes a matching `.svg` preview (`--no-svg` to skip).
 
-## Notes
-
-* `icglue_schematic_drawio.py` is the earlier *flat, one-diagram-per-module*
-  prototype. The hierarchical single-file tool above supersedes it; keep only
-  `icglue_hier_drawio.py` to avoid confusion.
-* Tuning knobs live at the top of `icglue_hier_drawio.py` (gaps, pitch, fonts,
-  palette, clearance margin).
 
 ## Build (once, to run icglue itself)
 
 Needs `tcl8.6-dev`, `tcllib`, `libglib2.0-dev`. Build the C core with
 `make -C lib PKG_CFG_LIBS="glib-2.0 tcl8.6"`, assemble `lib/ICGlue/`
 (symlink `tcllib/*.tcl`, copy `icglue.so`), then
-`tclsh scripts/tcl_pkggen.tcl lib/ICGlue`. In Codespaces the `.devcontainer`
-does this automatically.
+`tclsh scripts/tcl_pkggen.tcl lib/ICGlue`. 
+
+>>In Codespaces the `.devcontainer` does this automatically.

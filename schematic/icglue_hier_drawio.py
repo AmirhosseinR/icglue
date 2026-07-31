@@ -33,6 +33,17 @@ V_GAP = 46          # vertical gap between children in a layer
 PAD = 22            # generic inner padding
 LEAF_W = 172
 BOTTOM_H = 26       # band at the bottom for clk/reset ports
+PORT_PITCH_MAX = 2 * PITCH   # widest a face will spread its ports to reach
+                             # their partners' rows before it stops growing
+LANE_SEP = 6        # minimum gap between routing lanes; two wires closer than
+                    # this read as a single line, so the router must not treat
+                    # them as independent tracks
+CORRIDOR_MAX = 240  # tallest clear band placement will open across a column
+                    # for wires passing over it. Tuned: raising it further
+                    # keeps cutting bends but starts flinging siblings apart,
+                    # so total wire length and vertical travel get worse -- a
+                    # sprawling diagram, not a cleaner one. 240 is the joint
+                    # minimum of both sprawl measures.
 
 FILL = {"rtl": "#EDF1F6", "tb": "#EFEDF6", "res": "#F5F0E8", "rf": "#ECF2ED"}
 STROKE = {"rtl": "#41617F", "tb": "#5F5488", "res": "#9A7A45", "rf": "#557A60"}
@@ -284,8 +295,77 @@ def _refit(node):
             maxright = max(maxright, cx + c["w"])
         left, right = count_sides(node["ports"])
         port_h = TITLE_H + max(left, right, 1) * PITCH + PAD + BOTTOM_H
-        node["h"] = max(maxbot + PAD + BOTTOM_H, port_h)
+        # min_h is the height grow_faces decided this box needs so its ports
+        # can reach their partners' rows; never shrink back below it
+        node["h"] = max(maxbot + PAD + BOTTOM_H, port_h, node.get("min_h", 0.0))
         node["w"] = max(maxright + PORT_GUTTER, PORT_GUTTER * 2 + LEAF_W)
+
+
+CORRIDOR = "\x00corridor"     # virtual column member, never a real instance
+
+
+def _column_corridor(node, col, box_abs, port_abs):
+    """The horizontal band a column must keep clear for wires passing over it.
+
+    A net whose source sits left of a column and whose sink sits right of it
+    has to traverse that column's x-range. When every row is occupied by a box,
+    the router has no straight path and is forced to weave -- which is what
+    turns a logically straight connection into a 4- or 6-bend detour
+    (`data_type_i` and `acc_out_en_bus_i` crossing the skew_bank and
+    vector_rotator columns). Placement, not routing, has to fix that: the
+    column needs a real gap at the right height.
+
+    Returns (top_y, height) in the parent's coordinate space, or None.
+    """
+    if not col:
+        return None
+    paths = {c["path"] for c in col}
+    _ox, oy, _w, _h = box_abs[node["path"]]
+    x0 = min(box_abs[c["path"]][0] for c in col)
+    x1 = max(box_abs[c["path"]][0] + box_abs[c["path"]][2] for c in col)
+
+    wants = []
+    for name, net in node["nets"].items():
+        if is_clkrst(name):
+            continue
+        src, targets = _net_targets(net)
+        if src is None:
+            continue
+        sid = _endpoint_id(node, src)
+        if sid not in port_abs:
+            continue
+        sx, sy, _ss = port_abs[sid]
+        for t in targets:
+            tid = _endpoint_id(node, t)
+            if tid not in port_abs or tid == sid:
+                continue
+            # a net that lands on a box in this column is not passing over it
+            if any(sid.startswith("PORT::" + p + "::")
+                   or tid.startswith("PORT::" + p + "::") for p in paths):
+                continue
+            tx, ty, _ts = port_abs[tid]
+            if not (min(sx, tx) < x0 - 1 and max(sx, tx) > x1 + 1):
+                continue
+            # Only nets whose two ends are already level. For those, a box in
+            # the way is the sole reason the wire is not straight, so opening a
+            # gap converts it to a clean run. A net whose ends sit at different
+            # rows has to jog regardless; reserving space for it buys nothing
+            # and just pushes the blocks apart (measured on a wider design:
+            # +320px of height for zero extra straight wires).
+            if abs(sy - ty) < 0.6:
+                wants.append(sy)
+    if not wants:
+        return None
+    lo, hi = min(wants), max(wants)
+    # Only as tall as the wires crossing here actually need. Reserving the full
+    # y-spread whenever it is large flings siblings apart: bends keep dropping
+    # but total wire length and vertical travel get worse, which reads as a
+    # sprawling diagram rather than a clean one. Budgeting by the number of
+    # crossing wires keeps a busy column's corridor generous and a quiet
+    # column's corridor small.
+    lanes = len({round(v / LANE_SEP) for v in wants})   # distinct rows needed
+    span = min(hi - lo, CORRIDOR_MAX, lanes * PITCH)
+    return (lo - oy, span)
 
 
 def _wmedian(pairs):
@@ -341,7 +421,7 @@ def refine_placement(root, iters=12):
     collect(root)
 
     for _ in range(iters):
-        _, port_abs = compute_abs(root)
+        box_abs, port_abs = compute_abs(root)
         for node in nodes:
             if node["kind"] != "container" or not node["children"]:
                 continue
@@ -374,9 +454,20 @@ def refine_placement(root, iters=12):
                     if d is not None:
                         oy += d
                     desired.append(oy)
+                # reserve a clear band for wires that pass over this column,
+                # by packing it as if it were another (invisible) member
+                corr = _column_corridor(node, col, box_abs, port_abs)
+                if corr is not None:
+                    ctop, chgt = corr
+                    at = sum(1 for d in desired if d < ctop)   # keep box order
+                    order.insert(at, CORRIDOR)
+                    desired.insert(at, ctop)
+                    heights[CORRIDOR] = chgt
                 placed = _pack_column(order, desired, heights, V_GAP,
                                       TITLE_H + PAD)
                 for nm, yv in zip(order, placed):
+                    if nm == CORRIDOR:
+                        continue
                     ox = node["childpos"][nm][0]
                     node["childpos"][nm] = (ox, yv)
         _refit(root)
@@ -507,8 +598,6 @@ def layout(ctx, path, ports, module_name):
 # channel router that assigns each net its own vertical lane so wires don't
 # pile on top of each other
 # ---------------------------------------------------------------------------
-CH_STEP = 11        # spacing between adjacent vertical routing channels
-LANE = 16           # horizontal trunk offset step for fan-out
 
 
 def compute_abs(root):
@@ -550,40 +639,6 @@ def _stub_sign(ep, side):
     return -1 if side == "left" else +1   # child pin
 
 
-def route_points(node, src_ep, dst_ep, port_abs, chan):
-    sid = _endpoint_id(node, src_ep)
-    tid = _endpoint_id(node, dst_ep)
-    if sid not in port_abs or tid not in port_abs or sid == tid:
-        return None
-    x1, y1, s1 = port_abs[sid]
-    x2, y2, s2 = port_abs[tid]
-    ax1 = x1 + _stub_sign(src_ep, s1) * STUB
-    ax2 = x2 + _stub_sign(dst_ep, s2) * STUB
-
-    # a dedicated vertical channel just outside the TARGET stub; nets landing on
-    # the same target box are fanned into parallel channels so they never merge
-    tkey = (node["path"] + "/" + dst_ep["inst"]) if dst_ep["kind"] == "pin" else node["path"]
-    idx = chan.get(tkey, 0)
-    chan[tkey] = idx + 1
-    direction = 1 if ax2 >= ax1 else -1
-    cx = ax2 - direction * (STUB + idx * CH_STEP)
-    # keep the channel on the source side of the target stub and past the source
-    if direction > 0:
-        cx = max(cx, ax1 + CH_STEP)
-        cx = min(cx, ax2 - 2)
-    else:
-        cx = min(cx, ax1 - CH_STEP)
-        cx = max(cx, ax2 + 2)
-
-    pts = [(x1, y1), (ax1, y1), (cx, y1), (cx, y2), (ax2, y2), (x2, y2)]
-    # collapse duplicates
-    out = [pts[0]]
-    for p in pts[1:]:
-        if abs(p[0] - out[-1][0]) > 0.5 or abs(p[1] - out[-1][1]) > 0.5:
-            out.append(p)
-    return out
-
-
 def _net_targets(net):
     srcs = net["drivers"] if net["drivers"] else net["sinks"][:1]
     targets = net["sinks"] if net["sinks"] else net["drivers"][1:]
@@ -606,144 +661,53 @@ def _seg_hits(x0, y0, x1, y1, obstacles):
     return False
 
 
-def _astar(s, t, obstacles, region):
-    """Orthogonal shortest path from s to t on a Hanan grid built from the
-    obstacle/region edges, avoiding obstacle interiors, minimising bends."""
-    import heapq
-    rx0, ry0, rx1, ry1 = region
-    xs = {s[0], t[0], rx0, rx1}
-    ys = {s[1], t[1], ry0, ry1}
-    for (ax0, ay0, ax1, ay1) in obstacles:
-        xs.update((ax0, ax1)); ys.update((ay0, ay1))
-    xs = sorted(x for x in xs if rx0 - 1 <= x <= rx1 + 1)
-    ys = sorted(y for y in ys if ry0 - 1 <= y <= ry1 + 1)
-
-    def densify(vals):
-        # add intermediate lanes inside wide gaps so parallel wires have room
-        out = list(vals)
-        for a, b in zip(vals, vals[1:]):
-            gap = b - a
-            if gap > 70:
-                k = min(3, int(gap // 34))
-                for i in range(1, k + 1):
-                    out.append(a + gap * i / (k + 1))
-        return sorted(set(out))
-    xs = densify(xs)
-    ys = densify(ys)
-    if s[0] not in xs or t[0] not in xs:
-        xs = sorted(set(xs) | {s[0], t[0]})
-    if s[1] not in ys or t[1] not in ys:
-        ys = sorted(set(ys) | {s[1], t[1]})
-    xi = {x: i for i, x in enumerate(xs)}
-    yi = {y: i for i, y in enumerate(ys)}
-
-    def blocked(x, y):                              # point inside an obstacle?
-        for (ax0, ay0, ax1, ay1) in obstacles:
-            if ax0 < x < ax1 and ay0 < y < ay1:
-                return True
-        return False
-
-    TURN = 60
-    start = (xi[s[0]], yi[s[1]])
-    goal = (xi[t[0]], yi[t[1]])
-    # state: (ix, iy, dir) dir 0=horiz 1=vert 2=none
-    pq = [(0, start[0], start[1], 2, [])]
-    best = {}
-    while pq:
-        cost, ix, iy, d, path = heapq.heappop(pq)
-        key = (ix, iy, d)
-        if key in best and best[key] <= cost:
-            continue
-        best[key] = cost
-        x, y = xs[ix], ys[iy]
-        npath = path + [(x, y)]
-        if (ix, iy) == goal:
-            return npath
-        for dx, dy, nd in ((1, 0, 0), (-1, 0, 0), (0, 1, 1), (0, -1, 1)):
-            ni, nj = ix + dx, iy + dy
-            if not (0 <= ni < len(xs) and 0 <= nj < len(ys)):
-                continue
-            nx, ny = xs[ni], ys[nj]
-            if _seg_hits(x, y, nx, ny, obstacles):
-                continue
-            step = abs(nx - x) + abs(ny - y)
-            turn = TURN if (d != 2 and d != nd) else 0
-            heapq.heappush(pq, (cost + step + turn, ni, nj, nd, npath))
-    return None
-
-
-def route_avoiding(node, src_ep, dst_ep, box_abs, port_abs, chan):
-    sid = _endpoint_id(node, src_ep)
-    tid = _endpoint_id(node, dst_ep)
-    if sid not in port_abs or tid not in port_abs or sid == tid:
-        return None
-    x1, y1, s1 = port_abs[sid]
-    x2, y2, s2 = port_abs[tid]
-    ss = _stub_sign(src_ep, s1) * STUB
-    ts = _stub_sign(dst_ep, s2) * STUB
-    sstub = (x1 + ss, y1)
-    tstub = (x2 + ts, y2)
-
-    src_box = node["path"] + "/" + src_ep["inst"] if src_ep["kind"] == "pin" else node["path"]
-    dst_box = node["path"] + "/" + dst_ep["inst"] if dst_ep["kind"] == "pin" else node["path"]
-    MARG = 12
-    obstacles = []
-    for c in node["children"]:
-        bx, by, bw, bh = box_abs[c["path"]]
-        # sibling blocks get clearance padding; the wire's own source/target box
-        # stays an obstacle too (so the wire can't cut through it) but un-padded
-        # so the stub, which sits STUB>MARG outside the edge, can still dock.
-        m = 0 if c["path"] in (src_box, dst_box) else MARG
-        obstacles.append((bx - m, by - m, bx + bw + m, by + bh + m))
-
-    cx, cy, cw, ch = box_abs[node["path"]]
-    region = (cx + 2, cy + 2, cx + cw - 2, cy + ch - 2)
-    path = _astar(sstub, tstub, obstacles, region)
-    if not path:                                    # fallback: simple channel route
-        return route_points(node, src_ep, dst_ep, port_abs, chan)
-
-    pts = [(x1, y1)] + path + [(x2, y2)]
-    # collapse collinear / duplicate points
-    out = [pts[0]]
-    for p in pts[1:]:
-        if abs(p[0] - out[-1][0]) < 0.5 and abs(p[1] - out[-1][1]) < 0.5:
-            continue
-        if len(out) >= 2:
-            a, b = out[-2], out[-1]
-            if abs(a[0] - b[0]) < 0.5 and abs(b[0] - p[0]) < 0.5:   # vertical collinear
-                out[-1] = p; continue
-            if abs(a[1] - b[1]) < 0.5 and abs(b[1] - p[1]) < 0.5:   # horizontal collinear
-                out[-1] = p; continue
-        out.append(p)
-    return out
-
-
 def _edge_key(a, b):
     return (a, b) if a <= b else (b, a)
 
 
 def _grid_coords(region, boxes, stubs):
+    """Routing lanes for one container.
+
+    Lanes closer together than LANE_SEP are collapsed. Port rows land on
+    arbitrary fractional coordinates (the aligner solves for them), so an
+    un-deduped grid ends up holding lanes a fraction of a pixel apart -- e.g.
+    395.13 and 395.42. The router then treats those as two independent tracks
+    and lets two different nets 'share' the row without ever registering a
+    conflict, while on screen they are drawn as one line. Enforcing a minimum
+    lane separation is what makes the per-net ownership test in _astar_grid
+    mean what it says.
+
+    Stub coordinates are mandatory (a wire must dock exactly on its port) so
+    they are always kept; box edges and the densified in-between lanes are
+    optional and only survive if they clear everything already kept.
+    """
     rx0, ry0, rx1, ry1 = region
-    xs = {rx0, rx1} | {p[0] for p in stubs}
-    ys = {ry0, ry1} | {p[1] for p in stubs}
-    for (x0, y0, x1, y1) in boxes:
-        xs.update((x0, x1)); ys.update((y0, y1))
-    xs = sorted(x for x in xs if rx0 - 1 <= x <= rx1 + 1)
-    ys = sorted(y for y in ys if ry0 - 1 <= y <= ry1 + 1)
 
-    def densify(vals):
-        out = list(vals)
-        for a, b in zip(vals, vals[1:]):
+    def build(required, preferred, lo, hi):
+        out = sorted(v for v in set(required) if lo - 1 <= v <= hi + 1)
+
+        def add(v):
+            if lo - 1 <= v <= hi + 1 and all(abs(v - k) >= LANE_SEP for k in out):
+                out.append(v)
+                out.sort()
+        for v in sorted(set(preferred)):     # hug box edges where there's room
+            add(v)
+        for a, b in list(zip(out, out[1:])):  # spare lanes for detouring wires
             g = b - a
-            if g > 60:
-                k = min(4, int(g // 30))
+            if g > 2 * LANE_SEP:
+                k = min(6, int(g // LANE_SEP) - 1)
                 for i in range(1, k + 1):
-                    out.append(a + g * i / (k + 1))
+                    add(a + g * i / (k + 1))
         return sorted(set(round(v, 2) for v in out))
-    return densify(xs), densify(ys)
+
+    xs = build({p[0] for p in stubs} | {rx0, rx1},
+               [v for b in boxes for v in (b[0], b[2])], rx0, rx1)
+    ys = build({p[1] for p in stubs} | {ry0, ry1},
+               [v for b in boxes for v in (b[1], b[3])], ry0, ry1)
+    return xs, ys
 
 
-def _astar_grid(s, t, xs, ys, obstacles, usage, hist, cong):
+def _astar_grid(s, t, xs, ys, obstacles, owner, hist, cong, net_name):
     import heapq
     if s[0] not in xs:
         xs = sorted(set(xs) | {s[0]})
@@ -787,14 +751,21 @@ def _astar_grid(s, t, xs, ys, obstacles, usage, hist, cong):
             ek = _edge_key((x, y), (nx, ny))
             step = abs(nx - x) + abs(ny - y)
             turn = TURN if (d != 2 and d != nd) else 0
-            congc = cong * usage.get(ek, 0) + 6.0 * hist.get(ek, 0.0)
+            # sharing a track with the SAME net (a fan-out trunk) is free and
+            # encouraged; sharing with a DIFFERENT net is a visual collision
+            # (two unrelated wires drawn on top of each other) and must cost
+            # more than any plausible detour, so the loser always moves lane.
+            claimant = owner.get(ek)
+            block = 0.0 if claimant in (None, net_name) else cong
+            congc = block + 40.0 * hist.get(ek, 0.0)
             heapq.heappush(pq, (cost + step + turn + congc, ni, nj, nd, key))
     return None
 
 
 def route_container(node, box_abs, port_abs):
     """Route all nets of a container on a shared grid with negotiated-congestion
-    (PathFinder-style) so parallel wires spread into separate lanes. Cached."""
+    (PathFinder-style) so distinct nets never render on top of each other; a
+    net's own fan-out branches may freely share a trunk. Cached."""
     if "routes" in node:
         return node["routes"]
     MARG = 12
@@ -825,7 +796,7 @@ def route_container(node, box_abs, port_abs):
                 continue
             x2, y2, s2 = port_abs[tid]
             tstub = (x2 + _stub_sign(t, s2) * STUB, y2)
-            jobs.append([sid, tid, (x1, y1), (x2, y2), sstub, tstub, nw])
+            jobs.append([sid, tid, (x1, y1), (x2, y2), sstub, tstub, nw, name])
 
     stubs = [j[4] for j in jobs] + [j[5] for j in jobs]
     xs, ys = _grid_coords(region, boxes, stubs)
@@ -835,24 +806,115 @@ def route_container(node, box_abs, port_abs):
                    + abs(jobs[i][4][1] - jobs[i][5][1]))
     hist = {}
     routes = {}
-    for it in range(4):
-        usage = {}
+    for it in range(6):
+        owner = {}          # edge -> net name that currently holds this track
         routes = {}
-        cong = 2.0 + 3.0 * it          # ramp congestion cost each iteration
+        cong = 150.0 + 150.0 * it     # already beats a 2-turn detour (120) on pass 1
         for i in order:
-            sid, tid, s, t, sstub, tstub, _nw = jobs[i]
-            path = _astar_grid(sstub, tstub, xs, ys, boxes, usage, hist, cong)
+            sid, tid, s, t, sstub, tstub, _nw, net_name = jobs[i]
+            path = _astar_grid(sstub, tstub, xs, ys, boxes, owner, hist, cong, net_name)
             if not path:
                 path = [sstub, tstub]
             for a, b in zip(path, path[1:]):
                 ek = _edge_key(a, b)
-                usage[ek] = usage.get(ek, 0) + 1
+                claimant = owner.get(ek)
+                if claimant is None:
+                    owner[ek] = net_name
+                elif claimant != net_name:
+                    # forced collision (grid too tight to avoid it this pass) ->
+                    # escalate so the next negotiation round routes around it
+                    hist[ek] = hist.get(ek, 0.0) + 1.0
             routes[(sid, tid)] = _collapse([s] + path + [t])
-        for ek, u in usage.items():
-            if u > 1:
-                hist[ek] = hist.get(ek, 0.0) + (u - 1)
+    net_of = {(j[0], j[1]): j[7] for j in jobs}
+    _resolve_track_collisions(routes, net_of, boxes)
     node["routes"] = routes
     return routes
+
+
+def _resolve_track_collisions(routes, net_of, boxes, rounds=40):
+    """Safety net on top of the negotiated router: nudge any interior segment
+    that still ends up collinear with a DIFFERENT net's segment after
+    negotiation. Two unrelated wires drawn on the exact same line read as one
+    wire / misaligned ports, so this is enforced as a hard invariant rather
+    than left to the (occasionally under-converged) congestion cost."""
+    keys = list(routes.keys())
+
+    def all_segs(pts):
+        # every segment, including the first/last one that docks onto a port
+        # stub -- needed so a movable interior segment can be detected as
+        # colliding with a straight stub-to-stub net's only segment, even
+        # though that segment itself must never move (else the wire would
+        # appear detached from its port).
+        out = []
+        for i in range(len(pts) - 1):
+            (x0, y0), (x1, y1) = pts[i], pts[i + 1]
+            movable = 0 < i < len(pts) - 2
+            if abs(y0 - y1) < 0.5 and abs(x0 - x1) >= 0.5:
+                out.append((i, "H", y0, min(x0, x1), max(x0, x1), movable))
+            elif abs(x0 - x1) < 0.5 and abs(y0 - y1) >= 0.5:
+                out.append((i, "V", x0, min(y0, y1), max(y0, y1), movable))
+        return out
+
+    def hits_obstacle(orient, coord, lo, hi):
+        if orient == "H":
+            return _seg_hits(lo, coord, hi, coord, boxes)
+        return _seg_hits(coord, lo, coord, hi, boxes)
+
+    def nudge(pts, idx, orient, lo, hi):
+        for delta in (8, -8, 16, -16, 24, -24, 32, -32, 40, -40, 48, -48):
+            nc = (pts[idx][1] if orient == "H" else pts[idx][0]) + delta
+            if hits_obstacle(orient, nc, lo, hi):
+                continue
+            if orient == "H":
+                pts[idx] = (pts[idx][0], nc)
+                pts[idx + 1] = (pts[idx + 1][0], nc)
+            else:
+                pts[idx] = (nc, pts[idx][1])
+                pts[idx + 1] = (nc, pts[idx + 1][1])
+            return True
+        return False
+
+    # conflicts that neither side can move away from (both segments dock onto
+    # ports, or every candidate lane is blocked). Parked so one unfixable pair
+    # can't stall the scan before it reaches the fixable ones.
+    stuck = set()
+    for _ in range(rounds):
+        moved = False
+        for ia in range(len(keys)):
+            ka = keys[ia]
+            for idx_a, orient_a, coord_a, lo_a, hi_a, mov_a in all_segs(routes[ka]):
+                for ib in range(ia + 1, len(keys)):
+                    kb = keys[ib]
+                    if net_of.get(ka) == net_of.get(kb):
+                        continue
+                    for idx_b, orient_b, coord_b, lo_b, hi_b, mov_b in all_segs(routes[kb]):
+                        if orient_a != orient_b or abs(coord_a - coord_b) >= LANE_SEP:
+                            continue
+                        if min(hi_a, hi_b) - max(lo_a, lo_b) <= 0.5:
+                            continue
+                        tag = (ka, idx_a, kb, idx_b)
+                        if tag in stuck:
+                            continue
+                        # too close to read as two wires -> nudge whichever
+                        # side has room (prefer kb, fall back to ka)
+                        if mov_b and nudge(routes[kb], idx_b, orient_b, lo_b, hi_b):
+                            moved = True
+                        elif mov_a and nudge(routes[ka], idx_a, orient_a, lo_a, hi_a):
+                            moved = True
+                        else:
+                            stuck.add(tag)
+                            continue
+                        break
+                    if moved:
+                        break
+                if moved:
+                    break
+            if moved:
+                break
+        if not moved:
+            break
+    for k in keys:
+        routes[k] = _collapse(routes[k])
 
 
 def _collapse(pts):
@@ -870,7 +932,7 @@ def _collapse(pts):
     return out
 
 
-def route_avoiding(node, src_ep, dst_ep, box_abs, port_abs, chan):
+def route_avoiding(node, src_ep, dst_ep, box_abs, port_abs):
     routes = route_container(node, box_abs, port_abs)
     return routes.get((_endpoint_id(node, src_ep), _endpoint_id(node, dst_ep)))
 
@@ -970,7 +1032,7 @@ def _endpoint_id(node, ep):
     return port_id(node["path"], ep["port"])
 
 
-def _emit_edges(ctx, node, port_abs, box_abs, chan):
+def _emit_edges(ctx, node, port_abs, box_abs):
     if node["kind"] == "container":
         for name, net in node["nets"].items():
             if is_clkrst(name):
@@ -989,7 +1051,7 @@ def _emit_edges(ctx, node, port_abs, box_abs, chan):
                 sw = 2.0 if is_bus else 1.2
             arrow = "none" if bidir else "classicThin"
             for t in targets:
-                pts = route_avoiding(node, src, t, box_abs, port_abs, chan)
+                pts = route_avoiding(node, src, t, box_abs, port_abs)
                 if not pts:
                     continue
                 tid = _endpoint_id(node, t)
@@ -1016,13 +1078,13 @@ def _emit_edges(ctx, node, port_abs, box_abs, chan):
                     f'source={quoteattr(sid)} target={quoteattr(tid)}>'
                     f'{geo}</mxCell>')
     for c in node["children"]:
-        _emit_edges(ctx, c, port_abs, box_abs, chan)
+        _emit_edges(ctx, c, port_abs, box_abs)
 
 
 # ---------------------------------------------------------------------------
 # SVG preview (absolute coords from the same layout tree)
 # ---------------------------------------------------------------------------
-def render_svg(ctx, root, port_abs, box_abs, chan):
+def render_svg(ctx, root, port_abs, box_abs):
     parts = []
 
     def walk(node, ox, oy, is_top=False):
@@ -1065,7 +1127,7 @@ def render_svg(ctx, root, port_abs, box_abs, chan):
                 if src is None:
                     continue
                 for t in targets:
-                    pts = route_avoiding(node, src, t, box_abs, port_abs, chan)
+                    pts = route_avoiding(node, src, t, box_abs, port_abs)
                     if not pts:
                         continue
                     bidir = net["bidir"] and not net["sinks"]
@@ -1230,28 +1292,111 @@ def _build_adj(root):
 
 
 def _assign_monotone(desired, lo, hi, gap):
-    """Place ordered items near their desired positions, keeping input order and
-    a minimum gap, inside [lo, hi]. Unconnected items (desired huge) sink down."""
+    """Place ordered items as close as possible (L2-optimal) to their desired
+    positions, keeping input order and a minimum gap, inside [lo, hi].
+    Unconnected items (desired huge) sink down.
+
+    This is isotonic regression (pool-adjacent-violators) on desired[i]-i*gap,
+    which is the standard reduction for fitting a monotone sequence under a
+    minimum-separation constraint. A naive greedy left-to-right clamp (push a
+    port down whenever it's too close to its predecessor) only ever moves
+    ports that violate the gap -- it never pulls an earlier port down to
+    average out a later conflict, so slack earlier in the row goes unused
+    and ports that had no need to move still get displaced by their
+    neighbours' conflicts. PAV instead pools mutually-conflicting runs and
+    places the whole run at its group average, which is the closest monotone
+    fit in the least-squares sense.
+    """
     n = len(desired)
     if n == 0:
         return []
-    d = [min(max(v, lo), hi) for v in desired]
-    y = [0.0] * n
-    y[0] = d[0]
-    for i in range(1, n):
-        y[i] = max(d[i], y[i - 1] + gap)
-    over = y[-1] - hi
-    if over > 0:
-        for i in range(n):
-            y[i] -= over
-        if y[0] < lo:
-            y[0] = lo
-            for i in range(1, n):
-                y[i] = max(y[i], y[i - 1] + gap)
-            if y[-1] > hi + 0.5:                      # doesn't fit: uniform
+    d = [v - i * gap for i, v in enumerate(desired)]
+    blocks = []  # each: [sum, count, start_index]
+    for i, v in enumerate(d):
+        blocks.append([v, 1, i])
+        while len(blocks) >= 2 and blocks[-2][0] / blocks[-2][1] > blocks[-1][0] / blocks[-1][1]:
+            s2, c2, _st2 = blocks.pop()
+            s1, c1, st1 = blocks.pop()
+            blocks.append([s1 + s2, c1 + c2, st1])
+    yprime = [0.0] * n
+    for s, c, st in blocks:
+        avg = s / c
+        for k in range(st, st + c):
+            yprime[k] = avg
+    y = [yprime[i] + i * gap for i in range(n)]
+
+    if y[0] < lo:
+        y = [v + (lo - y[0]) for v in y]
+    if y[-1] > hi:
+        if y[-1] - y[0] > (hi - lo) + 1e-6:            # doesn't fit at all: uniform
+            step = (hi - lo) / max(n - 1, 1)
+            y = [lo + i * step for i in range(n)]
+        else:
+            y = [v + (hi - y[-1]) for v in y]
+            if y[0] < lo:                              # still doesn't fit: uniform
                 step = (hi - lo) / max(n - 1, 1)
                 y = [lo + i * step for i in range(n)]
     return y
+
+
+def _face_desired(node, ports, adj, port_abs, oy):
+    """Desired y (relative to the box top) for each port on a face: the mean
+    row of the ports it connects to. Interior (own-child) partners win over
+    exterior ones, so a box lines up with what it contains. None = unconnected.
+    """
+    prefix = "PORT::" + node["path"] + "/"
+    out = []
+    for p in ports:
+        pid = port_id(node["path"], p["name"])
+        neigh = [q for q in adj.get(pid, ()) if q in port_abs]
+        inner = [q for q in neigh if q.startswith(prefix)]
+        use = inner if inner else neigh
+        ys = [port_abs[q][1] - oy for q in use]
+        out.append(sum(ys) / len(ys) if ys else None)
+    return out
+
+
+def grow_faces(root, adj):
+    """Raise box heights so each face can actually reach the rows its ports'
+    partners sit on.
+
+    Boxes are first sized to the bare minimum (n_ports * PITCH). When the
+    modules a box talks to are spread further apart than that, its ports get
+    clamped into a face far shorter than the required spread, and no amount of
+    port-position solving can straighten those wires — the room simply is not
+    there. Growing the box is the only fix; moving it (refine_placement) only
+    corrects the mean offset, never the spread.
+
+    Only ever grows, so the outer refinement loop converges."""
+    grew = False
+    box_abs, port_abs = compute_abs(root)
+
+    def walk(node):
+        nonlocal grew
+        _ox, oy, _w, h = box_abs[node["path"]]
+        left, right = port_sides(node["ports"])
+        need = 0.0
+        for ports in (left, right):
+            aligns = [p for p in ports if not is_clkrst(p["name"])]
+            clks = [p for p in ports if is_clkrst(p["name"])]
+            if not aligns:
+                continue
+            des = [v for v in _face_desired(node, aligns, adj, port_abs, oy)
+                   if v is not None]
+            n = len(aligns)
+            span = (max(des) - min(des)) if des else 0.0
+            span = max(span, (n - 1) * PITCH)                # minimum packing
+            span = min(span, (n - 1) * PORT_PITCH_MAX)       # stay compact
+            need = max(need, TITLE_H + PITCH * 0.6 + span
+                       + len(clks) * PITCH + PAD + BOTTOM_H)
+        if need > h + 0.5:
+            node["min_h"] = max(node.get("min_h", 0.0), need)
+            node["h"] = max(node["h"], need)
+            grew = True
+        for c in node["children"]:
+            walk(c)
+    walk(root)
+    return grew
 
 
 def align_ports(root):
@@ -1268,7 +1413,7 @@ def align_ports(root):
     collect(root)
     box_abs, _ = compute_abs(root)          # box positions are fixed
 
-    for _ in range(8):
+    for _ in range(24):
         _, port_abs = compute_abs(root)
         for node in nodes:
             ox, oy, w, h = box_abs[node["path"]]
@@ -1279,7 +1424,6 @@ def align_ports(root):
             for ports in (left, right):
                 if not ports:
                     continue
-                prefix = "PORT::" + node["path"] + "/"
                 aligns = [p for p in ports if not is_clkrst(p["name"])]
                 clks = [p for p in ports if is_clkrst(p["name"])]
                 # reserve the bottom band for clk/reset so their (unconnected)
@@ -1287,14 +1431,9 @@ def align_ports(root):
                 n_clk = len(clks)
                 a_bot = face_bot - (n_clk * PITCH if n_clk else 0)
 
-                desired = []
-                for p in aligns:
-                    pid = port_id(node["path"], p["name"])
-                    neigh = [q for q in adj.get(pid, ()) if q in port_abs]
-                    inner = [q for q in neigh if q.startswith(prefix)]
-                    use = inner if inner else neigh
-                    ys = [port_abs[q][1] - oy for q in use]
-                    desired.append(sum(ys) / len(ys) if ys else 1e9)
+                # unconnected ports sink to the bottom of the face
+                desired = [1e9 if v is None else v
+                           for v in _face_desired(node, aligns, adj, port_abs, oy)]
                 ass = _assign_monotone(desired, face_top, a_bot, PITCH)
                 for p, yv in zip(aligns, ass):
                     pm[p["name"]] = yv
@@ -1359,11 +1498,20 @@ def main():
         harmonize_orders(root, iters=2)
         refine_placement(root, iters=4)
     harmonize_orders(root, iters=3)
+    # One growth pass, on converged geometry, to hand clamped faces the room
+    # they need to line up. Deliberately single-shot: a face's desired spread
+    # is derived from where its partners' ports sit, so re-growing on already
+    # grown geometry feeds back on itself (box grows -> its ports spread ->
+    # partners' desired spread grows -> they grow) and diverges. Measured:
+    # one round 29/37 wires straight, two rounds 27/37 and a taller canvas.
+    grow_faces(root, _build_adj(root))
+    refine_placement(root, iters=4)
+    harmonize_orders(root, iters=2)
+    refine_placement(root, iters=4)
 
     box_abs, port_abs = compute_abs(root)
     emit_box(ctx, root, box_abs, is_top=True)
-    chan = {}
-    _emit_edges(ctx, root, port_abs, box_abs, chan)
+    _emit_edges(ctx, root, port_abs, box_abs)
     leg_h = legend_cells(ctx, PAD, root["h"] + 2 * PAD)
 
     body = "".join(ctx.cells) + "".join(ctx.edges)
@@ -1378,8 +1526,7 @@ def main():
     open(args.out, "w").write(xml)
     print(f"wrote {args.out}  ({W:.0f}x{H:.0f})")
     if args.svg:
-        chan2 = {}
-        open(args.svg, "w").write(render_svg(ctx, root, port_abs, box_abs, chan2))
+        open(args.svg, "w").write(render_svg(ctx, root, port_abs, box_abs))
         print(f"wrote {args.svg}")
 
 
