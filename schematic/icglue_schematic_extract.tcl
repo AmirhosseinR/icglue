@@ -38,7 +38,6 @@ namespace eval json {
     }
     proc arr {items} { return "\[[join $items ,]\]" }
     proc bool {b} { return [expr {$b ? "true" : "false"}] }
-    proc num {n} { if {$n eq ""} {return "null"} ; return $n }
 }
 
 # ---------------------------------------------------------------------------

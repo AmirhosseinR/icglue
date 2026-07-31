@@ -6,7 +6,7 @@ the RTL does and draws every connection at every level.
 
 ```
 construct.icglue ──► [Stage 1: Tcl]  ──►  netlist.json  ──►  [Stage 2: Python]  ──►  <top>.drawio (+ .svg)
-                    icglue_schematic_extract.tcl                 icglue_hier_drawio.py
+                          icglue_schematic_extract.tcl                  icglue_hier_drawio.py
 ```
 
 ## Quick start
@@ -36,9 +36,11 @@ renders the schematic. `-o` accepts either a file or a directory.
 * **Per-module groups** — each module box owns only its own ports, so in draw.io
   you can grab and move any module (with its ports) independently. There is no
   global group.
-* **Obstacle-avoiding routing** — an A* router on a Hanan grid routes wires
-  through free space and around unrelated modules; verified to produce zero
-  wire-through-module crossings on the sample design.
+* **Obstacle-avoiding routing** — an A* router over a per-container lane grid
+  routes wires through free space and around unrelated modules. Lanes closer
+  than a few px are merged, and each track is owned by at most one net, so two
+  unrelated wires are never drawn on top of each other. Verified to produce
+  zero wire-through-module crossings and zero overlapping tracks.
 * **Legend** describing line weights and the clk/reset convention.
 
 ## Two stages
@@ -52,8 +54,17 @@ pin directions are inferred from the `_i`/`_o` naming convention).
 
 **Stage 2 – `icglue_hier_drawio.py`** reads the JSON and renders one
 `mxGraphModel` file: recursive layered layout (barycenter-ordered to reduce
-crossings), absolute-positioned per-module groups, the A* wire router, styling,
+crossings), absolute-positioned per-module groups, the wire router, styling,
 and a legend. It also writes a matching `.svg` preview (`--no-svg` to skip).
+
+Placement and port assignment then co-adapt to straighten wires: boxes shift to
+line their ports up with what they connect to, faces grow when the modules they
+talk to are spread wider than the default box height, and each column reserves
+a clear band for wires that pass straight over it.
+
+**Standalone – `verilog_block_drawio.py`** needs no icglue at all: it parses a
+Verilog/SystemVerilog module header and draws that one block, using the same
+styling so both tools' output matches.
 
 
 ## Build (once, to run icglue itself)

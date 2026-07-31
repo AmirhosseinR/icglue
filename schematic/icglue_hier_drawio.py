@@ -3,13 +3,7 @@
 icglue_hier_drawio.py
 ---------------------
 Turn the JSON netlist from icglue_schematic_extract.tcl into ONE draw.io file
-showing the full hierarchy as *nested* rectangles:
-
-    tb_spinnCore_dense
-      +- spinnCore_dense
-           +- <rf>
-           +- spinnCore
-                +- spinnArray, skew_bank_0..2, vector_rotator_0..1
+showing the full hierarchy as *nested* rectangles.
 
 Connections are drawn at every level. Port names are placed ABOVE the wire that
 enters the module, so the wire never crosses the text.
@@ -25,7 +19,7 @@ from xml.sax.saxutils import escape, quoteattr
 # ---- geometry ----
 TITLE_H = 26
 PITCH = 30          # vertical distance between ports (room for a label above each)
-PORT_GUTTER = 140  # inner margin reserved for boundary-port stubs + labels
+PORT_GUTTER = 140   # inner margin reserved for boundary-port stubs + labels
 STUB = 22           # length of the port stub sticking into the box (routing)
 LABEL_SPACING = 14  # horizontal gap between the port dot and its name label
 H_GAP = 110         # horizontal gap between layers of children
@@ -308,18 +302,16 @@ def _column_corridor(node, col, box_abs, port_abs):
     """The horizontal band a column must keep clear for wires passing over it.
 
     A net whose source sits left of a column and whose sink sits right of it
-    has to traverse that column's x-range. When every row is occupied by a box,
-    the router has no straight path and is forced to weave -- which is what
-    turns a logically straight connection into a 4- or 6-bend detour
-    (`data_type_i` and `acc_out_en_bus_i` crossing the skew_bank and
-    vector_rotator columns). Placement, not routing, has to fix that: the
-    column needs a real gap at the right height.
+    has to traverse that column's x-range. When every row is occupied by a box
+    the router has no straight path and must weave, turning a logically
+    straight connection into a multi-bend detour. Placement, not routing, has
+    to fix that: the column needs a real gap at the right height.
 
     The band is packed as a virtual column member rather than enforced as a
     hard keep-out. That matters: a hard band has to shove blocks clear of it,
     and since the band is derived from port rows, moving the blocks moves the
-    very ports it was measured from -- self-defeating (measured 13/37 straight
-    and 76 bends, against 23/37 and 46 for this soft version).
+    very ports it was measured from -- self-defeating. Measured on the sample
+    design, the hard variant halved the number of straight wires.
 
     Returns (top_y, height) in the parent's coordinate space, or None.
     """
@@ -483,10 +475,10 @@ def harmonize_orders(root, iters=4):
     consistent order at every level of the hierarchy. Without this, the outer
     face may list ports in a different order than the inner face, and the
     monotone port packer then physically cannot put both endpoints on the same
-    row — the wire is forced to jog even though there is empty space (exactly
-    the `a_skew_bank_en_i` case). Only boundary faces are reordered (interior
-    orders, set by their own children, are left intact), so it converges instead
-    of oscillating the way a global re-sort does."""
+    row — the wire is forced to jog even though there is empty space. Only
+    boundary faces are reordered (interior orders, set by their own children,
+    are left intact), so it converges instead of oscillating the way a global
+    re-sort does."""
     nodes = []
 
     def collect(n):        # children first (bottom-up)
@@ -597,9 +589,9 @@ def layout(ctx, path, ports, module_name):
 
 
 # ---------------------------------------------------------------------------
-# absolute coordinates (shared by draw.io + preview) and an orthogonal
-# channel router that assigns each net its own vertical lane so wires don't
-# pile on top of each other
+# absolute coordinates (shared by draw.io + preview), then an orthogonal
+# router: A* over a per-container lane grid, with negotiated congestion so two
+# different nets never end up drawn on the same track
 # ---------------------------------------------------------------------------
 
 
@@ -998,7 +990,6 @@ def emit_box(ctx, node, box_abs, is_top=False):
 
 def _emit_ports(ctx, node, bid, ports, side):
     h = node["h"]
-    w = node["w"]
     n = len(ports)
     if n == 0:
         return
@@ -1087,7 +1078,7 @@ def _emit_edges(ctx, node, port_abs, box_abs):
 # ---------------------------------------------------------------------------
 # SVG preview (absolute coords from the same layout tree)
 # ---------------------------------------------------------------------------
-def render_svg(ctx, root, port_abs, box_abs):
+def render_svg(root, port_abs, box_abs):
     parts = []
 
     def walk(node, ox, oy, is_top=False):
@@ -1245,7 +1236,7 @@ def optimize_ports(root):
 
     def add_nets(n):
         if n["kind"] == "container":
-            for name, net in n["nets"].items():
+            for net in n["nets"].values():
                 eps = [_endpoint_id(n, e) for e in (net["drivers"] + net["sinks"])]
                 for a in eps:
                     for b in eps:
@@ -1299,16 +1290,13 @@ def _assign_monotone(desired, lo, hi, gap):
     positions, keeping input order and a minimum gap, inside [lo, hi].
     Unconnected items (desired huge) sink down.
 
-    This is isotonic regression (pool-adjacent-violators) on desired[i]-i*gap,
-    which is the standard reduction for fitting a monotone sequence under a
-    minimum-separation constraint. A naive greedy left-to-right clamp (push a
-    port down whenever it's too close to its predecessor) only ever moves
-    ports that violate the gap -- it never pulls an earlier port down to
-    average out a later conflict, so slack earlier in the row goes unused
-    and ports that had no need to move still get displaced by their
-    neighbours' conflicts. PAV instead pools mutually-conflicting runs and
-    places the whole run at its group average, which is the closest monotone
-    fit in the least-squares sense.
+    Isotonic regression (pool-adjacent-violators) on desired[i]-i*gap, the
+    standard reduction for fitting a monotone sequence under a minimum-
+    separation constraint. A greedy left-to-right clamp is not equivalent: it
+    only ever pushes the port that violates the gap, never pulling an earlier
+    one back to share the error, so slack further up the row goes unused. PAV
+    pools each conflicting run and places it at the group average, the closest
+    monotone fit in the least-squares sense.
     """
     n = len(desired)
     if n == 0:
@@ -1371,11 +1359,9 @@ def grow_faces(root, adj):
     corrects the mean offset, never the spread.
 
     Only ever grows, so the outer refinement loop converges."""
-    grew = False
     box_abs, port_abs = compute_abs(root)
 
     def walk(node):
-        nonlocal grew
         _ox, oy, _w, h = box_abs[node["path"]]
         left, right = port_sides(node["ports"])
         need = 0.0
@@ -1395,11 +1381,9 @@ def grow_faces(root, adj):
         if need > h + 0.5:
             node["min_h"] = max(node.get("min_h", 0.0), need)
             node["h"] = max(node["h"], need)
-            grew = True
         for c in node["children"]:
             walk(c)
     walk(root)
-    return grew
 
 
 def align_ports(root):
@@ -1419,7 +1403,7 @@ def align_ports(root):
     for _ in range(24):
         _, port_abs = compute_abs(root)
         for node in nodes:
-            ox, oy, w, h = box_abs[node["path"]]
+            _ox, oy, _w, h = box_abs[node["path"]]
             face_top = TITLE_H + PITCH * 0.6
             face_bot = h - PAD - BOTTOM_H
             left, right = port_sides(node["ports"])
@@ -1529,7 +1513,7 @@ def main():
     open(args.out, "w").write(xml)
     print(f"wrote {args.out}  ({W:.0f}x{H:.0f})")
     if args.svg:
-        open(args.svg, "w").write(render_svg(ctx, root, port_abs, box_abs))
+        open(args.svg, "w").write(render_svg(root, port_abs, box_abs))
         print(f"wrote {args.svg}")
 
 

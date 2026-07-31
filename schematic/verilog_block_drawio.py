@@ -45,7 +45,6 @@ PITCH = 30
 LABEL_SPACING = 14
 PAD = 22
 LEAF_W = 172
-CHAR_W = 6.2
 
 FILL = {"rtl": "#EDF1F6", "res": "#F5F0E8", "rf": "#ECF2ED"}
 STROKE = {"rtl": "#41617F", "res": "#9A7A45", "rf": "#557A60"}
@@ -670,7 +669,7 @@ def main():
             d = os.path.dirname(out)
             if d:
                 os.makedirs(d, exist_ok=True)
-        W, H = emit_drawio(mod, L, out)
+        emit_drawio(mod, L, out)
         nl = sum(1 for p in mod["ports"] if p["dir"] == "input")
         nr = sum(1 for p in mod["ports"] if p["dir"] == "output")
         nb = sum(1 for p in mod["ports"] if p["dir"] == "inout")
